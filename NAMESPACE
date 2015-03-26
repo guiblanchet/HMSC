@@ -1,0 +1,11 @@
+## Import specific functions
+importFrom(MASS, mvrnorm)
+
+## Import package
+import(stats)
+
+## Export regular functions (no points functions)
+export(communitySimulProbit,hmscProbit,mixing)
+
+## Export "as." functions
+export(as.HMSCdata,as.HMSCparam,as.HMSCprior)

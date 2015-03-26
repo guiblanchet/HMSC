@@ -1,0 +1,10 @@
+Package: HMSC
+Type: Package
+Title: Hierarchical modelling of species community
+Version: 0.7
+Date: 2014-09-07
+Author: F. Guillaume Blanchet
+Maintainer: F. Guillaume Blanchet <guillaume.blanchet@math.mcmaster.ca>
+Depends: MASS
+Description: This package is design to analyse species community presence-absence data using hierarchical models. The package is based on the work of Ovaskainen and Soininen (2011) and Bhattacharya and Dunson (2011) and generalize some aspect of the developments made within what was proposed in the paper. For example, it can include species traits, multiple random effects and estimate co-occurrences 
+License: GPL (>=2)
