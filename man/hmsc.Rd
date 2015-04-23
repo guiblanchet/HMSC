@@ -58,7 +58,7 @@ Ovaskainen, O. and Soininen, J. (2011) Making more out of sparse data: hierarchi
 F. Guillaume Blanchet
 }
 \seealso{
-\code{\link{as.HMSCdata}}, \code{\link{as.HMSCparam}},\code{\link{as.HMSCprior}}, \code{\link{mixing}}
+\code{\link{as.HMSCdata}}, \code{\link{as.HMSCparam}},\code{\link{as.HMSCprior}}, \code{\link{as.mcmc}}
 
 }
 \examples{
@@ -121,7 +121,7 @@ commRandEff1<-communitySimulProbit(X=desc,Random=randEff,nsp=nspecies)
 #=================================
 ### Formatting data and parameters
 #=================================
-formdata<-as.HMSCdata(Y=commTrait$data$Y,X=desc,Random=randEff,
+formdata<-as.HMSCdata(Y=commRandEff1$data$Y,X=desc,Random=randEff,
 					  interceptX=FALSE)
 
 #==============
@@ -147,7 +147,7 @@ commRandEff2<-communitySimulProbit(X=desc,Random=randEff,nsp=nspecies)
 #=================================
 ### Formatting data and parameters
 #=================================
-formdata<-as.HMSCdata(Y=commTrait$data$Y,X=desc,Random=randEff,
+formdata<-as.HMSCdata(Y=commRandEff2$data$Y,X=desc,Random=randEff,
 					  interceptX=FALSE)
 
 #==============

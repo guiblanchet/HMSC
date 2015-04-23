@@ -190,7 +190,7 @@ function(Y,X,Tr=NULL,Random=NULL,scaleX=TRUE,scaleTr=TRUE,interceptX=TRUE,interc
 	if(is.null(Tr) & is.null(Random)){
 		Tr<-matrix(1,ncol=ncol(Y),nrow=1)
 		rownames(Tr)<-paste("t",1:nrow(Tr),sep="")
-		colnames(Tr)<-paste("sp",1:ncol(Y),sep="")
+		colnames(Tr)<-paste("y",1:ncol(Y),sep="")
 		res<-list(Y=Y,X=X,Tr=Tr)
 		attributes(res)<-list(names=c("Y","X","Tr"))
 	}
@@ -203,7 +203,7 @@ function(Y,X,Tr=NULL,Random=NULL,scaleX=TRUE,scaleTr=TRUE,interceptX=TRUE,interc
 	if(!is.null(Random) & is.null(Tr)){
 		Tr<-matrix(1,ncol=ncol(Y),nrow=1)
 		rownames(Tr)<-paste("t",1:nrow(Tr),sep="")
-		colnames(Tr)<-paste("sp",1:ncol(Y),sep="")
+		colnames(Tr)<-paste("y",1:ncol(Y),sep="")
 		res<-list(Y=Y,X=X,Tr=Tr,Random=Random)
 		attributes(res)<-list(names=c("Y","X","Tr","Random"))
 	}

@@ -1,11 +1,12 @@
 ## Import specific functions
 importFrom(MASS, mvrnorm)
+importFrom(coda, mcmc)
 
 ## Import package
 import(stats)
 
 ## Export regular functions (no points functions)
-export(communitySimulProbit,hmscProbit,mixing)
+export(communitySimulProbit,hmscProbit,corRandomEff)
 
 ## Export "as." functions
-export(as.HMSCdata,as.HMSCparam,as.HMSCprior)
+export(as.HMSCdata,as.HMSCparam,as.HMSCprior,as.mcmc)

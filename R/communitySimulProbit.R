@@ -82,11 +82,11 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 		
 		### Add row and column names to spCor
 		if(is.null(colnames(spCor))){
-			colnames(spCor)<-paste("sp",1:nsp,sep="")
+			colnames(spCor)<-paste("y",1:nsp,sep="")
 		}
 		
 		if(is.null(rownames(spCor))){
-			rownames(spCor)<-paste("sp",1:nsp,sep="")
+			rownames(spCor)<-paste("y",1:nsp,sep="")
 		}
 	}
 	
@@ -116,7 +116,7 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 	nTr<-nrow(Tr)
 	
 	if(is.null(colnames(Tr))){
-		colnames(Tr)<-paste("sp",1:nsp,sep="")
+		colnames(Tr)<-paste("y",1:nsp,sep="")
 	}
 	if(is.null(rownames(Tr))){
 		rownames(Tr)<-paste("t",1:nTr,sep="")
@@ -263,8 +263,8 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 		}
 		
 		latentCov<-array(dim=c(nsp,nsp,nRandom))
-		dimnames(latentCov)[[1]]<-paste("sp",1:nsp,sep="")
-		dimnames(latentCov)[[2]]<-paste("sp",1:nsp,sep="")
+		dimnames(latentCov)[[1]]<-paste("y",1:nsp,sep="")
+		dimnames(latentCov)[[2]]<-paste("y",1:nsp,sep="")
 		dimnames(latentCov)[[3]]<-paste("random",1:nRandom,sep="")
 		
 		### Number of levels in each random effect considered
@@ -283,7 +283,7 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 					colnames(latent[[i]])<-paste("pl",1:nlatent[i],sep="")
 					
 					paramLatent[[i]]<-matrix(rnorm(nlatent[i]*nsp),nrow=nsp,ncol=nlatent[i])
-					rownames(paramLatent[[i]])<-paste("sp",1:nsp,sep="")
+					rownames(paramLatent[[i]])<-paste("y",1:nsp,sep="")
 					colnames(paramLatent[[i]])<-paste("pl",1:nlatent[i],sep="")
 				}
 			}
@@ -307,6 +307,9 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 	Y<-Ylatent
 	Y[Y>0]<-1 # * much faster than ifelse()
 	Y[Y<0]<-0
+	
+	rownames(Y)<-paste("site",1:nsite,sep="")
+	colnames(Y)<-paste("y",1:nsp,sep="")
 	
 	#=============================
 	### Return the results objects
