@@ -1,7 +1,7 @@
 \name{as.mcmc}
 \alias{as.mcmc}
 \title{
-Convert MCMC parameters estimation to mcmc object 
+Convert MCMC parameters estimation to \code{\link{mcmc}[coda]} object 
 }
 \description{
 Use the Markov Chain Monte Carlo results obtained from \code{\link{hmscProbit}} and convert them to an \code{\link{mcmc}[coda]} object.  

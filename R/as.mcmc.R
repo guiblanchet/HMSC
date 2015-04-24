@@ -3,6 +3,11 @@ function(hmsc,parameters="paramX",burning=FALSE){
 #### F. Guillaume Blanchet - April 2015
 ##########################################################################################
 	
+	### For latent
+	if(parameters=="latent"){
+		stop("an mcmc object for 'latent' should not be constructed")
+	}
+	
 	### For paramLatent
 	if(parameters=="paramLatent"){
 		nrandom<-length(hmsc$est[[parameters]][[1]])
@@ -67,8 +72,41 @@ function(hmsc,parameters="paramX",burning=FALSE){
 			res[[i]]<-mcmc(paramMCMCMat[,,i])
 		}
 	}else{
-		if(parameters=="latent"){
-			stop("an mcmc object for 'latent' should not be constructed")
+		### For varX
+		if(parameters=="varX"){
+			paramMCMC<-hmsc$est[[parameters]]
+			niter<-dim(paramMCMC)[3]
+			
+			lowerTri<-row(paramMCMC[,,1]) > col(paramMCMC[,,1])
+			lowerTriMatPointer<-which(lowerTri,arr.ind=TRUE)
+			
+			paramMCMCMat<-matrix(NA,niter,nrow(lowerTriMatPointer))
+			for(i in 1:niter){
+				paramMCMCMat[i,]<-paramMCMC[,,i][lowerTriMatPointer]
+			}
+			
+			rownames(paramMCMCMat)<-dimnames(hmsc$est$varX)[[3]]
+			
+			### Include burning information
+			if(burning){
+				paramBurnMCMC<-hmsc$burn[[parameters]]
+				nburn<-dim(paramBurnMCMC)[3]
+				
+				paramBurnMCMCMat<-matrix(NA,nburn,nrow(lowerTriMatPointer))
+				for(i in 1:nburn){
+					paramBurnMCMCMat[i,]<-paramMCMC[,,i][lowerTriMatPointer]
+				}
+				
+				paramMCMCMat<-rbind(paramBurnMCMCMat,paramMCMCMat)
+				rownames(paramMCMCMat)<-c(dimnames(hmsc$burn$varX)[[3]],dimnames(hmsc$est$varX)[[3]])
+			}
+			
+			varXNames<-expand.grid(dimnames(hmsc$est$varX)[[1]],dimnames(hmsc$est$varX)[[1]])[which(lowerTri),]
+			colnames(paramMCMCMat)<-paste(varXNames[,1],".",varXNames[,2],sep="")
+			
+			### Output
+			res<-mcmc(paramMCMCMat)
+			
 		}else{
 			### Reorganize results
 			paramMCMC<-hmsc$est[[parameters]]
@@ -88,10 +126,11 @@ function(hmsc,parameters="paramX",burning=FALSE){
 				rownames(paramBurnMCMCMat)<-dimnames(hmsc$burn[[parameters]])[[3]]
 				paramMCMCMat<-rbind(paramBurnMCMCMat,paramMCMCMat)
 			}
+			
+			### Output
+			res<-mcmc(paramMCMCMat)
 		}
-		### Output
-		res<-mcmc(paramMCMCMat)
 	}
-		
-		return(res)
+	
+	return(res)
 }
