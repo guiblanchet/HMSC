@@ -45,7 +45,7 @@ F. Guillaume Blanchet
 #==================
 desc<-cbind(1,scale(1:50),scale(1:50)^2)
 nspecies<-20
-commDesc<-communitySimulProbit(X=desc,nsp=nspecies)
+commDesc<-communitySimul(X=desc,nsp=nspecies)
 
 #=================================
 ### Formatting data and parameters

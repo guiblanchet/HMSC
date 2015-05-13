@@ -115,7 +115,7 @@ These functions will likely get more refined with time and with the new models i
 #================
 desc<-cbind(1,scale(1:50),scale(1:50)^2)
 randomEff<-as.factor(rep(letters[1:5],each=10))
-dataBase<-communitySimulProbit(desc,nsp=30,Random=randomEff)
+dataBase<-communitySimul(desc,nsp=30,Random=randomEff)
 
 #=============
 ### Formatting

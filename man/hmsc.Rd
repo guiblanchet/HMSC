@@ -70,7 +70,7 @@ F. Guillaume Blanchet
 #==================
 desc<-cbind(1,scale(1:50),scale(1:50)^2)
 nspecies<-20
-commDesc<-communitySimulProbit(X=desc,nsp=nspecies)
+commDesc<-communitySimul(X=desc,nsp=nspecies)
 
 #=================================
 ### Formatting data and parameters
@@ -93,7 +93,7 @@ desc<-matrix(1,nrow=50,ncol=1)
 traits <- rbind(1,1:20/5)
 nspecies<-20
 
-commTrait<-communitySimulProbit(X=desc,Tr=traits,nsp=nspecies)
+commTrait<-communitySimul(X=desc,Tr=traits,nsp=nspecies)
 
 #=================================
 ### Formatting data and parameters
@@ -116,7 +116,7 @@ desc<-matrix(1,nrow=50,ncol=1)
 randEff<-as.factor(rep(letters[1:5],each=10))
 nspecies<-20
 
-commRandEff1<-communitySimulProbit(X=desc,Random=randEff,nsp=nspecies)
+commRandEff1<-communitySimul(X=desc,Random=randEff,nsp=nspecies)
 
 #=================================
 ### Formatting data and parameters
@@ -142,7 +142,7 @@ random2<-as.factor(rep(letters[1:2],each=25))
 randEff<-data.frame(rand1=random1,rand2=random2)
 nspecies<-20
 
-commRandEff2<-communitySimulProbit(X=desc,Random=randEff,nsp=nspecies)
+commRandEff2<-communitySimul(X=desc,Random=randEff,nsp=nspecies)
 
 #=================================
 ### Formatting data and parameters
@@ -164,7 +164,7 @@ modelRandEff2<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
 #==================
 desc<-cbind(1,scale(1:50),scale(1:50)^2)
 traits <- rbind(1,1:20/5)
-commDescTrait<-communitySimulProbit(X=desc,Tr=traits)
+commDescTrait<-communitySimul(X=desc,Tr=traits)
 
 #=================================
 ### Formatting data and parameters
@@ -189,7 +189,7 @@ desc<-cbind(1,scale(1:50),scale(1:50)^2)
 random1<-as.factor(1:50)
 random2<-as.factor(rep(letters[1:2],each=25))
 randEff<-data.frame(rand1=random1,rand2=random2)
-commDescRandEff<-communitySimulProbit(X=desc,Random=randEff,nsp=20)
+commDescRandEff<-communitySimul(X=desc,Random=randEff,nsp=20)
 
 #=================================
 ### Formatting data and parameters
@@ -214,7 +214,7 @@ traits <- rbind(1,1:20/5)
 random1<-as.factor(1:50)
 random2<-as.factor(rep(letters[1:2],each=25))
 randEff<-data.frame(rand1=random1,rand2=random2)
-commDescTraitRandEff<-communitySimulProbit(X=desc,Tr=traits,
+commDescTraitRandEff<-communitySimul(X=desc,Tr=traits,
 								Random=randEff,nsp=20)
 
 #=================================

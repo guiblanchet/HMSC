@@ -304,13 +304,13 @@ communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,family="prob
 	### Construct species occurrence matrix
 	#======================================
 	
-	if(family="probit"){
+	if(family=="probit"){
 		Ylatent<-matrix(rnorm(nsite*nsp,mean=as.vector(EstModel),sd=1),nrow=nsite,ncol=nsp)
 		Y<-Ylatent
 		Y[Y>0]<-1 # * much faster than ifelse()
 		Y[Y<0]<-0
 	}
-	if(family="poisson"){
+	if(family=="poisson"){
 		Y<-matrix(rpois(nsite*nsp,lambda=as.vector(exp(EstModel))),nrow=nsite,ncol=nsp)
 	}
 	
