@@ -6,7 +6,7 @@ importFrom(coda, mcmc)
 import(stats)
 
 ## Export regular functions (no points functions)
-export(communitySimulProbit,hmscProbit,corRandomEff)
+export(communitySimul,hmscProbit,corRandomEff)
 
 ## Export "as." functions
 export(as.HMSCdata,as.HMSCparam,as.HMSCprior,as.mcmc)

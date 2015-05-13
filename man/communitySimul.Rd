@@ -1,5 +1,5 @@
 \name{communitySimul}
-\alias{communitySimulProbit}
+\alias{communitySimul}
 
 \title{
 Simulate a species community
@@ -83,29 +83,35 @@ random1<-as.factor(1:50)
 random2<-as.factor(rep(letters[1:2],each=25))
 randEff<-data.frame(rand1=random1,rand2=random2)
 
-### Using only a single descriptors
-commDescTraitRandEff<-communitySimulProbit(X=desc,Tr=traits,
+### Simulate presence-absence community data
+commDescTraitRandEff<-communitySimul(X=desc,Tr=traits,
 							Random=randEff,nsp=20)
+
+### Simulate count community data (following poisson distribution)
+commDescTraitRandEff<-communitySimul(X=desc,Tr=traits,
+							Random=randEff,nsp=20,family="poisson")
 
 #--------------------
 ### Fixing parameters
 #--------------------
 ## ProbMat does not change
-commParamX<-communitySimulProbit(X=desc,
+commParamX<-communitySimul(X=desc,
 				paramX=commDescTraitRandEff$param$paramX) 
 
 # ProbMat changes
-commParamTr<-communitySimulProbit(X=desc,Tr=traits,
+commParamTr<-communitySimul(X=desc,Tr=traits,
 				paramTr=commDescTraitRandEff$param$paramTr)
 
 # ProbMat changes
-commParamLatent<-communitySimulProbit(X=desc,Random=randEff,
+commParamLatent<-communitySimul(X=desc,Random=randEff,
 					paramLatent=commDescTraitRandEff$param$paramLatent,
 					latent=commDescTraitRandEff$param$latent)
 
 # ProbMat changes
 speciesCor<-cov2cor(solve(rWishart(1,22,diag(20))[,,1]))
-commParamSpCor<-communitySimulProbit(X=desc,spCor=speciesCor)
+commParamSpCor<-communitySimul(X=desc,spCor=speciesCor)
+
+
 
 }
 

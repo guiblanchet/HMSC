@@ -1,4 +1,4 @@
-communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
+communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,family="probit",paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
 #### F. Guillaume Blanchet - July 2014, October 2014
 ##########################################################################################
 	### This makes the outlierSp inactive
@@ -303,10 +303,16 @@ communitySimulProbit<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,paramT
 	#======================================
 	### Construct species occurrence matrix
 	#======================================
-	Ylatent<-matrix(rnorm(nsite*nsp,mean=as.vector(EstModel),sd=1),nrow=nsite,ncol=nsp)
-	Y<-Ylatent
-	Y[Y>0]<-1 # * much faster than ifelse()
-	Y[Y<0]<-0
+	
+	if(family="probit"){
+		Ylatent<-matrix(rnorm(nsite*nsp,mean=as.vector(EstModel),sd=1),nrow=nsite,ncol=nsp)
+		Y<-Ylatent
+		Y[Y>0]<-1 # * much faster than ifelse()
+		Y[Y<0]<-0
+	}
+	if(family="poisson"){
+		Y<-matrix(rpois(nsite*nsp,lambda=as.vector(exp(EstModel))),nrow=nsite,ncol=nsp)
+	}
 	
 	rownames(Y)<-paste("site",1:nsite,sep="")
 	colnames(Y)<-paste("y",1:nsp,sep="")
