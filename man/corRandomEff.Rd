@@ -30,7 +30,7 @@ An object of class \code{corRandomEff}. This object is an array of four dimensio
 F. Guillaume Blanchet
 }
 \seealso{
-\code{\link{hmscProbit}}
+\code{\link{hmsc}}
 }
 \examples{
 #==================
@@ -53,7 +53,7 @@ formdata<-as.HMSCdata(Y=commRandEff2$data$Y,X=desc,Random=randEff,
 #==============
 ### Build model
 #==============
-modelRandEff2<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelRandEff2<-hmsc(formdata,niter=200,nburn=100,thin=1,
 						  verbose=FALSE)
 
 #===============================				  

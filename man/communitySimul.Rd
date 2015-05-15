@@ -8,9 +8,9 @@ Simulate a species community
 Simulates a species community assuming a linear model with the proposed descriptors, the species traits and one or more random effects.
 }
 \usage{
-communitySimulProbit(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,
-					 paramTr=NULL,meansparamX=NULL,varX=NULL,
-					 latent=NULL,paramLatent=NULL,spCor=NULL)
+communitySimul(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",
+			   paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,
+			   latent=NULL,paramLatent=NULL,spCor=NULL)
 }
 \arguments{
   \item{X}{
@@ -24,6 +24,9 @@ A factor or a data.frame that includes many factors defining a random effect on 
 }
   \item{nsp}{
 Numeric. Number of species to be simulated in the community.
+}
+  \item{family}{
+A character string defining the error distribution and link function to be used when simulating the data. Only "probit" and "poisson" have been implemented so far.
 }
   \item{paramX}{
 A matrix of model parameters defining how each species (rows) is characterized by each descriptors (columns).
@@ -56,10 +59,11 @@ The values in \code{meansparamX} and \code{varX} are used as parameter of a mult
 
 Note that \code{meansparamX} can be calculated directly by \code{Tr} with \code{paramTr}. As such, \code{meansparamX} is made available as an extension. If it is given to the function but \code{paramTr} is not, than \code{paramTr} is calculated from \code{meansparamX} and vice versa. If both \code{meansparamX} and \code{paramTr} are given to the function and there is a mismatch in the parameters calculated, \code{meansparamX} will take precedent.
 
-Currently, this function simulates one type of community:
+Currently, this function simulates two types of community:
 
 	\tabular{ll}{
 		\code{probit} \tab For presence/absence of species using a probit link.
+		\code{poisson} \tab For count data of species using a log link.
 	}
 }
 \value{
@@ -84,34 +88,32 @@ random2<-as.factor(rep(letters[1:2],each=25))
 randEff<-data.frame(rand1=random1,rand2=random2)
 
 ### Simulate presence-absence community data
-commDescTraitRandEff<-communitySimul(X=desc,Tr=traits,
+commDescTraitRandEffProbit<-communitySimul(X=desc,Tr=traits,
 							Random=randEff,nsp=20)
 
 ### Simulate count community data (following poisson distribution)
-commDescTraitRandEff<-communitySimul(X=desc,Tr=traits,
-							Random=randEff,nsp=20,family="poisson")
+commDescTraitRandEffPoisson<-communitySimul(X=desc,Tr=traits,
+							 nsp=20,family="poisson")
 
 #--------------------
 ### Fixing parameters
 #--------------------
 ## ProbMat does not change
 commParamX<-communitySimul(X=desc,
-				paramX=commDescTraitRandEff$param$paramX) 
+				paramX=commDescTraitRandEffProbit$param$paramX) 
 
 # ProbMat changes
 commParamTr<-communitySimul(X=desc,Tr=traits,
-				paramTr=commDescTraitRandEff$param$paramTr)
+				paramTr=commDescTraitRandEffProbit$param$paramTr)
 
 # ProbMat changes
 commParamLatent<-communitySimul(X=desc,Random=randEff,
-					paramLatent=commDescTraitRandEff$param$paramLatent,
-					latent=commDescTraitRandEff$param$latent)
+					paramLatent=commDescTraitRandEffProbit$param$paramLatent,
+					latent=commDescTraitRandEffProbit$param$latent)
 
 # ProbMat changes
 speciesCor<-cov2cor(solve(rWishart(1,22,diag(20))[,,1]))
 commParamSpCor<-communitySimul(X=desc,spCor=speciesCor)
-
-
 
 }
 

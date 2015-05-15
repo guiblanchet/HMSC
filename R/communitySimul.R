@@ -1,4 +1,4 @@
-communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,family="probit",paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
+communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
 #### F. Guillaume Blanchet - July 2014, October 2014
 ##########################################################################################
 	### This makes the outlierSp inactive
@@ -340,7 +340,12 @@ communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,paramX=NULL,family="prob
 	class(allparam)<-"HMSCparam"
 	
 	### Final result object
-	res<-list(data=data,param=allparam,probMat=pnorm(EstModel))
+	if(family=="probit"){
+		res<-list(data=data,param=allparam,probMat=pnorm(EstModel))
+	}
+	if(family=="poisson"){
+		res<-list(data=data,param=allparam,probMat=exp(EstModel))
+	}
 	class(res)<-"communitySimul"
 	
 	return(res)

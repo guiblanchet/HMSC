@@ -4,7 +4,7 @@
 Convert MCMC parameters estimation to \code{\link{mcmc}[coda]} object 
 }
 \description{
-Use the Markov Chain Monte Carlo results obtained from \code{\link{hmscProbit}} and convert them to an \code{\link{mcmc}[coda]} object.  
+Use the Markov Chain Monte Carlo results obtained from \code{\link{hmsc}} and convert them to an \code{\link{mcmc}[coda]} object.  
 }
 \usage{
 as.mcmc(hmsc,parameters="paramX",burning=FALSE)
@@ -21,7 +21,7 @@ Logical. Whether the burning iterations should be include (\code{TRUE}) or not (
 }
 }
 \details{
-The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmscProbit}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}[coda]} object is constructed. 
+The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmsc}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}[coda]} object is constructed. 
 
 The \code{\link{mcmc}[coda]} object associated to \code{paramLatent} includes information only for the correlations among single pairs of species, that is, only the lower triangle of the correlation matrix is considered.
 
@@ -37,7 +37,7 @@ An object of class \code{\link{mcmc}[coda]}.
 F. Guillaume Blanchet
 }
 \seealso{
-\code{\link{mcmc}[coda]}, \code{\link{hmscProbit}}
+\code{\link{mcmc}[coda]}, \code{\link{hmsc}}
 }
 \examples{
 #==================
@@ -56,7 +56,7 @@ formdata<-as.HMSCdata(Y=commDesc$data$Y,X=desc,interceptX=FALSE,
 #==============
 ### Build model
 #==============
-modelDesc<-hmscProbit(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
+modelDesc<-hmsc(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
 
 paramXmcmc<-as.mcmc(modelDesc,parameters="paramX")
 }

@@ -1,5 +1,5 @@
 \name{hmsc}
-\alias{hmscProbit}
+\alias{hmsc}
 \title{
 Hierarchical modelling of species community
 }
@@ -7,8 +7,8 @@ Hierarchical modelling of species community
 Hierarchical modelling of species community using species occurrence (presence-absence) data. 
 }
 \usage{
-hmscProbit(data,param=NULL,priors = NULL,niter = 12000,nburn = 2000,
-		  thin=100,verbose=TRUE)
+hmsc(data,param=NULL,priors=NULL,family="probit",niter=1000,nburn=500,
+			thin=1,verbose=TRUE)
 }
 \arguments{
   \item{data}{
@@ -20,14 +20,17 @@ Object of class HMSCparam.
   \item{priors}{
 Object of class HMSCprior.
 }
+  \item{family}{
+A character string defining the error distribution and link function to be used when performing the analysis. Only "probit" and "poisson" have been implemented so far.
+}
   \item{niter}{
-Numeric. A positive integer defining the number of iterations to be carried out. Default is 12000.
+Numeric. A positive integer defining the number of iterations to be carried out. Default is 1000.
 }
   \item{nburn}{
-Numeric. A positive integer defining the number of iterations to be used in the burning (first) phase of the algorithm. Default is 2000.
+Numeric. A positive integer defining the number of iterations to be used in the burning (first) phase of the algorithm. Default is 500.
 }
   \item{thin}{
-Numeric. A positive integer defining thinning. Default is 100 (see details).
+Numeric. A positive integer defining thinning. Default is 1 (see details).
 }
   \item{verbose}{
 Logical. Whether a counter printing on the screen how many iterations have been performed so far is used or not. Default is TRUE.
@@ -62,6 +65,9 @@ F. Guillaume Blanchet
 
 }
 \examples{
+#################################################################
+### Examples for presence-absence data using Probit link function
+#################################################################
 #_+_+_+_+_+_+_+_+_+_+_+_+_+_+
 ### Only site characteristics
 #_+_+_+_+_+_+_+_+_+_+_+_+_+_+
@@ -81,7 +87,7 @@ formdata<-as.HMSCdata(Y=commDesc$data$Y,X=desc,interceptX=FALSE,
 #==============
 ### Build model
 #==============
-modelDesc<-hmscProbit(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
+modelDesc<-hmsc(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
 
 #_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
 ### Only traits characteristics
@@ -104,7 +110,7 @@ formdata<-as.HMSCdata(Y=commTrait$data$Y,X=desc,Tr=traits,
 #==============
 ### Build model
 #==============
-modelTrait<-hmscProbit(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
+modelTrait<-hmsc(formdata,niter=200,nburn=100,thin=1,verbose=FALSE)
 
 #_+_+_+_+_+_+_+_+_+_+_+_+_
 ### Only one random effect
@@ -127,7 +133,7 @@ formdata<-as.HMSCdata(Y=commRandEff1$data$Y,X=desc,Random=randEff,
 #==============
 ### Build model
 #==============
-modelRandEff1<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelRandEff1<-hmsc(formdata,niter=200,nburn=100,thin=1,
 						  verbose=FALSE)
 
 #_+_+_+_+_+_+_+_+_+_+_+_+_
@@ -153,7 +159,7 @@ formdata<-as.HMSCdata(Y=commRandEff2$data$Y,X=desc,Random=randEff,
 #==============
 ### Build model
 #==============
-modelRandEff2<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelRandEff2<-hmsc(formdata,niter=200,nburn=100,thin=1,
 						  verbose=FALSE)
 
 #_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
@@ -175,7 +181,7 @@ formdata<-as.HMSCdata(Y=commDescTrait$data$Y,X=desc,Tr=traits,
 #==============
 ### Build model
 #==============
-modelDescTrait<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelDescTrait<-hmsc(formdata,niter=200,nburn=100,thin=1,
 						   verbose=FALSE)
 
 
@@ -200,7 +206,7 @@ formdata<-as.HMSCdata(Y=commDescRandEff$data$Y,X=desc,Random=randEff,
 #==============
 ### Build model
 #==============
-modelDescRandEff<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelDescRandEff<-hmsc(formdata,niter=200,nburn=100,thin=1,
 							 verbose=FALSE)
 
 #_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
@@ -226,8 +232,105 @@ formdata<-as.HMSCdata(Y=commDescTraitRandEff$data$Y,X=desc,Tr=traits,
 #==============
 ### Build model
 #==============
-modelDescTraitRandEff<-hmscProbit(formdata,niter=200,nburn=100,thin=1,
+modelDescTraitRandEff<-hmsc(formdata,niter=200,nburn=100,thin=1,
 								  verbose=FALSE)
+
+##################################################################
+### Examples for presence-absence data using Poisson link function
+##################################################################
+#_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+### Only site characteristics
+#_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+#==================
+### Simulating data
+#==================
+desc<-cbind(1,scale(1:50),scale(1:50)^2)
+nspecies<-20
+commDesc<-communitySimul(X=desc,nsp=nspecies,family="poisson")
+
+#=================================
+### Formatting data and parameters
+#=================================
+formdata<-as.HMSCdata(Y=commDesc$data$Y,X=desc,interceptX=FALSE,
+					  interceptTr=FALSE)
+
+#==============
+### Build model
+#==============
+modelDesc<-hmsc(formdata,niter=200,nburn=100,thin=1,verbose=FALSE,family="poisson")
+
+#_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+### Only traits characteristics
+#_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+#==================
+### Simulating data
+#==================
+desc<-matrix(1,nrow=50,ncol=1)
+traits <- rbind(1,1:20/5)
+nspecies<-20
+
+commTrait<-communitySimul(X=desc,Tr=traits,nsp=nspecies,family="poisson")
+
+#=================================
+### Formatting data and parameters
+#=================================
+formdata<-as.HMSCdata(Y=commTrait$data$Y,X=desc,Tr=traits,
+					  interceptX=FALSE,interceptTr=FALSE)
+
+#==============
+### Build model
+#==============
+modelTrait<-hmsc(formdata,niter=200,nburn=100,thin=1,verbose=FALSE,family="poisson")
+
+#_+_+_+_+_+_+_+_+_+_+_+_+_
+### Only one random effect
+#_+_+_+_+_+_+_+_+_+_+_+_+_
+#==================
+### Simulating data
+#==================
+desc<-matrix(1,nrow=50,ncol=1)
+randEff<-as.factor(rep(letters[1:5],each=10))
+nspecies<-20
+
+commRandEff1<-communitySimul(X=desc,Random=randEff,nsp=nspecies,family="poisson")
+
+#=================================
+### Formatting data and parameters
+#=================================
+formdata<-as.HMSCdata(Y=commRandEff1$data$Y,X=desc,Random=randEff,
+					  interceptX=FALSE)
+
+#==============
+### Build model
+#==============
+modelRandEff1<-hmsc(formdata,niter=200,nburn=100,thin=1,
+						  verbose=FALSE,family="poisson")
+
+#_+_+_+_+_+_+_+_+_+_+_+_+_
+### Only two random effect
+#_+_+_+_+_+_+_+_+_+_+_+_+_
+#==================
+### Simulating data
+#==================
+desc<-matrix(1,nrow=50,ncol=1)
+random1<-as.factor(1:50)
+random2<-as.factor(rep(letters[1:2],each=25))
+randEff<-data.frame(rand1=random1,rand2=random2)
+nspecies<-20
+
+commRandEff2<-communitySimul(X=desc,Random=randEff,nsp=nspecies,family="poisson")
+
+#=================================
+### Formatting data and parameters
+#=================================
+formdata<-as.HMSCdata(Y=commRandEff2$data$Y,X=desc,Random=randEff,
+					  interceptX=FALSE)
+
+#==============
+### Build model
+#==============
+modelRandEff2<-hmsc(formdata,niter=200,nburn=100,thin=1,
+						  verbose=FALSE,family="poisson")
 }
 \keyword{ multivariate }
 \keyword{ models }
