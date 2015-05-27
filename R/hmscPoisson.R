@@ -1,4 +1,4 @@
-hmscProbit <-
+hmscPoisson <-
 function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRUE){
 #### F. Guillaume Blanchet - July 2014
 ##########################################################################################
@@ -88,7 +88,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 		options(warn=-1)
 		paramX<-matrix(NA,nrow=nsp,ncol=nparamX)
 		for(i in 1:nsp){
-			paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=binomial(link = "probit")))
+			paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=poisson(link = "log")))
 		}
 		options(warn=0)
 		
@@ -159,16 +159,22 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 	### Initiate a latent Y
 	#======================
 	EstModel<-tcrossprod(X,param$paramX)
-	ProbModel<-pnorm(0,EstModel,1) # cut
-	unifSmpl<-matrix(runif(nsite*nsp),nrow=nsite,ncol=nsp) # u
-	unifSmpl[Y==0]<-unifSmpl[Y==0]*ProbModel[Y==0]
-	unifSmpl[Y==1]<-ProbModel[Y==1] + unifSmpl[Y==1]*(1-ProbModel[Y==1])
-	Ylatent<-qnorm(unifSmpl,EstModel,1) # z
+	
+	ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
+	ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
 	
 	### Correct for extreme values
-	Ylatent[Ylatent > 20] <- 20
-	Ylatent[Ylatent < -20] <- -20
+	InfCheck<-(is.infinite(ProbModelHigh) & ProbModelHigh>0) | (is.infinite(ProbModelLow) & ProbModelLow>0)
+	ProbModelLow[InfCheck]<-10
+	ProbModelHigh[InfCheck]<-11
+	ProbModelHigh[is.infinite(ProbModelHigh) & ProbModelHigh<0]<--10
 	
+	EqualCheck<-ProbModelLow==ProbModelHigh
+	ProbModelHigh[EqualCheck]<-ProbModelHigh[EqualCheck]+0.001
+	
+	RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
+	Ylatent<-EstModel+RandSmpl
+		
 	### Initiate outlier species parameter
 	if(outlierSp){
 		outlierSp<-rep(1,nsp)
@@ -319,15 +325,20 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 			}
 		}
 		
-		ProbModel<-pnorm(0,EstModel,1) # cut
-		unifSmpl<-matrix(runif(nsite*nsp),nrow=nsite,ncol=nsp) # u
-		unifSmpl[Y==0]<-unifSmpl[Y==0]*ProbModel[Y==0]
-		unifSmpl[Y==1]<-ProbModel[Y==1] + unifSmpl[Y==1]*(1-ProbModel[Y==1])
-		Ylatent<-qnorm(unifSmpl,EstModel,1) # z
+		ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
+		ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
 		
 		### Correct for extreme values
-		Ylatent[Ylatent > 20] <- 20
-		Ylatent[Ylatent < -20] <- -20
+		InfCheck<-(is.infinite(ProbModelHigh) & ProbModelHigh>0) | (is.infinite(ProbModelLow) & ProbModelLow>0)
+		ProbModelLow[InfCheck]<-10
+		ProbModelHigh[InfCheck]<-11
+		ProbModelHigh[is.infinite(ProbModelHigh) & ProbModelHigh<0]<--10
+		
+		EqualCheck<-ProbModelLow==ProbModelHigh
+		ProbModelHigh[EqualCheck]<-ProbModelHigh[EqualCheck]+0.001
+
+		RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
+		Ylatent<-EstModel+RandSmpl
 		
 		#________________
 		### Update paramX
@@ -413,7 +424,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 				### Update shrinkLocal
 				#_+_+_+_+_+_+_+_+_+_+_
 				rateShrinkLocal<-as.vector(t(t(paramLatent[[j]]^2)*shrinkGlobal[[j]])*0.5+priors$shrinkLocal/2)
-				shrinkLocal[[j]]<-matrix(rgamma(nsp*nLatent[j],shape=priors$shrinkLocal/2+0.5,rate=rateShrinkLocal),nrow=nsp,ncol=nLatent[j])
+				shrinkLocal[[j]]<-matrix(rgamma(nsp*nLatent[j],shape=priors$shrinkLocal/2+0.5,rate=rateShrinkLocal),nrow=nsp,ncol=nLatent[j]) 
 				
 				#_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
 				### Update paramShrinkGlobal and shrinkGlobal
@@ -430,7 +441,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 				for(h in 2:nLatent[j]){
 					shapeParamShrinkGlobal<-priors$shrinkSpeed[1]+0.5*nsp*(nLatent[j]-h+1)
 					rateParamShrinkGlobal<-priors$shrinkSpeed[2]+0.5*(1/paramShrinkGlobal[[j]][h])*sum(shrinkGlobal[[j]][h:nLatent[j]]*colSums(as.matrix(paramLatentw[,h:nLatent[j]]))) ### *** should "(1/paramShrinkGlobal[[j]][h])" be left in the model
-					paramShrinkGlobal[[j]][h]<-rgamma(1,shape=shapeParamShrinkGlobal,rate=rateParamShrinkGlobal) 
+					paramShrinkGlobal[[j]][h]<-rgamma(1,shape=shapeParamShrinkGlobal,rate=rateParamShrinkGlobal)
 					shrinkGlobal[[j]]<-cumprod(paramShrinkGlobal[[j]])
 				}
 				

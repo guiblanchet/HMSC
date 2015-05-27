@@ -8,7 +8,7 @@ Simulate a species community
 Simulates a species community assuming a linear model with the proposed descriptors, the species traits and one or more random effects.
 }
 \usage{
-communitySimul(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",
+communitySimul(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramDist=NULL,
 			   paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,
 			   latent=NULL,paramLatent=NULL,spCor=NULL)
 }
@@ -26,7 +26,10 @@ A factor or a data.frame that includes many factors defining a random effect on 
 Numeric. Number of species to be simulated in the community.
 }
   \item{family}{
-A character string defining the error distribution and link function to be used when simulating the data. Only "probit" and "poisson" have been implemented so far.
+A character string defining the error distribution and link function to be used when simulating the data. Only "gaussian","probit", "poisson" and "nbinomial" have been implemented so far.
+}
+  \item{paramDist}{
+Numeric. A value defining the standard deviation (if \code{family="gaussian"}) or the dispersal (if  \code{family="nbinomial"}) matrix of model parameters defining how each species (rows) is characterized by each descriptors (columns).
 }
   \item{paramX}{
 A matrix of model parameters defining how each species (rows) is characterized by each descriptors (columns).
@@ -62,14 +65,18 @@ Note that \code{meansparamX} can be calculated directly by \code{Tr} with \code{
 Currently, this function simulates two types of community:
 
 	\tabular{ll}{
-		\code{probit} \tab For presence/absence of species using a probit link.
-		\code{poisson} \tab For count data of species using a log link.
+		\code{gaussian} & For normally distributed data.\\
+		\code{probit} & For presence/absence of species using a probit link.\\
+		\code{poisson} & For count data of species using a log link.\\
+		\code{nbinomial} & For count data with many zeros.\\
 	}
 }
 \value{
   The functions \code{communitySimulH} and \code{communitySimulHT} return an object of class \code{communitySimul} with the following components: 
   \item{data}{an object of class HMSCdata}
   \item{param}{an object of class HMSCparam}
+  \item{sd}{The standard deviation used to simulate normally distributed data. This value is the same as paramDist and appears only when the data is simulated using \code{gaussian}}
+  \item{size}{The dispersal parameter used when simulating data distributed following a negative binomial distribution. This value is the same as paramDist and appears only when the data is simulated using \code{nbinomial}}
   \item{probMat}{A matrix that defines the occurrence probability of each species for each site.}
 }
 \author{

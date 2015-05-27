@@ -1,4 +1,4 @@
-communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
+communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramDist=NULL,paramX=NULL,paramTr=NULL,meansparamX=NULL,varX=NULL,latent=NULL,paramLatent=NULL,spCor=NULL){
 #### F. Guillaume Blanchet - July 2014, October 2014
 ##########################################################################################
 	### This makes the outlierSp inactive
@@ -304,6 +304,12 @@ communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramX=N
 	### Construct species occurrence matrix
 	#======================================
 	
+	if(family=="gaussian"){
+		Y<-matrix(rnorm(nsite*nsp,mean=as.vector(EstModel),sd=paramDist),nrow=nsite,ncol=nsp)
+	}
+	if(family=="nbinomial"){
+		Y<-matrix(rnbinom(nsite*nsp,mu=as.vector(EstModel),size=paramDist),nrow=nsite,ncol=nsp)
+	}
 	if(family=="probit"){
 		Ylatent<-matrix(rnorm(nsite*nsp,mean=as.vector(EstModel),sd=1),nrow=nsite,ncol=nsp)
 		Y<-Ylatent
@@ -340,6 +346,12 @@ communitySimul<-function(X,Tr=NULL,Random=NULL,nsp=NULL,family="probit",paramX=N
 	class(allparam)<-"HMSCparam"
 	
 	### Final result object
+	if(family=="gaussian"){
+		res<-list(data=data,param=allparam,sd=paramDist,probMat=EstModel)
+	}
+	if(family=="nbinomial"){
+		res<-list(data=data,param=allparam,size=paramDist,probMat=EstModel)
+	}
 	if(family=="probit"){
 		res<-list(data=data,param=allparam,probMat=pnorm(EstModel))
 	}
