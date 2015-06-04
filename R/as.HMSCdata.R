@@ -22,6 +22,20 @@ function(Y,X,Tr=NULL,Random=NULL,scaleX=TRUE,scaleTr=TRUE,interceptX=TRUE,interc
 		}
 	}
 	
+	### Check for non-numeric values
+	if(!any(is.numeric(Y))){
+		stop("There is at least one non-numeric value in 'Y'")
+	}
+	if(!any(is.numeric(X))){
+		stop("There is at least one non-numeric value in 'X'")
+	}
+	if(!is.null(Tr)){
+		if(!any(is.numeric(Tr))){
+		stop("There is at least one non-numeric value in 'Tr'")
+		}
+	}
+	
+	
 	#### Check format
 	if(length(dim(Y))!=2){
 		stop("'Y' shoulds be a table")

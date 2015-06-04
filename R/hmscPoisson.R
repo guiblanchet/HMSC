@@ -174,6 +174,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 	
 	RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
 	Ylatent<-EstModel+RandSmpl
+#	Ylatent<-RandSmpl
 		
 	### Initiate outlier species parameter
 	if(outlierSp){
@@ -339,6 +340,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 
 		RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
 		Ylatent<-EstModel+RandSmpl
+#		Ylatent<-RandSmpl
 		
 		#________________
 		### Update paramX
