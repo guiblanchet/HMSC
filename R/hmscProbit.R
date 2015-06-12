@@ -111,7 +111,13 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 		### Initiate varX
 		#----------------
 		varX<-cov(paramX)+diag(0.1,nparamX)
-		precX<-solve(varX)
+		
+		if(any(is.na(varX))){
+			precX <- rWishart(1,4,diag(3))[,,1]
+			varX <- solve(precX)
+		}else{
+			precX<-solve(varX)
+		}
 		
 		param<-list(paramX=paramX,
 					varX=varX,

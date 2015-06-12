@@ -160,8 +160,10 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 	#======================
 	EstModel<-tcrossprod(X,param$paramX)
 	
-	ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
-	ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
+#	ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
+#	ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
+	ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel))/sqrt(1+rowSums(param$paramX^2)))
+	ProbModelHigh<-qnorm(ppois(Y,exp(EstModel))/sqrt(1+rowSums(param$paramX^2)))
 	
 	### Correct for extreme values
 	InfCheck<-(is.infinite(ProbModelHigh) & ProbModelHigh>0) | (is.infinite(ProbModelLow) & ProbModelLow>0)
@@ -172,6 +174,11 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 	EqualCheck<-ProbModelLow==ProbModelHigh
 	ProbModelHigh[EqualCheck]<-ProbModelHigh[EqualCheck]+0.001
 	
+	invertedRange<-which(ProbModelHigh-ProbModelLow<0,arr.ind=TRUE)
+	if(nrow(invertedRange)>0){
+		ProbModelHigh[invertedRange]<-ProbModelHigh[invertedRange]+0.001
+	}
+
 	RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
 	Ylatent<-EstModel+RandSmpl
 #	Ylatent<-RandSmpl
@@ -326,8 +333,10 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 			}
 		}
 		
-		ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
-		ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
+#		ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel)))
+#		ProbModelHigh<-qnorm(ppois(Y,exp(EstModel)))
+		ProbModelLow<-qnorm(ppois(Y-1,exp(EstModel))/sqrt(1+rowSums(param$paramX^2)))
+		ProbModelHigh<-qnorm(ppois(Y,exp(EstModel))/sqrt(1+rowSums(param$paramX^2)))
 		
 		### Correct for extreme values
 		InfCheck<-(is.infinite(ProbModelHigh) & ProbModelHigh>0) | (is.infinite(ProbModelLow) & ProbModelLow>0)
@@ -337,7 +346,12 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 		
 		EqualCheck<-ProbModelLow==ProbModelHigh
 		ProbModelHigh[EqualCheck]<-ProbModelHigh[EqualCheck]+0.001
-
+		
+		invertedRange<-which(ProbModelHigh-ProbModelLow<0,arr.ind=TRUE)
+		if(nrow(invertedRange)>0){
+			ProbModelHigh[invertedRange]<-ProbModelHigh[invertedRange]+0.001
+		}
+		
 		RandSmpl<-matrix(rtruncnorm(1,ProbModelLow,ProbModelHigh),nrow=nsite,ncol=nsp)
 		Ylatent<-EstModel+RandSmpl
 #		Ylatent<-RandSmpl
