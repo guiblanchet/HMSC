@@ -113,7 +113,7 @@ function(data,param=NULL,priors=NULL,niter=12000,nburn=2000,thin=100,verbose=TRU
 		varX<-cov(paramX)+diag(0.1,nparamX)
 		
 		if(any(is.na(varX))){
-			precX <- rWishart(1,4,diag(3))[,,1]
+			precX <- rWishart(1,nparamX+1,diag(nparamX))[,,1]
 			varX <- solve(precX)
 		}else{
 			precX<-solve(varX)

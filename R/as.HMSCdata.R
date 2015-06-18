@@ -23,14 +23,14 @@ function(Y,X,Tr=NULL,Random=NULL,scaleX=TRUE,scaleTr=TRUE,interceptX=TRUE,interc
 	}
 	
 	### Check for non-numeric values
-	if(!any(is.numeric(Y))){
+	if(any(is.na(suppressWarnings(as.numeric(apply(Y,1,as.character)))))){
 		stop("There is at least one non-numeric value in 'Y'")
 	}
-	if(!any(is.numeric(X))){
+	if(any(is.na(suppressWarnings(as.numeric(apply(X,1,as.character)))))){
 		stop("There is at least one non-numeric value in 'X'")
 	}
 	if(!is.null(Tr)){
-		if(!any(is.numeric(Tr))){
+		if(any(is.na(suppressWarnings(as.numeric(apply(Tr,1,as.character)))))){
 		stop("There is at least one non-numeric value in 'Tr'")
 		}
 	}
