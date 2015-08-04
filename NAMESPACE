@@ -1,7 +1,6 @@
 ## Import specific functions
 importFrom(MASS, mvrnorm)
 importFrom(coda, mcmc)
-importFrom(truncnorm, rtruncnorm)
 
 ## Import package
 import(stats)
