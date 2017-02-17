@@ -1,11 +1,20 @@
 Package: HMSC
 Type: Package
 Title: Hierarchical Modelling of Species Community
-Version: 0.10
-Date: 2014-09-07
-Author: F. Guillaume Blanchet
-Maintainer: F. Guillaume Blanchet <guillaume.blanchet@math.mcmaster.ca>
-Depends: MASS, coda
-Suggests: circlize
-Description: Implement a general framework to analyse species community data using Bayesian hierarchical models. All estimations are carried out using MCMC. 
-License: GPL (>=2)
+Version: 2.0-0
+Date: 2016-12-12
+Author: F. Guillaume Blanchet, with contributions from Gleb Tikhonov
+Maintainer: F. Guillaume Blanchet <guillaume.blanchet@usherbrooke.ca>
+Description: Implement a general framework to analyse species community data
+    using Bayesian hierarchical models. All estimations are carried out using Markov chain Monte Carlo.
+License: GPL (>= 2)
+Suggests: circlize, beanplot, corrplot
+Depends:
+    R (>= 2.10),
+    MASS,
+    coda,
+    Rcpp (>= 0.12.3),
+    RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 5.0.1
+SystemRequirements: C++11
