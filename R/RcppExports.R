@@ -115,6 +115,75 @@ mcmcNormalXTrPhyloLatent <- function(Ylatent, X, Tr, Phylo, iPhylo, Random, para
     .Call('HMSC_mcmcNormalXTrPhyloLatent', PACKAGE = 'HMSC', Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
 }
 
+#' @title Markov chain Monte Carlo algorithms.
+#' 
+#' @description These functions are meant to be used internally or by advanced users as they generate raw (somewhat unnamed output)
+#' 
+#' @param Y Raw site by species community matrix.
+#' @param Ylatent Model site by species community matrix after the link function is applied.
+#' @param X Site by covariates matrix.
+#' @param Tr Trait by species matrix.
+#' @param Phylo Square correlation (with values ranging from -1 to 1) matrix with as many rows (and columns) as there are species in \code{Y}.
+#' @param iPhylo Square correlation matrix with as many rows (and columns) as there are species in \code{Y}. Inverse of \code{Phylo}.
+#' @param Auto List with as many levels as there are autocorrelated factors in the analysis. Each level of the list contains a set of coordinates associated to each level of each factor.
+#' @param RandomAuto A data.frame with all the autocorrelated factors (organized as columns) in the analysis. The number of columns in \code{RandomAuto} equals the number of levels in the \code{Auto}.
+#' @param Random A data.frame with all the non-autocorrelated factors (organized as columns) in the analysis.
+#' @param paramX Species by covariates matrix of regression parameters.
+#' @param meansParamX Matrix with a single column and as many rows as covariates. This matrix defines how an average species react to the covariates.
+#' @param paramTr Covariate by traits matrix of regression parameters.
+#' @param precX Square (precision) matrix with as many rows (and columns) as there are covariates. The inverse of this matrix is a variance matrix which explains how a typical species vary in its response to one (diagonal) or a pair (off-diagonal) of covariates.
+#' @param paramPhylo Numeric. Single parameter describing the importance of phylogeny in the analysis.
+#' @param residVar Vector of parameters with as many entries as there are species. Each values in this vector describes how much variation is not explained by the model. 
+#' @param latent List. Each level of the list includes a matrix of latent (unsampled) variables. There are as many level in the list as there are columns in \code{Random}. The number of rows in each matrix corresponds to the number of levels in each factor in \code{Random}. 
+#' @param paramLatent List. Each level of the list includes a matrix of parameters for the latent (unsampled) variables. There are as many level in the list as there are columns in \code{Random}. Each matrix has as many rows as there are species in \code{Y} and as many columns as there are latent variables in \code{latent}.
+#' @param shrinkLocal List. Each level of the list includes a matrix of values describing how much shrinkage should be imposed on each parameter of the latent (unsampled) variables (\code{paramLatent}). There are as many level in the list as there are columns in \code{Random}. The size of each matrix is the same as the size of \code{paramLatent}.
+#' @param paramShrinkGlobal List. Each level of the list includes a vector of values describing how much shrinkage should be imposed on each latent variables (\code{latent}) as a whole. There are as many level in the list as there are columns in \code{Random}. The number of elements in each vector equals the number of variables in \code{latent}.
+#' @param paramAuto List.  Each level of the list includes a vector of parameters, one for each autocorrelated latent variables in \code{latentAuto}.  There are as many level in the list as there are columns in \code{Auto}. 
+#' @param latentAuto List. Each level of the list includes a matrix of autocorrelated latent (unsampled) variables. There are as many level in the list as there are columns in \code{Auto}. The number of rows in each matrix corresponds to the number of levels in each autocorrelated factor in \code{Auto}. 
+#' @param paramLatentAuto List. Each level of the list includes a matrix of parameters for the autocorrelated latent (unsampled) variables. There are as many level in the list as there are columns in \code{Auto}. Each matrix has as many rows as there are species in \code{Y} and as many columns as there are autocorrelated latent variables in \code{latentAuto}.
+#' @param shrinkLocalAuto List. Each level of the list includes a matrix of values describing how much shrinkage should be imposed on each parameter of the autocorrelated latent (unsampled) variables (\code{paramLatentAuto}). There are as many level in the list as there are columns in \code{Auto}. The size of each matrix is the same as the size of \code{paramLatentAuto}.
+#' @param paramShrinkGlobalAuto List. Each level of the list includes a vector of values describing how much shrinkage should be imposed on each autocorrelated latent variables (\code{latent}) as a whole. There are as many level in the list as there are columns in \code{Auto}. The number of elements in each vector equals the number of variables in \code{latentAuto}.
+#' @param priorMeansParamX Prior. Matrix with a single column and as many rows as covariates. It describes the prior values associated to meansParamX.
+#' @param priorVarMeansParamX square matrix of parameters defining how \code{meansParamX} varies. 
+#' @param priorParamTr Prior. Matrix of priors defining how descriptors (rows) characterizes traits (columns).
+#' @param priorVarTr Prior. Symmetric covariance matrix of prior. Each dimension of this matrix is be equal to the number of traits.
+#' @param priorVarXScaleMat Square matrix with as many rows (and columns) as there are covariates. Prior. Scale matrix used to sample \code{precX} from an inverse Wishart distribution.
+#' @param priorVarXDf Numeric. Prior. Number of degrees of freedoms used to sample \code{precX} from an inverse Wishart distribution.
+#' @param priorResidVarScale Numeric. Prior. Scale parameter of a gamma distribution from which \code{residVar} is sampled.
+#' @param priorResidVarShape Numeric. Prior. Shape parameter of a gamma distribution from which \code{residVar} is sampled.
+#' @param priorParamPhyloWeight Prior. Matrix with a single column defining the importance each potential phylogenetic weight (given in \code{priorParamPhyloGrid}) may have. The size of \code{priorParamPhyloWeight} needs to be equal to the size of \code{priorParamPhyloGrid}.
+#' @param priorParamPhyloGrid Prior. Matrix with a single column defining the potential values \code{paramPhylo} can take. The size of \code{priorParamPhyloGrid} needs to be equal to the size of \code{priorParamPhyloWeight}.
+#' @param priorParamAutoWeight Prior. Matrix with a single column defining the importance each value in \code{priorParamAutoDist} may have. The size of \code{priorParamAutoWeight} needs to be equal to the size of \code{priorParamAutoGrid}.
+#' @param priorParamAutoDist Prior. Matrix with a single column defining the potential values given in \code{paramAuto} can take. The size of \code{priorParamAutoGrid} needs to be equal to the size of \code{priorParamAutoWeight}.
+#' @param priorShrinkLocal Numeric. Hyperparameter of a gamma distribution defining the local shrinkage for latent variables.
+#' @param priorShrinkOverallShape Numeric. Shape of a gamma distribution.
+#' @param priorShrinkOverallScale Numeric. Scale of a gamma distribution.
+#' @param priorShrinkSpeedShape Numeric. Shape of a gamma distribution.
+#' @param priorShrinkSpeedScale Numeric. Scale of a gamma distribution.
+#' @param adapt Vector of two parameters defining whether the number of latent and autocorrelated latent variables should be modified. The function used is : 1/exp(adapt[1]+(adapt[2]*niter)).
+#' @param redund Vector of two parameters defining (1) the proportion of redundant elements within latent and autocorrelated latent variables and (2) the amount of error that can be accounted for given the proportion of redundancy.
+#' @param nAuto Numeric. Number of autocorrelated random effect.
+#' @param nAutoLev Vector defining the number of levels for each autocorrelated random effect. The length of this vector equals \code{nAuto}.
+#' @param nLatentAuto Vector defining the number of autocorrelated latent variables for each autocorrelated random effect. The length of this vector equals \code{nAuto}.
+#' @param nRandom Numeric. Number of non-autocorrelated random effect.
+#' @param nRandomLev Vector defining the number of levels for each non-autocorrelated random effect. The length of this vector equals \code{nRandom}.
+#' @param nLatent Vector defining the number of non-autocorrelated latent variables for each non-autocorrelated random effect. The length of this vector equals \code{nRandom}.
+#' @param nsp Numeric. Number of species in \code{Y}.
+#' @param nsite Numeric. Number of site sampled.
+#' @param nparamX Numeric. Number of covariates.
+#' @param nTr Numeric. Number of traits.
+#' @param nparamPhylo Numeric. Number of values in \code{priorParamPhyloGrid}.
+#' @param npriorParamAuto Numeric. Number of values in \code{priorParamAutoGrid}.
+#' @param niter Numeric. Number of iterations performed.
+#' @param nburn Numeric. Of the number of iterations performed, number of discarded iterations. Burning phase of the model estimations.
+#' @param thin Numeric. Thinning. Iterations saved every time a multiple of the given value is an integer. 
+#' @param verbose Logical or numeric. If \code{TRUE}, the number of iterations are printed on the screen four times. If \code{FALSE}, nothing is printed on the screen. If a positive integer is given, the number of iterations is printed on the screen every time a multiple of the given value is an integer. 
+#'
+#' @export
+mcmcPoissonX <- function(Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonX', PACKAGE = 'HMSC', Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+}
+
 #' @rdname mcmcProbitX
 #' @export
 mcmcProbitAuto <- function(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose) {
@@ -303,6 +372,23 @@ mcmcProbitXTrPhyloLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, p
 #' @export
 rmvnorm <- function(n, Mean, Var) {
     .Call('HMSC_rmvnorm', PACKAGE = 'HMSC', n, Mean, Var)
+}
+
+#' @title Sample the model response matrix
+#'
+#' @description Sample the model response matrix after the Probit link function was applied. This function is meant to be used internally.
+#'
+#' @param Y0Loc A vector defining the locations of all 0s in the community matrix (\code{Y}).
+#' @param Y1Loc A vector defining the locations of all 1s in the community matrix (\code{Y}).
+#' @param Ylatent Model site by species community matrix after the link function is applied.
+#' @param EstModel Estimated model for the site by species community matrix.
+#' @param residVar Vector of parameters with as many entries as there are species. Each values in this vector describes how much variation is not explained by the model. This vector should only contains 1s, but it was included in this function to deal with potential situations that may arise (in other words, in case I forgot a special case).
+#' @param nsp Numeric. Number of species in \code{Y}.
+#' @param nsite Numeric. Number of site sampled.
+#'
+#' @export
+sampleYlatentPoisson <- function(Y, Ylatent, EstModel, residVar, nsp, nsite) {
+    .Call('HMSC_sampleYlatentPoisson', PACKAGE = 'HMSC', Y, Ylatent, EstModel, residVar, nsp, nsite)
 }
 
 #' @title Sample the model response matrix 

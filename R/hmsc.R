@@ -55,7 +55,7 @@
 #' @keywords htest, models, multivariate
 #' @export
 hmsc <-
-function(data,param=NULL,priors=NULL,family=c("probit","gaussian"),niter=2000,nburn=1000,thin=1,verbose=TRUE){
+function(data,param=NULL,priors=NULL,family=c("probit","gaussian","poisson"),niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - May 2016
 ##########################################################################################
 	family<-match.arg(family)
@@ -66,6 +66,10 @@ function(data,param=NULL,priors=NULL,family=c("probit","gaussian"),niter=2000,nb
 	
 	if(family=="gaussian"){
 		res<-hmsc.Normal(data=data,param=param,priors=priors,niter=niter,nburn=nburn,thin=thin,verbose=verbose)
+	}
+	
+	if(family=="poisson"){
+		res<-hmsc.Poisson(data=data,param=param,priors=priors,niter=niter,nburn=nburn,thin=thin,verbose=verbose)
 	}
 	
 	return(res)

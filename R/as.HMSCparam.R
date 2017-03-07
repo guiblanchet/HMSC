@@ -413,7 +413,7 @@ function(data, priors, varDist=NULL, residVar=NULL, paramX=NULL,
 		names(param) <- c("param")
 	}
 	
-	if(attr(priors, "distr")=="gaussian"){
+	if(attr(priors, "distr")=="poisson"){
 		param <- list(distr=varDist, 
 					param=param)
 		

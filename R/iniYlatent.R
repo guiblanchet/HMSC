@@ -32,19 +32,26 @@ function(data,param,family){
 	nsp<-ncol(data$Y)
 	nsite<-nrow(data$Y)
 	
-	#========================================
-	### Initiate a latent Y for probit models
-	#========================================
-	if(family=="probit"){
+	#==========================================
+	### Initiate a latent Y for gaussian models
+	#==========================================
+	if(family=="gaussian"){
+		### Transform Y into a matrix
+		Y<-as.matrix(data$Y)
+		
+		### Initial latent Y
+		Ylatent<-Y
+	}
+	
+	#=======================================
+	### Initiate a latent Y for other models
+	#=======================================
+	if(family!="gaussian"){
 		### Transform X and Y into a matrix
 		Y<-as.matrix(data$Y)
 		if(!is.null(data$X)){
 			X<-as.matrix(data$X)
 		}
-		
-		### Initial latent Y
-		Y0<-Y==0
-		Y1<-Y==1
 		
 		#---------------------
 		### Calculate EstModel
@@ -118,18 +125,17 @@ function(data,param,family){
 			}
 		}
 		
-		Ylatent<-sampleYlatentProbit(Y0,Y1,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
-	}
-	
-	#========================================
-	### Initiate a latent Y for copula models
-	#========================================
-	if(family=="gaussian"){
-		### Transform Y into a matrix
-		Y<-as.matrix(data$Y)
+		if(family == "probit"){
+			Y0<-Y==0
+			Y1<-Y==1
+			
+			Ylatent<-sampleYlatentProbit(Y0,Y1,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
+		}
 		
-		### Initial latent Y
-		Ylatent<-Y
+		if(family == "poisson"){
+			Ylatent<-sampleYlatentPoisson(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
+		}
+		
 	}
 	
 	class(Ylatent)<-"HMSCYlatent"

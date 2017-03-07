@@ -403,6 +403,12 @@ function(data,family="probit",varDistShape=NULL,varDistScale=NULL,
 		attributes(priors) <- list(distr="probit")
 		names(priors) <- c("param")
 	}
+
+	if(family=="poisson"){
+		priors <- list(param=priors)
+		attributes(priors) <- list(distr="poisson")
+		names(priors) <- c("param")
+	}
 	
 	if(family=="gaussian"){
 		priors <- list(distr=

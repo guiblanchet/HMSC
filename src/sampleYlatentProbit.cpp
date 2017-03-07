@@ -5,8 +5,8 @@
 using namespace arma ;
 using namespace Rcpp ;
 
-//' @title Sample the model response matrix 
-//' 
+//' @title Sample the model response matrix
+//'
 //' @description Sample the model response matrix after the Probit link function was applied. This function is meant to be used internally.
 //'
 //' @param Y0Loc A vector defining the locations of all 0s in the community matrix (\code{Y}).
@@ -26,47 +26,47 @@ arma::mat sampleYlatentProbit(arma::uvec& Y0Loc,
 							  arma::vec residVar,
 							  double nsp,
 							  int nsite){
-	
+
 	// Define basic objects
 	mat Yresid(nsite,nsp);
-	
-	// Calculate residual standard deviation 
+
+	// Calculate residual standard deviation
 	vec residSd = sqrt(residVar);
 	// Negative Estimation model
 	mat EstModelNeg = -EstModel;
-	
+
 	// Define upper and lower boundary of the truncated normal distribution
 	mat low(nsite,nsp);
 	low.fill(-datum::inf);
-	
+
 	mat high(nsite,nsp);
 	high.fill(datum::inf);
-	
-	// Fill low and high with the right part of EstModelNeg 
+
+	// Fill low and high with the right part of EstModelNeg
 	low.elem(Y1Loc) = EstModelNeg.elem(Y1Loc);
 	high.elem(Y0Loc) = EstModelNeg.elem(Y0Loc);
-	
+
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {
 		for (int j = 0; j < nsp; j++) {
 			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
 		}
 	}
-	// Find the values in Yresid that are equal to negative infinite
-	uvec YresidPosInf = find(Yresid==datum::inf);
-	
-	// Replace the values equal to negative infinite by the value in low+0.5
-	Yresid.elem(YresidPosInf) = low.elem(YresidPosInf)+0.5;
-	
 	// Find the values in Yresid that are equal to infinite
+	uvec YresidPosInf = find(Yresid==datum::inf);
+
+	// Replace the values equal to infinite by the value in low+0.5
+	Yresid.elem(YresidPosInf) = low.elem(YresidPosInf)+0.5;
+
+	// Find the values in Yresid that are equal to negative infinite
 	uvec YresidNegInf = find(Yresid==-datum::inf);
-	
-	// Replace the values equal to infinite by the value in high-0.5
+
+	// Replace the values equal to negative infinite by the value in high-0.5
 	Yresid.elem(YresidNegInf) = high.elem(YresidNegInf)-0.5;
-	
+
 	// Recalculate Ylatent
 	Ylatent = EstModel+Yresid;
-	
+
 	// Return Ylatent
 	return Ylatent;
 }
