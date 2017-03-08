@@ -7,6 +7,8 @@
 sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite)
 }
 \arguments{
+\item{Y}{The species community matrix to be modelled.}
+
 \item{Ylatent}{Model site by species community matrix after the link function is applied.}
 
 \item{EstModel}{Estimated model for the site by species community matrix.}
@@ -16,12 +18,8 @@ sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite)
 \item{nsp}{Numeric. Number of species in \code{Y}.}
 
 \item{nsite}{Numeric. Number of site sampled.}
-
-\item{Y0Loc}{A vector defining the locations of all 0s in the community matrix (\code{Y}).}
-
-\item{Y1Loc}{A vector defining the locations of all 1s in the community matrix (\code{Y}).}
 }
 \description{
-Sample the model response matrix after the Probit link function was applied. This function is meant to be used internally.
+Sample the model response matrix after the Poisson link function was applied. This function is meant to be used internally.
 }
 

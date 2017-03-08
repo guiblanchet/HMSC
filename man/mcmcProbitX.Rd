@@ -20,6 +20,8 @@
 \alias{mcmcNormalXTrPhyloAuto}
 \alias{mcmcNormalXTrPhyloAutoLatent}
 \alias{mcmcNormalXTrPhyloLatent}
+\alias{mcmcOverPoissonX}
+\alias{mcmcPoissonX}
 \alias{mcmcProbitAuto}
 \alias{mcmcProbitAutoLatent}
 \alias{mcmcProbitLatent}
@@ -193,6 +195,14 @@ mcmcNormalXTrPhyloLatent(Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr,
   priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
   redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo,
   niter, nburn, thin, verbose)
+
+mcmcOverPoissonX(Y, Ylatent, X, paramX, meansParamX, precX, residVar,
+  priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+
+mcmcPoissonX(Y, Ylatent, X, paramX, meansParamX, precX, residVar,
+  priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
 
 mcmcProbitAuto(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto,
   paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale,

@@ -889,6 +889,35 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mcmcOverPoissonX
+RcppExport SEXP mcmcOverPoissonX(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double nsp, int nsite, int nparamX, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcOverPoissonX(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcOverPoissonX(Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mcmcPoissonX
 RcppExport SEXP mcmcPoissonX(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double nsp, int nsite, int nparamX, int niter, int nburn, int thin, int verbose);
 RcppExport SEXP HMSC_mcmcPoissonX(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {

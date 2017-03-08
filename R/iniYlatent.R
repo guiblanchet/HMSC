@@ -9,8 +9,8 @@
 #' @details
 #'
 #' \code{HMSCdata} and \code{HMSCparam}, the proper set of starting parameters are generated.
-#' Since the function is meant to be used by expert users, there are no predefined setting for any of the argument of the function. 
-#' 
+#' Since the function is meant to be used by expert users, there are no predefined setting for any of the argument of the function.
+#'
 #' @return
 #'
 #'  A matrix or a list of objects that are needed to construct the model of interest.
@@ -24,25 +24,25 @@
 #' @export
 iniYlatent <-
 function(data,param,family){
-	
+
 	### A few basic objects
 	if(!is.null(data$X)){
 		nparamX<-ncol(data$X)
 	}
 	nsp<-ncol(data$Y)
 	nsite<-nrow(data$Y)
-	
+
 	#==========================================
 	### Initiate a latent Y for gaussian models
 	#==========================================
 	if(family=="gaussian"){
 		### Transform Y into a matrix
 		Y<-as.matrix(data$Y)
-		
+
 		### Initial latent Y
 		Ylatent<-Y
 	}
-	
+
 	#=======================================
 	### Initiate a latent Y for other models
 	#=======================================
@@ -52,7 +52,7 @@ function(data,param,family){
 		if(!is.null(data$X)){
 			X<-as.matrix(data$X)
 		}
-		
+
 		#---------------------
 		### Calculate EstModel
 		#---------------------
@@ -124,20 +124,20 @@ function(data,param,family){
 				}
 			}
 		}
-		
+
 		if(family == "probit"){
 			Y0<-Y==0
 			Y1<-Y==1
-			
+
 			Ylatent<-sampleYlatentProbit(Y0,Y1,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
 		}
-		
-		if(family == "poisson"){
+
+		if(family == "poisson" | family == "overPoisson"){
 			Ylatent<-sampleYlatentPoisson(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
 		}
-		
+
 	}
-	
+
 	class(Ylatent)<-"HMSCYlatent"
 	return(Ylatent)
 }

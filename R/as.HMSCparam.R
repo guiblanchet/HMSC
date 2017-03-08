@@ -414,6 +414,19 @@ function(data, priors, varDist=NULL, residVar=NULL, paramX=NULL,
 	}
 	
 	if(attr(priors, "distr")=="poisson"){
+		param <- list(param=param)
+		attributes(param) <- list(distr="poisson")
+		names(param) <- c("param")
+	}
+	
+	
+	if(attr(priors, "distr")=="overPoisson"){
+		param <- list(param=param)
+		attributes(param) <- list(distr="overPoisson")
+		names(param) <- c("param")
+	}
+	
+	if(attr(priors, "distr")=="gaussian"){
 		param <- list(distr=varDist, 
 					param=param)
 		

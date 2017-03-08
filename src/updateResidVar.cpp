@@ -12,7 +12,7 @@ arma::vec updateResidVar(arma::mat& Yresid,
 						double priorResidVarScale,
 						double nsp,
 						double nsite){
-	
+
 	// Update residVar
 	double shapeParam = priorResidVarShape+nsite/2;
 	double scaleParam;
