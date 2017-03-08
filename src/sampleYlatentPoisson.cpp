@@ -24,24 +24,45 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 							  double nsp,
 							  int nsite){
 
-	// Basic objects
-	mat Yresid(nsite,nsp);
-	vec residSd = sqrt(residVar);
+	vec dsi2 = residVar;
+	mat si2 = repmat(dsi2,1,nsite).t();
 
-	// Define upper and lower boundary of the truncated normal distribution
-	mat low = log(Y) - EstModel;
-	mat high = log(Y+1) - EstModel;
+//	si2.elem(si2>100) = 100;
+//	si2.elem(si2<0.001) = 0.001;
 
-	// Sample from a truncated normal distribution to calculate the residual of Ylatent
-	for (int i = 0; i < nsite; i++) {
-		for (int j = 0; j < nsp; j++) {
-			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
-		}
-	}
+	mat Ez1 = EstModel;
+	mat Y1 = Y;
 
-	// Recalculate Ylatent
-	Ylatent = Yresid+EstModel;
+	double r = 1000;
+	double logr = log(r);
+
+	//posterior w
+	mat z = Ylatent;
+	mat Psi = z - logr;
+	int n1 = nsite;
+	int n2 = nsp;
+	double b = r;
+	mat c = abs(Psi);
+	mat m = b /2 /c % tanh(c/2);
+
+	//when c is too big, this converges to 2;
+	mat v_part2 = (sinh(c)-c) / square(cosh(c/2));
+
+	uvec c700 = find(c > 700);
+	vec two(sum(c700));
+	two.fill(2);
+	v_part2.elem(c700) = two; // approximate for when the above expression starts fail numerically to NaN
+	mat v = b /4 /pow(c,3) % v_part2;
+	mat w = randn(n1,n2) % sqrt(v) + m;
+	w = abs(w);
+
+	//posterior Psi
+	mat Psi_var = 1 / (w + 1/si2);
+	mat Psi_mean = Psi_var % ( Y1 - r/2.0 + (Ez1 - logr) / si2);
+//	Psi = normrnd( Psi_mean, sqrt(Psi_var));
+	Psi = randn(n1,n2) % sqrt(Psi_var) + Psi_mean;
+	z =  Psi + logr;
 
 	// Return Ylatent
-	return Ylatent;
+	return z;
 }
