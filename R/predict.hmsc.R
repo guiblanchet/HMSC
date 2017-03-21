@@ -4,6 +4,8 @@
 #'
 #' @param object An object of the class \code{hmsc}
 #' @param newdata An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
+#' @param conditional A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out.
+#' @param niter A numerical value defining the number of iterations to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered. 
 #' @param \dots Additional arguments affecting the predictions produced.
 #' 
 #' @return
@@ -40,7 +42,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object,newdata,...){
+predict.hmsc<-function(object, newdata, conditional, niter, ...){
 	
 	### Data to use for prediction
 	if(missing(newdata) || is.null(newdata)){
@@ -178,201 +180,422 @@ predict.hmsc<-function(object,newdata,...){
 	
 
 	### Fill the results object
-	if(missing(newdata) || is.null(newdata)){
-		if(is.null(data$Random)){
-			if(is.null(data$Auto)){
-				if(is.null(data$X)){
-					stop("This object is essentially empty")
-				}else{
-					### Only X
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-					}
-				}
-			}else{
-				if(is.null(data$X)){
-					### Only Auto
-					for(i in 1:niter){
-						for(j in 1:nAuto){
-							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+	if(!is.null(conditional)){
+		### A few checks
+		if(!is.character(conditional)){
+			stop("'conditional' needs to be a vector of characters")
+		}
+		
+		### Find the species to consider as conditional
+		condSp <- colnames(data$Y)%in%conditional
+		if(sum(condSp)!=length(conditional)){
+			stop("Some species defined in 'conditional' were not found in the species data matrix")
+		}
+		Y <- data$Y[,which(condSp)]
+	##########################################################################
+	#### From this point on until the other long bar this needs to be coded
+	#### In essence the important part of the conditional predictions need to be coded
+	##########################################################################
+		
+		if(missing(newdata) || is.null(newdata)){
+			if(is.null(data$Random)){
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						stop("This object is essentially empty")
+					}else{
+						### Only X
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
 						}
 					}
 				}else{
-					### X and Auto
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nAuto){
-							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+					if(is.null(data$X)){
+						### Only Auto
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+						}
+					}else{
+						### X and Auto
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+						}
+					}
+				}
+			}else{
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						### Only Random
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}else{
+						### X and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}
+				}else{
+					if(is.null(data$X)){
+						### Auto and Random
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}else{
+						### X, Auto and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}
 			}
 		}else{
-			if(is.null(data$Auto)){
-				if(is.null(data$X)){
-					### Only Random
-					for(i in 1:niter){
-						for(j in 1:nRandom){
-							RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+			if(is.null(data$Random)){
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						stop("This object is essentially empty")
+					}else{
+						### Only X
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
 						}
 					}
 				}else{
-					### X and Random
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nRandom){
-							RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					if(is.null(data$X)){
+						### Only Auto
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
 						}
+					}else{
+						### X and Auto
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+					}
 					}
 				}
 			}else{
-				if(is.null(data$X)){
-					### Auto and Random
-					for(i in 1:niter){
-						for(j in 1:nAuto){
-							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						### Only Random
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
-						for(j in 1:nRandom){
-							RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					}else{
+						### X and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}else{
-					### X, Auto and Random
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nAuto){
-							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+					if(is.null(data$X)){
+						### Auto and Random
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
-						for(j in 1:nRandom){
-							RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					}else{
+						### X, Auto and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}
 			}
 		}
+	##########################################################################
 	}else{
-		if(is.null(data$Random)){
-			if(is.null(data$Auto)){
-				if(is.null(data$X)){
-					stop("This object is essentially empty")
-				}else{
-					### Only X
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-					}
-				}
-			}else{
-				if(is.null(data$X)){
-					### Only Auto
-					for(i in 1:niter){
-						for(j in 1:nAuto){
-							### Construct latentAuto variables
-							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-							latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-							rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-							
-							AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+		if(missing(newdata) || is.null(newdata)){
+			if(is.null(data$Random)){
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						stop("This object is essentially empty")
+					}else{
+						### Only X
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
 						}
 					}
 				}else{
-					### X and Auto
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nAuto){
-							### Construct latentAuto variables
-							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-							latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-							rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-							
-							AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+					if(is.null(data$X)){
+						### Only Auto
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+						}
+					}else{
+						### X and Auto
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+						}
+					}
+				}
+			}else{
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						### Only Random
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}else{
+						### X and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}
+				}else{
+					if(is.null(data$X)){
+						### Auto and Random
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
+						}
+					}else{
+						### X, Auto and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}
 			}
 		}else{
-			if(is.null(data$Auto)){
-				if(is.null(data$X)){
-					### Only Random
-					for(i in 1:niter){
-						for(j in 1:nRandom){
-							### Construct latent variables
-							nlatent<-ncol(object$results$estimation$latent[[i,j]])
-							latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-							rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-							
-							RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+			if(is.null(data$Random)){
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						stop("This object is essentially empty")
+					}else{
+						### Only X
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
 						}
 					}
 				}else{
-					### X and Random
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nRandom){
-							### Construct latent variables
-							nlatent<-ncol(object$results$estimation$latent[[i,j]])
-							latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-							rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-							
-							RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					if(is.null(data$X)){
+						### Only Auto
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
 						}
+					}else{
+						### X and Auto
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+					}
 					}
 				}
 			}else{
-				if(is.null(data$X)){
-					### Auto and Random
-					for(i in 1:niter){
-						for(j in 1:nAuto){
-							### Construct latentAuto variables
-							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-							latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-							rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-							
-							AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+				if(is.null(data$Auto)){
+					if(is.null(data$X)){
+						### Only Random
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
-						for(j in 1:nRandom){
-							### Construct latent variables
-							nlatent<-ncol(object$results$estimation$latent[[i,j]])
-							latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-							rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-							
-							RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					}else{
+						### X and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}else{
-					### X, Auto and Random
-					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						for(j in 1:nAuto){
-							### Construct latentAuto variables
-							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-							latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-							rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-							
-							AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+					if(is.null(data$X)){
+						### Auto and Random
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
-						for(j in 1:nRandom){
-							### Construct latent variables
-							nlatent<-ncol(object$results$estimation$latent[[i,j]])
-							latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-							rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-							
-							RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+					}else{
+						### X, Auto and Random
+						for(i in 1:niter){
+							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+								
+								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
+								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
+							}
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+								
+								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
+								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
+							}
 						}
 					}
 				}
