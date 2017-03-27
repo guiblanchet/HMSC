@@ -1,4 +1,4 @@
-#' @describeIn hmsc
+#' @describeIn hmsc Perform HMSC analysis with overdispersed count data (overdispersed Poisson model) 
 #' @export
 hmsc.OverPoisson <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
@@ -119,7 +119,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 	}
 
 	#=================================
-	### Initiate a latent Y for probit
+	### Initiate a latent Y for OverPoisson
 	#=================================
 	Ylatent<-iniYlatent(data,param,family="overPoisson")
 
@@ -159,14 +159,9 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 								verbose)
 		}
 
-		### ICI ###
-		### ICI ###
-		### ICI ###
-		### ICI ###
-
 		### Construct model with Random
 		if(dataType %in% "Random"){
-			result<-mcmcProbitLatent(Y,
+			result<-mcmcOverPoissonLatent(Y,
 									 Ylatent,
 									 Random,
 									 param$param$residVar,
@@ -195,7 +190,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		}
 		### Construct model with Auto
 		if(dataType %in% "Auto"){
-			result<-mcmcProbitAuto(Y,
+			result<-mcmcOverPoissonAuto(Y,
 								   Ylatent,
 								   AutoCoord,
 								   RandomAuto,
@@ -235,7 +230,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTr(Y,
+			result<-mcmcOverPoissonXTr(Y,
 								  Ylatent,
 								  X,
 								  Tr,
@@ -261,7 +256,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 
 		### Construct model with X and Random
 		if(all(dataType %in% c("X","Random"))){
-			result<-mcmcProbitXLatent(Y,
+			result<-mcmcOverPoissonXLatent(Y,
 									  Ylatent,
 									  X,
 									  Random,
@@ -295,7 +290,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 
 		### Construct model with X and Random
 		if(all(dataType %in% c("X","Auto"))){
-			result<-mcmcProbitXAuto(Y,
+			result<-mcmcOverPoissonXAuto(Y,
 									Ylatent,
 									X,
 									AutoCoord,
@@ -339,7 +334,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Construct model with X and Phylo
 		if(all(dataType %in% c("X","Phylo"))){
 
-			result<-mcmcProbitXPhylo(Y,
+			result<-mcmcOverPoissonXPhylo(Y,
 									 Ylatent,
 									 X,
 									 Phylo,
@@ -370,7 +365,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Construct model with Random and Auto
 		if(all(dataType %in% c("Auto","Random"))){
 
-			result<-mcmcProbitAutoLatent(Y,
+			result<-mcmcOverPoissonAutoLatent(Y,
 										 Ylatent,
 										 AutoCoord,
 										 RandomAuto,
@@ -418,7 +413,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrLatent(Y,
+			result<-mcmcOverPoissonXTrLatent(Y,
 										Ylatent,
 										X,
 										Tr,
@@ -458,7 +453,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrAuto(Y,
+			result<-mcmcOverPoissonXTrAuto(Y,
 									  Ylatent,
 									  X,
 									  Tr,
@@ -507,7 +502,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrPhylo(Y,
+			result<-mcmcOverPoissonXTrPhylo(Y,
 									   Ylatent,
 									   X,
 									   Tr,
@@ -540,7 +535,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Construct model with X, Phylo and Random
 		if(all(dataType %in% c("X","Phylo","Random"))){
 
-			result<-mcmcProbitXPhyloLatent(Y,
+			result<-mcmcOverPoissonXPhyloLatent(Y,
 										   Ylatent,
 										   X,
 										   Phylo,
@@ -582,7 +577,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Construct model with X, Phylo and Auto
 		if(all(dataType %in% c("X","Phylo","Auto"))){
 
-			result<-mcmcProbitXPhyloAuto(Y,
+			result<-mcmcOverPoissonXPhyloAuto(Y,
 										 Ylatent,
 										 X,
 										 Phylo,
@@ -633,7 +628,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Construct model with Random and Auto
 		if(all(dataType %in% c("X","Auto","Random"))){
 
-			result<-mcmcProbitXAutoLatent(Y,
+			result<-mcmcOverPoissonXAutoLatent(Y,
 										  Ylatent,
 										  X,
 										  AutoCoord,
@@ -689,7 +684,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrAutoLatent(Y,
+			result<-mcmcOverPoissonXTrAutoLatent(Y,
 											Ylatent,
 											X,
 											Tr,
@@ -746,7 +741,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXPhyloAutoLatent(Y,
+			result<-mcmcOverPoissonXPhyloAutoLatent(Y,
 											   Ylatent,
 											   X,
 											   Phylo,
@@ -807,7 +802,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrPhyloLatent(Y,
+			result<-mcmcOverPoissonXTrPhyloLatent(Y,
 											 Ylatent,
 											 X,
 											 Tr,
@@ -853,7 +848,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrPhyloAuto(Y,
+			result<-mcmcOverPoissonXTrPhyloAuto(Y,
 										   Ylatent,
 										   X,
 										   Tr,
@@ -910,7 +905,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			### Basic objects
 			nTr<-nrow(data$Tr)
 
-			result<-mcmcProbitXTrPhyloAutoLatent(Y,
+			result<-mcmcOverPoissonXTrPhyloAutoLatent(Y,
 												 Ylatent,
 												 X,
 												 Tr,

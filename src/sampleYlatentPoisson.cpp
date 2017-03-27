@@ -35,7 +35,6 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {
 		for (int j = 0; j < nsp; j++) {
-//			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
 			Yresid(i,j) = rtnorm(0, 1, low(i,j), high(i,j));
 		}
 	}

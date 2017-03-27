@@ -27,4 +27,3 @@ Since the function is meant to be used by expert users, there are no predefined 
 F. Guillaume Blanchet
 }
 \keyword{datagen}
-

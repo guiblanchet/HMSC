@@ -28,4 +28,3 @@ Ovaskainen, O., D. B. Roy, R. Fox and B. J. Anderson. 2016. Uncovering hidden sp
 Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
 }
 \keyword{datasets}
-

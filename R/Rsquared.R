@@ -7,8 +7,13 @@
 #'
 #' @details
 #'
-#' This function calculates the coefficient of determination (\eqn{R^2}) for presence-absence data proposed by Tjur (2009). If the response data, matrix \code{Y}, has values other than 0 or 1, The coefficient of determination is not calculate.
-#' The multivariate (or community-level) Tjur's \eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's \eqn{R^2}.
+#' If the community data is composed only of presence-absence data, this function calculates the coefficient of determination (\eqn{R^2}) proposed by Tjur (2009). The multivariate (or community-level) Tjur's \eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's \eqn{R^2}.
+#'
+#' If the HMSC model was built using a Gaussian model, the classical coefficient of determination (\eqn{R^2}) was calculated:
+#'
+#' \deqn{R^2 = 1 - \frac{SS_{resid}}{SS_{total}}}{1-SSresid/SStotal}.
+#'
+#' where, \eqn{SS_{resid}}{SSresid}} is the residual sum of squares and \eqn{SS_{total}}{SStotal}} the total sum of squares.
 #'
 #' @return
 #'
@@ -36,13 +41,13 @@
 #' ### Formatting
 #' #=============
 #' ### Format data
-#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
+#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
 #' 						   interceptTr = FALSE)
 #'
 #' #==============
 #' ### Build model
 #' #==============
-#' modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, 
+#' modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1,
 #' 					 verbose = 100)
 #'
 #' #=======================================================
@@ -55,26 +60,38 @@
 Rsquared <- function(hmsc, averageSp = TRUE) {
     ### Number of species
     nsp <- ncol(hmsc$data$Y)
-    
+
     ### Calculate model estimates
     Ypred <- predict(hmsc)
-    
+
     ### Probit model
     if (any(class(hmsc) == "probit")) {
-        Y0 <- hmsc$data$Y == 0
-        Y1 <- hmsc$data$Y == 1
-        
-        R2 <- numeric()
-        
-        for (i in 1:nsp) {
-            R2[i] <- mean(Ypred[Y1[, i], i]) - mean(Ypred[Y0[, i], i])
-        }
+      Y0 <- hmsc$data$Y == 0
+      Y1 <- hmsc$data$Y == 1
+
+      R2 <- numeric()
+
+      for (i in 1:nsp) {
+          R2[i] <- mean(Ypred[Y1[, i], i]) - mean(Ypred[Y0[, i], i])
+      }
     }
-    
+
+    ### Gaussian model
+    if (any(class(hmsc) == "gaussian")) {
+      ### Total sums of squares per species
+      ssY <- colSums(scale(Y,scale=FALSE)^2)
+
+      ### Residual sums of squares per species
+      ssRes <- colSums((y-predict(lm(y~x)))^2)
+
+      ### Calculate R2
+      R2 <- 1-ssRes/ssY
+    }
+
     ### Community-level R2
     if (averageSp) {
         R2 <- mean(R2)
     }
-    
+
     return(R2)
 }

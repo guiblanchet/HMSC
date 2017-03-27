@@ -30,7 +30,6 @@ RcppExport SEXP mcmcPoissonX(arma::mat& Y,
 
 	// Define various objects
 	mat EstModel(nsite,nsp);
-	mat Yresid(nsite,nsp);
 	mat meansParamXRep(nsp, nparamX);
 
 	// Define the result objects for burning
@@ -59,6 +58,7 @@ RcppExport SEXP mcmcPoissonX(arma::mat& Y,
 		// Calculate the model estimate
 
 		EstModel = X*trans(paramX);
+
 		// Sample Y latent
 		Ylatent = sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite);
 

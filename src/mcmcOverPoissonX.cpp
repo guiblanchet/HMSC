@@ -37,6 +37,7 @@ RcppExport SEXP mcmcOverPoissonX(arma::mat& Y,
 	mat meansParamXBurn(nparamX,nburn/thin);
 	cube paramXBurn(nsp,nparamX,nburn/thin);
 	cube varXBurn(nparamX,nparamX,nburn/thin);
+
 	mat varDistBurn(nsp,nburn/thin);
 
 	// Define the result objects for estimation
@@ -46,6 +47,7 @@ RcppExport SEXP mcmcOverPoissonX(arma::mat& Y,
 	mat meansParamXEst(nparamX,nEst/thin);
 	cube paramXEst(nsp,nparamX,nEst/thin);
 	cube varXEst(nparamX,nparamX,nEst/thin);
+
 	mat varDistEst(nsp,nEst/thin);
 
 	// Define a burning counters
@@ -63,6 +65,7 @@ RcppExport SEXP mcmcOverPoissonX(arma::mat& Y,
 
 		// Calculate residuals
 		Yresid = Ylatent-EstModel;
+
 		// Update residVar
 		residVar = updateResidVar(Yresid, residVar, priorResidVarScale, priorResidVarShape, nsp, nsite);
 
@@ -110,10 +113,10 @@ RcppExport SEXP mcmcOverPoissonX(arma::mat& Y,
 				Rcpp::List::create(Rcpp::Named("paramX", wrap(paramXBurn)),
 								   Rcpp::Named("meansParamX", wrap(trans(meansParamXBurn))),
 							 	   Rcpp::Named("varX", wrap(varXBurn)),
-								   Rcpp::Named("varNormal", wrap(trans(1/varDistBurn)))),
+								   Rcpp::Named("varPoisson", wrap(trans(1/varDistBurn)))),
 				Rcpp::List::create(Rcpp::Named("paramX", wrap(paramXEst)),
 								   Rcpp::Named("meansParamX", wrap(trans(meansParamXEst))),
 							 	   Rcpp::Named("varX", wrap(varXEst)),
-								   Rcpp::Named("varNormal", wrap(trans(1/varDistEst)))));
+								   Rcpp::Named("varPoisson", wrap(trans(1/varDistEst)))));
 
 }

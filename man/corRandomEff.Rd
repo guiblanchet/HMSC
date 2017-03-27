@@ -65,11 +65,10 @@ library(circlize)
 chordDiagram(corRes[, , 1, 1], symmetric = TRUE)
 
 }
-\author{
-F. Guillaume Blanchet
-}
 \seealso{
 \code{\link{hmsc}}
 }
+\author{
+F. Guillaume Blanchet
+}
 \keyword{IO}
-

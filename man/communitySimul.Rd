@@ -132,4 +132,3 @@ F. Guillaume Blanchet
 }
 \keyword{datagen}
 \keyword{htest}
-

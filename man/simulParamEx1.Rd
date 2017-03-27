@@ -27,4 +27,3 @@ data(simulParamEx2)
 Simulated data and the parameters used to construct the simulated data.  These data and their associated parameters were constructed to illustrate some of the functionality of the R package.
 }
 \keyword{datasets}
-

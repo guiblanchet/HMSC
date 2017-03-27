@@ -17,4 +17,3 @@ the rotation matrix
 \description{
 Orthogonal procrustean rotation matrix
 }
-

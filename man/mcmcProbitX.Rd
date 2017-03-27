@@ -20,8 +20,44 @@
 \alias{mcmcNormalXTrPhyloAuto}
 \alias{mcmcNormalXTrPhyloAutoLatent}
 \alias{mcmcNormalXTrPhyloLatent}
+\alias{mcmcOverPoissonAuto}
+\alias{mcmcOverPoissonAutoLatent}
+\alias{mcmcOverPoissonLatent}
 \alias{mcmcOverPoissonX}
+\alias{mcmcOverPoissonXAuto}
+\alias{mcmcOverPoissonXAutoLatent}
+\alias{mcmcOverPoissonXLatent}
+\alias{mcmcOverPoissonXPhylo}
+\alias{mcmcOverPoissonXPhyloAuto}
+\alias{mcmcOverPoissonXPhyloAutoLatent}
+\alias{mcmcOverPoissonXPhyloLatent}
+\alias{mcmcOverPoissonXTr}
+\alias{mcmcOverPoissonXTrAuto}
+\alias{mcmcOverPoissonXTrAutoLatent}
+\alias{mcmcOverPoissonXTrLatent}
+\alias{mcmcOverPoissonXTrPhylo}
+\alias{mcmcOverPoissonXTrPhyloAuto}
+\alias{mcmcOverPoissonXTrPhyloAutoLatent}
+\alias{mcmcOverPoissonXTrPhyloLatent}
+\alias{mcmcPoissonAuto}
+\alias{mcmcPoissonAutoLatent}
+\alias{mcmcPoissonLatent}
 \alias{mcmcPoissonX}
+\alias{mcmcPoissonXAuto}
+\alias{mcmcPoissonXAutoLatent}
+\alias{mcmcPoissonXLatent}
+\alias{mcmcPoissonXPhylo}
+\alias{mcmcPoissonXPhyloAuto}
+\alias{mcmcPoissonXPhyloAutoLatent}
+\alias{mcmcPoissonXPhyloLatent}
+\alias{mcmcPoissonXTr}
+\alias{mcmcPoissonXTrAuto}
+\alias{mcmcPoissonXTrAutoLatent}
+\alias{mcmcPoissonXTrLatent}
+\alias{mcmcPoissonXTrPhylo}
+\alias{mcmcPoissonXTrPhyloAuto}
+\alias{mcmcPoissonXTrPhyloAutoLatent}
+\alias{mcmcPoissonXTrPhyloLatent}
 \alias{mcmcProbitAuto}
 \alias{mcmcProbitAutoLatent}
 \alias{mcmcProbitLatent}
@@ -196,13 +232,316 @@ mcmcNormalXTrPhyloLatent(Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr,
   redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo,
   niter, nburn, thin, verbose)
 
+mcmcOverPoissonAuto(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto,
+  latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto,
+  priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter,
+  nburn, thin, verbose)
+
+mcmcOverPoissonAutoLatent(Y, Ylatent, Auto, RandomAuto, Random, residVar,
+  latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale,
+  priorResidVarShape, priorParamAutoWeight, priorParamAutoDist,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev,
+  nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter,
+  nburn, thin, verbose)
+
+mcmcOverPoissonLatent(Y, Ylatent, Random, residVar, latent, paramLatent,
+  shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom,
+  nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose)
+
 mcmcOverPoissonX(Y, Ylatent, X, paramX, meansParamX, precX, residVar,
   priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
   priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
 
+mcmcOverPoissonXAuto(Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX,
+  precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto,
+  niter, nburn, thin, verbose)
+
+mcmcOverPoissonXAutoLatent(Y, Ylatent, X, Auto, RandomAuto, Random, paramX,
+  meansParamX, precX, residVar, latent, paramLatent, shrinkLocal,
+  paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXLatent(Y, Ylatent, X, Random, paramX, meansParamX, precX,
+  residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXPhylo(Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX,
+  paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX,
+  priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape,
+  priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo,
+  niter, nburn, thin, verbose)
+
+mcmcOverPoissonXPhyloAuto(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto,
+  paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX,
+  priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp,
+  nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXPhyloAutoLatent(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto,
+  Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent,
+  shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto,
+  shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX,
+  priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape,
+  priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXPhyloLatent(Y, Ylatent, X, Phylo, iPhylo, Random, paramX,
+  meansParamX, precX, paramPhylo, residVar, priorMeansParamX,
+  priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom,
+  nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin,
+  verbose)
+
+mcmcOverPoissonXTr(Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar,
+  priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXTrAuto(Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr,
+  precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr,
+  npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXTrAutoLatent(Y, Ylatent, X, Tr, Auto, RandomAuto, Random,
+  paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal,
+  paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXTrLatent(Y, Ylatent, X, Tr, Random, paramX, paramTr, precX,
+  residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, niter, nburn, thin, verbose)
+
+mcmcOverPoissonXTrPhylo(Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr,
+  paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight,
+  priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn,
+  thin, verbose)
+
+mcmcOverPoissonXTrPhyloAuto(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto,
+  paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr,
+  priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp,
+  nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin,
+  verbose)
+
+mcmcOverPoissonXTrPhyloAutoLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto,
+  RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent,
+  paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr,
+  priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom,
+  nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto,
+  niter, nburn, thin, verbose)
+
+mcmcOverPoissonXTrPhyloLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX,
+  paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr,
+  priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape,
+  priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
+
+mcmcPoissonAuto(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale,
+  priorResidVarShape, priorParamAutoWeight, priorParamAutoDist,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev,
+  nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcPoissonAutoLatent(Y, Ylatent, Auto, RandomAuto, Random, residVar, latent,
+  paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale,
+  priorResidVarShape, priorParamAutoWeight, priorParamAutoDist,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev,
+  nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter,
+  nburn, thin, verbose)
+
+mcmcPoissonLatent(Y, Ylatent, Random, residVar, latent, paramLatent,
+  shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom,
+  nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose)
+
 mcmcPoissonX(Y, Ylatent, X, paramX, meansParamX, precX, residVar,
   priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
   priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+
+mcmcPoissonXAuto(Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX,
+  residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto,
+  niter, nburn, thin, verbose)
+
+mcmcPoissonXAutoLatent(Y, Ylatent, X, Auto, RandomAuto, Random, paramX,
+  meansParamX, precX, residVar, latent, paramLatent, shrinkLocal,
+  paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcPoissonXLatent(Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar,
+  priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin,
+  verbose)
+
+mcmcPoissonXPhylo(Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo,
+  precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight,
+  priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin,
+  verbose)
+
+mcmcPoissonXPhyloAuto(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX,
+  meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX,
+  priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp,
+  nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcPoissonXPhyloAutoLatent(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto,
+  Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent,
+  shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto,
+  shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX,
+  priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape,
+  priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose)
+
+mcmcPoissonXPhyloLatent(Y, Ylatent, X, Phylo, iPhylo, Random, paramX,
+  meansParamX, precX, paramPhylo, residVar, priorMeansParamX,
+  priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale,
+  priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom,
+  nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin,
+  verbose)
+
+mcmcPoissonXTr(Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar,
+  priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+
+mcmcPoissonXTrAuto(Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX,
+  residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr,
+  npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcPoissonXTrAutoLatent(Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX,
+  paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal,
+  paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto,
+  paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight,
+  priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape,
+  priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt,
+  redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+
+mcmcPoissonXTrLatent(Y, Ylatent, X, Tr, Random, paramX, paramTr, precX,
+  residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf,
+  priorResidVarScale, priorResidVarShape, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, niter, nburn, thin, verbose)
+
+mcmcPoissonXTrPhylo(Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr,
+  paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat,
+  priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight,
+  priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn,
+  thin, verbose)
+
+mcmcPoissonXTrPhyloAuto(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto,
+  paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr,
+  priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp,
+  nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin,
+  verbose)
+
+mcmcPoissonXTrPhyloAutoLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto,
+  RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent,
+  paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto,
+  paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr,
+  priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale,
+  priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid,
+  priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom,
+  nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto,
+  niter, nburn, thin, verbose)
+
+mcmcPoissonXTrPhyloLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX,
+  paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr,
+  priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape,
+  priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal,
+  priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape,
+  priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp,
+  nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
 
 mcmcProbitAuto(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto,
   paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale,
@@ -481,4 +820,3 @@ mcmcProbitXTrPhyloLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX,
 \description{
 These functions are meant to be used internally or by advanced users as they generate raw (somewhat unnamed output)
 }
-

@@ -23,4 +23,3 @@ If the number of iterations is smaller than 5, nothing is printed on screen.
 F. Guillaume Blanchet
 }
 \keyword{print}
-

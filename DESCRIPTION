@@ -16,5 +16,5 @@ Depends:
     Rcpp (>= 0.12.3),
     RcppArmadillo
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 SystemRequirements: C++11

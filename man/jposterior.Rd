@@ -48,4 +48,3 @@ F. Guillaume Blanchet
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-

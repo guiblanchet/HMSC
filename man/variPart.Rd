@@ -56,4 +56,3 @@ Gleb Tikhonov and modified by Guillaume Blanchet
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-

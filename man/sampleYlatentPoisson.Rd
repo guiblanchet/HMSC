@@ -22,4 +22,3 @@ sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite)
 \description{
 Sample the model response matrix after the Poisson link function was applied. This function is meant to be used internally.
 }
-

@@ -117,14 +117,230 @@ mcmcNormalXTrPhyloLatent <- function(Ylatent, X, Tr, Phylo, iPhylo, Random, para
 
 #' @rdname mcmcProbitX
 #' @export
+mcmcOverPoissonAuto <- function(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonAuto', PACKAGE = 'HMSC', Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonAutoLatent <- function(Y, Ylatent, Auto, RandomAuto, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, Auto, RandomAuto, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonLatent <- function(Y, Ylatent, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonLatent', PACKAGE = 'HMSC', Y, Ylatent, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
 mcmcOverPoissonX <- function(Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose) {
     .Call('HMSC_mcmcOverPoissonX', PACKAGE = 'HMSC', Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
 }
 
 #' @rdname mcmcProbitX
 #' @export
+mcmcOverPoissonXAuto <- function(Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXAutoLatent <- function(Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXLatent <- function(Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXPhylo <- function(Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXPhylo', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXPhyloAuto <- function(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXPhyloAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXPhyloAutoLatent <- function(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXPhyloAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXPhyloLatent <- function(Y, Ylatent, X, Phylo, iPhylo, Random, paramX, meansParamX, precX, paramPhylo, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXPhyloLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Random, paramX, meansParamX, precX, paramPhylo, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTr <- function(Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTr', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrAuto <- function(Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrAutoLatent <- function(Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrLatent <- function(Y, Ylatent, X, Tr, Random, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Random, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrPhylo <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrPhylo', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrPhyloAuto <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrPhyloAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrPhyloAutoLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrPhyloAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcOverPoissonXTrPhyloLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcOverPoissonXTrPhyloLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonAuto <- function(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonAuto', PACKAGE = 'HMSC', Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonAutoLatent <- function(Y, Ylatent, Auto, RandomAuto, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, Auto, RandomAuto, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonLatent <- function(Y, Ylatent, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonLatent', PACKAGE = 'HMSC', Y, Ylatent, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
 mcmcPoissonX <- function(Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose) {
     .Call('HMSC_mcmcPoissonX', PACKAGE = 'HMSC', Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXAuto <- function(Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXAutoLatent <- function(Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXLatent <- function(Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXPhylo <- function(Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXPhylo', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXPhyloAuto <- function(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXPhyloAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXPhyloAutoLatent <- function(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXPhyloAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXPhyloLatent <- function(Y, Ylatent, X, Phylo, iPhylo, Random, paramX, meansParamX, precX, paramPhylo, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXPhyloLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Phylo, iPhylo, Random, paramX, meansParamX, precX, paramPhylo, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTr <- function(Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTr', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrAuto <- function(Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrAutoLatent <- function(Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrLatent <- function(Y, Ylatent, X, Tr, Random, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Random, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrPhylo <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrPhylo', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrPhyloAuto <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrPhyloAuto', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrPhyloAutoLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrPhyloAutoLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose)
+}
+
+#' @rdname mcmcProbitX
+#' @export
+mcmcPoissonXTrPhyloLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose) {
+    .Call('HMSC_mcmcPoissonXTrPhyloLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
 }
 
 #' @rdname mcmcProbitX

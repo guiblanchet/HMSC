@@ -19,10 +19,6 @@ If \code{averageSp} is \code{FALSE} a vector with as many values as the number o
 \description{
 Calculate the coefficient of determination for a model
 }
-\details{
-This function calculates the coefficient of determination (\eqn{R^2}) for presence-absence data proposed by Tjur (2009). If the response data, matrix \code{Y}, has values other than 0 or 1, The coefficient of determination is not calculate.
-The multivariate (or community-level) Tjur's \eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's \eqn{R^2}.
-}
 \examples{
 
 #================
@@ -36,13 +32,13 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
 						   interceptTr = FALSE)
 
 #==============
 ### Build model
 #==============
-modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, 
+modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1,
 					 verbose = 100)
 
 #=======================================================
@@ -51,13 +47,12 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1,
 Rsquared(modelDesc, averageSp = FALSE)
 
 }
-\author{
-F. Guillaume Blanchet
-}
 \references{
 Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
+}
+\author{
+F. Guillaume Blanchet
 }
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-

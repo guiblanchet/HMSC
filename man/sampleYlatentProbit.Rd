@@ -24,4 +24,3 @@ sampleYlatentProbit(Y0Loc, Y1Loc, Ylatent, EstModel, residVar, nsp, nsite)
 \description{
 Sample the model response matrix after the Probit link function was applied. This function is meant to be used internally.
 }
-

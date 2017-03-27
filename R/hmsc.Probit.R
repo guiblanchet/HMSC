@@ -1,4 +1,4 @@
-#' @describeIn hmsc
+#' @describeIn hmsc Perform HMSC analysis with presence-absence data (Probit model) 
 #' @export
 hmsc.Probit <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
