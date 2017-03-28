@@ -19,6 +19,15 @@ If \code{averageSp} is \code{FALSE} a vector with as many values as the number o
 \description{
 Calculate the coefficient of determination for a model
 }
+\details{
+If the community data is composed only of presence-absence data, this function calculates the coefficient of determination (\eqn{R^2}) proposed by Tjur (2009). The multivariate (or community-level) Tjur's \eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's \eqn{R^2}.
+
+If the HMSC model was built using a Gaussian model, the classical coefficient of determination (\eqn{R^2}) was calculated:
+
+\deqn{R^2 = 1 - \frac{SS_{resid}}{SS_{total}}}{1-SSresid/SStotal}.
+
+where \eqn{SS_{resid}}{SSresid} is the residual sum of squares and \eqn{SS_{total}}{SStotal} the total sum of squares.
+}
 \examples{
 
 #================

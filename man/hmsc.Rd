@@ -52,7 +52,7 @@ The output of this function is an object of class \code{hmsc}, which follow the 
 Perform various types of hierarchical modelling analysis on community data
 }
 \details{
-The choice of family is currently limited to \code{"probit"}, \code{"gaussian"} and \code{"poisson"} and the default is \code{"probit"}.
+The choice of family is currently limited to \code{"probit"}, \code{"gaussian"}, \code{"poisson"} and \code{"overPoisson"} and the default is \code{"probit"}.
 
 It is \strong{very important} to know that the models constructed for abundance data (\code{"poisson"}) needs one or two \emph{order of magnitude} more iterations (that is 10 or 100 times more interations) for the model parameter's to be properly estimated. Note also that for the Poisson models, simulations have shown that extremely large parameter values tends to be slightly underestimated, which should not affect the interpretation of the Poisson models.
 
@@ -96,6 +96,7 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 Bhattacharya, A. and Dunson, D.B. (2011) Sparse Bayesian infinite factor models. \emph{Biometrika} \strong{98}, 291-306.
 
 Ovaskainen, O. and Soininen, J. (2011) Making more out of sparse data: hierarchical modeling of species communities. \emph{Ecology} \strong{92}, 289-295.
+
 Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. In press. How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters}.
 }
 \author{

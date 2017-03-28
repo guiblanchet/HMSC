@@ -13,7 +13,7 @@
 #'
 #' \deqn{R^2 = 1 - \frac{SS_{resid}}{SS_{total}}}{1-SSresid/SStotal}.
 #'
-#' where, \eqn{SS_{resid}}{SSresid}} is the residual sum of squares and \eqn{SS_{total}}{SStotal}} the total sum of squares.
+#' where \eqn{SS_{resid}}{SSresid} is the residual sum of squares and \eqn{SS_{total}}{SStotal} the total sum of squares.
 #'
 #' @return
 #'
