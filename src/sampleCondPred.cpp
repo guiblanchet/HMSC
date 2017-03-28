@@ -27,6 +27,12 @@ arma::mat sampleCondPred(arma::mat& Y,
 		}
 	}
 
+	if(family == "gaussian"){
+		for (int i = 0; i < niter; i++) {
+			Ylatent.slice(i) = randn(nsite,nsp)*residVar+EstModel.slice(i)
+		}
+	}
+
 	// return result object
 	return Rcpp::Named("Ylatent", wrap(Ylatent));
 }

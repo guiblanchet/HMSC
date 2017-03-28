@@ -5,7 +5,7 @@
 #' @param object An object of the class \code{hmsc}
 #' @param newdata An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
 #' @param conditional A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out.
-#' @param niter A numerical value defining the number of iterations to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.
+#' @param nsample A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.
 #' @param \dots Additional arguments affecting the predictions produced.
 #'
 #' @return
@@ -42,7 +42,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object, newdata, conditional, niter, ...){
+predict.hmsc<-function(object, newdata, conditional, nsample, ...){
 
 	### Data to use for prediction
 	if(missing(newdata) || is.null(newdata)){
