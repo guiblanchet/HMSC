@@ -16,4 +16,3 @@ rmvnorm(n, Mean, Var)
 \description{
 Produces one or more samples from the specified multivariate normal distribution. Unlike the function \code{\link{mvrnorm}[MASS]}, this function is very simple and does not perform the many checks carried out in the \code{\link{mvrnorm}[MASS]}. For this reason, it is faster but it must be used carefully as it may lead to some unexpected error. This function is only meant to be used internally.
 }
-

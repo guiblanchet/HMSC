@@ -471,4 +471,3 @@ mcmcProbitXTrPhyloLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX,
 \description{
 These functions are meant to be used internally or by advanced users as they generate raw (somewhat unnamed output)
 }
-

@@ -51,13 +51,12 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1,
 Rsquared(modelDesc, averageSp = FALSE)
 
 }
-\author{
-F. Guillaume Blanchet
-}
 \references{
 Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
+}
+\author{
+F. Guillaume Blanchet
 }
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-

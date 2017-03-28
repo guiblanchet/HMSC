@@ -1804,6 +1804,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sampleCondPred
+RcppExport SEXP sampleCondPred(arma::mat& Y, arma::cube& EstModel, arma::mat residVar, int nsite, double nsp, int niter, int nsample, std::string family);
+RcppExport SEXP HMSC_sampleCondPred(SEXP YSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP niterSEXP, SEXP nsampleSEXP, SEXP familySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::cube& >::type EstModel(EstModelSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nsample(nsampleSEXP);
+    Rcpp::traits::input_parameter< std::string >::type family(familySEXP);
+    rcpp_result_gen = Rcpp::wrap(sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sampleYlatentProbit
 arma::mat sampleYlatentProbit(arma::uvec& Y0Loc, arma::uvec& Y1Loc, arma::mat& Ylatent, arma::mat& EstModel, arma::vec residVar, double nsp, int nsite);
 RcppExport SEXP HMSC_sampleYlatentProbit(SEXP Y0LocSEXP, SEXP Y1LocSEXP, SEXP YlatentSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nspSEXP, SEXP nsiteSEXP) {

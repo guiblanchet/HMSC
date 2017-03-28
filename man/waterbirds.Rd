@@ -25,4 +25,3 @@ Sebastian-Gonzalez, E., J. A. Sanchez-Zapata, F. Botella and O. Ovaskainen. 2010
 Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
 }
 \keyword{datasets}
-

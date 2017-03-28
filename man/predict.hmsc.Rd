@@ -4,12 +4,16 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, ...)
+\method{predict}{hmsc}(object, newdata, conditional, nsample, ...)
 }
 \arguments{
 \item{object}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
+
+\item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out.}
+
+\item{nsample}{A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.}
 
 \item{\dots}{Additional arguments affecting the predictions produced.}
 }
@@ -32,7 +36,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
 					     interceptTr = FALSE)
 
 #==============
@@ -43,7 +47,7 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 #=======================
 ### Calculate prediction
 #=======================
-predModel <- predict(modelDesc) 
+predModel <- predict(modelDesc)
 
 }
 \author{
@@ -52,4 +56,3 @@ F. Guillaume Blanchet
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-

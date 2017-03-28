@@ -23,4 +23,3 @@ using Bayesian hierarchical models. All estimations are carried out using MCMC.
 F. Guillaume Blanchet \email{guillaume.blanchet@usherbrooke.ca}
 }
 \keyword{package}
-

@@ -305,6 +305,11 @@ rmvnorm <- function(n, Mean, Var) {
     .Call('HMSC_rmvnorm', PACKAGE = 'HMSC', n, Mean, Var)
 }
 
+#' @export
+sampleCondPred <- function(Y, EstModel, residVar, nsite, nsp, niter, nsample, family) {
+    .Call('HMSC_sampleCondPred', PACKAGE = 'HMSC', Y, EstModel, residVar, nsite, nsp, niter, nsample, family)
+}
+
 #' @title Sample the model response matrix 
 #' 
 #' @description Sample the model response matrix after the Probit link function was applied. This function is meant to be used internally.

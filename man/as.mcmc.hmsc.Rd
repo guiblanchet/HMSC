@@ -52,11 +52,10 @@ modelDesc <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
 paramXmcmc <- as.mcmc(modelDesc, parameters = "paramX")
 
 }
-\author{
-F. Guillaume Blanchet
-}
 \seealso{
 \code{\link{mcmc}}, \code{\link{hmsc}}
 }
+\author{
+F. Guillaume Blanchet
+}
 \keyword{IO}
-

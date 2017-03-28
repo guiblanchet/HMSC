@@ -38,9 +38,9 @@ formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
 #==============
 modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 
-#=======================
-### Calculate prediction
-#=======================
+#==================================
+### Calculate variance partitioning
+#==================================
 vp <- variPart(modelDesc, groupX = c("A", "B"))
 vp
 
@@ -56,4 +56,3 @@ Gleb Tikhonov and modified by Guillaume Blanchet
 \keyword{multivariate,}
 \keyword{regression}
 \keyword{univar,}
-
