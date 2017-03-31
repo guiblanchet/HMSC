@@ -32,6 +32,7 @@ arma::mat sampleYlatentProbit(arma::uvec& Y0Loc,
 
 	// Calculate residual standard deviation
 	vec residSd = sqrt(residVar);
+
 	// Negative Estimation model
 	mat EstModelNeg = -EstModel;
 

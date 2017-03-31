@@ -4,20 +4,27 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, ...)
+\method{predict}{hmsc}(object, newdata, conditional = NULL, nsample)
 }
 \arguments{
 \item{object}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
-\item{\dots}{Additional arguments affecting the predictions produced.}
+\item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.}
+
+\item{nsample}{A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.}
 }
 \value{
 A matrix with the predicted values for each species at the sites in \code{newdata} or a matrix of the same dimension as the fitted values.
+
+If conditional predictions are performed, the result matrix is only given for the species considered.
 }
 \description{
 Obtains predictions for a model constructed using \code{hmsc}
+}
+\details{
+The function is designed for conditional predictions to be calculated so species are the variables that can be used to condition the prediction.
 }
 \examples{
 
@@ -32,7 +39,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
 					     interceptTr = FALSE)
 
 #==============
@@ -43,7 +50,7 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 #=======================
 ### Calculate prediction
 #=======================
-predModel <- predict(modelDesc) 
+predModel <- predict(modelDesc)
 
 }
 \author{
