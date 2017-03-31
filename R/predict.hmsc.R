@@ -6,11 +6,16 @@
 #' @param newdata An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
 #' @param conditional A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.
 #' @param nsample A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.
-#' @param \dots Additional arguments affecting the predictions produced.
+#'
+#' @details
+#'
+#' The function is designed for conditional predictions to be calculated so species are the variables that can be used to condition the prediction.
 #'
 #' @return
 #'
 #' A matrix with the predicted values for each species at the sites in \code{newdata} or a matrix of the same dimension as the fitted values.
+#'
+#' If conditional predictions are performed, the result matrix is only given for the species considered.
 #'
 #' @author F. Guillaume Blanchet
 #'

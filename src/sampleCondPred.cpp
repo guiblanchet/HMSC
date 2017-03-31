@@ -6,7 +6,6 @@ using namespace arma;
 using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
-//' @export
 //[[Rcpp::export]]
 arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 				   arma::cube& EstModel,
