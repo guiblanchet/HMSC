@@ -45,6 +45,17 @@ arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 		}
 	}
 
+	if(family == "poisson" | family == "overPoisson"){
+		mat YlatentIni = zeros(nsite,nsp);
+
+		for (int i = 0; i < nsample; i++) {
+			for(int j = 0; j < niter; j++){
+				YlatentTmp.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel.slice(j), trans(residVar.row(j)), nsp, nsite);
+			}
+			Ylatent(i,0) = YlatentTmp;
+		}
+	}
+
 	// return result object
 	return Ylatent;
 }

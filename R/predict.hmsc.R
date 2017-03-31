@@ -417,12 +417,16 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample){
 		}
 
 		### Construct residVar for the different types of models
-		if(any(class(object)=="probit")){
+		if(any(class(object)=="probit") | any(class(object)=="poisson")){
 			residVar <- matrix(1,nrow=niter,ncol=nsp)
 		}
 
 		if(any(class(object)=="gaussian")){
 			residVar <- as.matrix(object$results$estimation$varNormal[,spSel])
+		}
+
+		if(any(class(object)=="overPoisson")){
+			residVar <- as.matrix(object$results$estimation$varPoisson[,spSel])
 		}
 
 		### Sample conditional prediction
@@ -445,6 +449,10 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample){
 
 	if(any(class(object)=="gaussian")){
 		result<-apply(res,1:2, mean)
+	}
+
+	if(any(class(object)=="poisson" | any(class(object)=="overPoisson")){
+		result<-exp(apply(res,1:2, mean))
 	}
 
 	colnames(result)<-colnames(object$data$Y)

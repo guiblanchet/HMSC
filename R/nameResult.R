@@ -9,7 +9,7 @@
 #' @param niter An integer defining the number of iterations used to perform the analysis.
 #' @param nburn An integer defining the number of burning iterations used to perform the analysis.
 #' @param thin An integer defining thinning in the analysis.
-#' 
+#'
 #' @return
 #'
 #' The result object with name for all dimensions and parts of lists
@@ -20,10 +20,10 @@
 #' @export
 nameResult <-
 function(data,priors,result,niter,nburn,thin){
-	
+
 	### Number of parameters estimated
 	nParam<-length(names(result[[1]]))
-	
+
 	if(attr(priors,"distr")=="probit"){
 		if(nParam==2){
 			#==============
@@ -40,14 +40,14 @@ function(data,priors,result,niter,nburn,thin){
 			if(all(names(result[[1]])==c("paramX","meansParamX","varX"))){
 				result<-nameX(data,result,niter,nburn,thin)
 			}
-			
+
 			#===========
 			### X and Tr
 			#===========
 			if(all(names(result[[1]])==c("paramX","paramTr","varX"))){
 				result<-nameXTr(data,result,niter,nburn,thin)
 			}
-			
+
 			#============
 			### only Auto
 			#============
@@ -55,7 +55,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=1)
 			}
 		}
-		
+
 		if(nParam==4){
 			#==============
 			### X and Phylo
@@ -64,7 +64,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameX(data,result,niter,nburn,thin)
 				result<-namePhylo(data,result,niter,nburn,thin,listLev=4)
 			}
-		
+
 			#==================
 			### X, Tr and Phylo
 			#==================
@@ -82,7 +82,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameX(data,result,niter,nburn,thin)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=4)
 			}
-		
+
 			#===================
 			### X, Tr and Random
 			#===================
@@ -90,7 +90,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameXTr(data,result,niter,nburn,thin)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=4)
 			}
-		
+
 			#==================
 			### Random and Auto
 			#==================
@@ -99,7 +99,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=3)
 			}
 		}
-		
+
 		if(nParam==6){
 			#=============
 			### X and Auto
@@ -108,7 +108,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameX(data,result,niter,nburn,thin)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=4)
 			}
-			
+
 			#=================
 			### X, Tr and Auto
 			#=================
@@ -116,7 +116,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameXTr(data,result,niter,nburn,thin)
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=4)
 			}
-			
+
 			#======================
 			### X, Phylo and Random
 			#======================
@@ -125,7 +125,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-namePhylo(data,result,niter,nburn,thin,listLev=4)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
 			}
-		
+
 			#==========================
 			### X, Tr, Phylo and Random
 			#==========================
@@ -135,7 +135,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
 			}
 		}
-		
+
 		if(nParam==7){
 			#====================
 			### X, Phylo and Auto
@@ -145,7 +145,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-namePhylo(data,result,niter,nburn,thin,listLev=4)
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=5)
 			}
-			
+
 			#========================
 			### X, Tr, Phylo and Auto
 			#========================
@@ -155,7 +155,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=5)
 			}
 		}
-		
+
 		if(nParam==8){
 			#=====================
 			### X, Random and Auto
@@ -167,7 +167,7 @@ function(data,priors,result,niter,nburn,thin){
 			}
 		}
 	}
-	
+
 	### For Gaussian data
 	if(attr(priors,"distr")=="gaussian"){
 		if(nParam==3){
@@ -187,7 +187,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameX(data,result,niter,nburn,thin)
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 			}
-			
+
 			#===========
 			### X and Tr
 			#===========
@@ -195,7 +195,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameXTr(data,result,niter,nburn,thin)
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 			}
-			
+
 			#============
 			### only Auto
 			#============
@@ -204,7 +204,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=2)
 			}
 		}
-		
+
 		if(nParam==5){
 			#==============
 			### X and Phylo
@@ -214,7 +214,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
 			}
-		
+
 			#==================
 			### X, Tr and Phylo
 			#==================
@@ -234,7 +234,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
 			}
-		
+
 			#===================
 			### X, Tr and Random
 			#===================
@@ -243,7 +243,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
 			}
-			
+
 			#==================
 			### Random and Auto
 			#==================
@@ -253,7 +253,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=4)
 			}
 		}
-		
+
 		if(nParam==7){
 			#=============
 			### X and Auto
@@ -263,7 +263,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
 			}
-			
+
 			#=================
 			### X, Tr and Auto
 			#=================
@@ -272,7 +272,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-nameAuto(data,result,niter,nburn,thin,listLev=5)
 			}
-			
+
 			#======================
 			### X, Phylo and Random
 			#======================
@@ -282,7 +282,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
 			}
-		
+
 			#==========================
 			### X, Tr, Phylo and Random
 			#==========================
@@ -293,7 +293,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
 			}
 		}
-		
+
 		if(nParam==8){
 			#====================
 			### X, Phylo and Auto
@@ -305,7 +305,7 @@ function(data,priors,result,niter,nburn,thin){
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
 			}
 		}
-		
+
 		if(nParam==9){
 			#=====================
 			### X, Random and Auto
@@ -318,7 +318,7 @@ function(data,priors,result,niter,nburn,thin){
 			}
 		}
 	}
-	
+
 	### Name the result
 	if(length(result)==2){
 		names(result)[[1]]<-"burning"
@@ -327,6 +327,6 @@ function(data,priors,result,niter,nburn,thin){
 	if(length(result)==1){
 		names(result)[[1]]<-"estimation"
 	}
-	
+
 	return(result)
 }
