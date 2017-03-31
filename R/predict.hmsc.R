@@ -42,7 +42,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
+predict.hmsc<-function(object, newdata, conditional=NULL, nsample){
 
 	### Data to use for prediction
 	if(missing(newdata) || is.null(newdata)){
@@ -406,13 +406,31 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		### Extract the species to consider in the estimated model calculated above
 		EstModel <- res[,spSel,]
 
+		### Check to make sure that EstModel always has 3 dimensions
+		if(length(dim(EstModel))!=3){
+			EstModel <- array(EstModel,dim=c(nrow(EstModel),1,ncol(EstModel)))
+		}
+
+		### Construct residVar for the different types of models
 		if(any(class(object)=="probit")){
 			residVar <- matrix(1,nrow=niter,ncol=nsp)
-			res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family="probit")
 		}
+
 		if(any(class(object)=="gaussian")){
-			res <- sampleCondPred(Y, EstModel, object$results$estimation$varNormal, nsite, nsp, niter, nsample, family="gaussian")
+			residVar <- as.matrix(object$results$estimation$varNormal[,spSel])
 		}
+
+		### Sample conditional prediction
+		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family=class(object)[2])
+
+		### Reorganize result in an array
+		resArray<-array(dim=c(nsite,nsp,niter,nsample))
+		for(i in 1:nsample){
+			resArray[,,,i] <- res[[i]]
+		}
+
+		### Average over all nsample
+		res<-apply(resArray,1:3,mean)
 	}
 
 	### Apply inverse link function

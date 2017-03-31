@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 #include "sampleYlatentProbit.h"
 
-RcppExport SEXP sampleCondPred(arma::mat& Y,
+arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 				   arma::cube& EstModel,
 					 arma::mat residVar,
 					 int nsite,

@@ -8,7 +8,7 @@ using namespace Rcpp;
 // Calculates a prediction conditional on a subset of species.
 //' @export
 //[[Rcpp::export]]
-RcppExport SEXP sampleCondPred(arma::mat& Y,
+arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 				   arma::cube& EstModel,
 					 arma::mat residVar,
 					 int nsite,
@@ -29,21 +29,23 @@ RcppExport SEXP sampleCondPred(arma::mat& Y,
 
 		for (int i = 0; i < nsample; i++) {
 			for(int j = 0; j < niter; j++){
-				YlatentTmp.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YlatentIni, EstModel.slice(j), residVar.row(j), nsp, nsite);
+				YlatentTmp.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YlatentIni, EstModel.slice(j), trans(residVar.row(j)), nsp, nsite);
 			}
 			Ylatent(i,0) = YlatentTmp;
 		}
 	}
 
 	if(family == "gaussian"){
+		mat repResidVar(nsite,nsp);
 		for (int i = 0; i < nsample; i++) {
 			for(int j = 0; j < niter; j++){
-				YlatentTmp.slice(i) = randn(nsite,nsp)*residVar+EstModel.slice(j);
+				repResidVar = repmat(residVar.row(j),nsite,1);
+				YlatentTmp.slice(j) = randn(nsite,nsp)%repResidVar+EstModel.slice(j);
 			}
 			Ylatent(i,0) = YlatentTmp;
 		}
 	}
 
 	// return result object
-	return Rcpp::List::create(Rcpp::Named("Ylatent", wrap(Ylatent)));
+	return Ylatent;
 }

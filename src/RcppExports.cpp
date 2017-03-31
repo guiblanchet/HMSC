@@ -1805,7 +1805,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // sampleCondPred
-RcppExport SEXP sampleCondPred(arma::mat& Y, arma::cube& EstModel, arma::mat residVar, int nsite, double nsp, int niter, int nsample, std::string family);
+arma::field<arma::cube> sampleCondPred(arma::mat& Y, arma::cube& EstModel, arma::mat residVar, int nsite, double nsp, int niter, int nsample, std::string family);
 RcppExport SEXP HMSC_sampleCondPred(SEXP YSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP niterSEXP, SEXP nsampleSEXP, SEXP familySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
