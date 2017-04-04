@@ -47,7 +47,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object, newdata, conditional=NULL, nsample){
+predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 
 	### Data to use for prediction
 	if(missing(newdata) || is.null(newdata)){
@@ -451,7 +451,7 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample){
 		result<-apply(res,1:2, mean)
 	}
 
-	if(any(class(object)=="poisson" | any(class(object)=="overPoisson")){
+	if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
 		result<-exp(apply(res,1:2, mean))
 	}
 

@@ -26,7 +26,7 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 
 	// Basic objects
 	mat Yresid(nsite,nsp);
-	vec residSd = sqrt(residVar);
+	vec residSd = 1/sqrt(residVar);
 
 	// Define upper and lower boundary of the truncated normal distribution
 	mat low = log(Y) - EstModel;
@@ -35,7 +35,7 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {
 		for (int j = 0; j < nsp; j++) {
-			Yresid(i,j) = rtnorm(0, residVar(j), low(i,j), high(i,j));
+			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
 		}
 	}
 

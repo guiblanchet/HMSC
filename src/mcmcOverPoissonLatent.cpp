@@ -187,5 +187,5 @@ RcppExport SEXP mcmcOverPoissonLatent(arma::mat& Y,
 				Rcpp::List::create(Rcpp::Named("paramLatent", wrap(paramLatentEst)),
 								   Rcpp::Named("latent", wrap(latentEst)),
 								   Rcpp::Named("varPoisson", wrap(trans(1/varDistEst)))));
-									 
+
 }

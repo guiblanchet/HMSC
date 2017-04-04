@@ -3,6 +3,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include "sampleYlatentProbit.h"
+#include "sampleYlatentPoisson.h"
 
 arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 				   arma::cube& EstModel,

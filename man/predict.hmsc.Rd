@@ -4,7 +4,7 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, conditional = NULL, nsample)
+\method{predict}{hmsc}(object, newdata, conditional = NULL, nsample, ...)
 }
 \arguments{
 \item{object}{An object of the class \code{hmsc}}

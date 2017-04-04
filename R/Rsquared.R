@@ -79,10 +79,10 @@ Rsquared <- function(hmsc, averageSp = TRUE) {
     ### Gaussian model
     if (any(class(hmsc) == "gaussian")) {
       ### Total sums of squares per species
-      ssY <- colSums(scale(Y,scale=FALSE)^2)
+      ssY <- colSums(scale(hmsc$data$Y,scale=FALSE)^2)
 
       ### Residual sums of squares per species
-      ssRes <- colSums((y-predict(lm(y~x)))^2)
+      ssRes <- colSums((hmsc$data$Y-predict(hmsc))^2)
 
       ### Calculate R2
       R2 <- 1-ssRes/ssY

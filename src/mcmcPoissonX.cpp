@@ -56,7 +56,6 @@ RcppExport SEXP mcmcPoissonX(arma::mat& Y,
 	// Gibbs sampler
 	for (int i = 0; i < niter; i++) {
 		// Calculate the model estimate
-
 		EstModel = X*trans(paramX);
 
 		// Sample Y latent
