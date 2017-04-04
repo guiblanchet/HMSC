@@ -1,5 +1,3 @@
-#' @describeIn hmsc Perform HMSC analysis with count data (Poisson model) 
-#' @export
 hmsc.Poisson <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - March 2017

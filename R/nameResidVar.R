@@ -1,5 +1,3 @@
-#' @rdname nameResult
-#' @export
 nameResidVar<-function(data,result,niter,nburn,thin,listLev=4){
 ### listLev = part of the list to look into
 	if(length(result)==2){
@@ -15,7 +13,7 @@ nameResidVar<-function(data,result,niter,nburn,thin,listLev=4){
 		### Estimation
 		#-------------
 		seqIter<-seq(nburn+1,niter,by=thin)
-		
+
 		rownames(result[[2]][[listLev]])<-paste("iter",seqIter,sep="")
 		colnames(result[[2]][[listLev]])<-colnames(data$Y)
 	}
@@ -26,6 +24,6 @@ nameResidVar<-function(data,result,niter,nburn,thin,listLev=4){
 		rownames(result[[1]][[listLev]])<-paste("iter",seqIter,sep="")
 		colnames(result[[1]][[listLev]])<-colnames(data$Y)
 	}
-	
+
 	return(result)
 }

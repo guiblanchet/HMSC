@@ -1,5 +1,3 @@
-#' @rdname flatPriorX
-#' @export
 flatPriorRandom <-
 function(shrinkOverall=NULL,shrinkSpeed=NULL,shrinkLocal=NULL,family="probit"){
 

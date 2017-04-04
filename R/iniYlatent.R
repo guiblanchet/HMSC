@@ -1,27 +1,6 @@
-#' @title Initiate a latent Y
-#'
-#' @description Initiate a latent set of response variables for the different model types
-#'
-#' @param data An object of the class \code{HMSCdata}.
-#' @param param An object of the class \code{HMSCparam}.
-#' @param family A character string defining how the latent response variables needs to be initiated.
-#'
-#' @details
-#'
-#' \code{HMSCdata} and \code{HMSCparam}, the proper set of starting parameters are generated.
-#' Since the function is meant to be used by expert users, there are no predefined setting for any of the argument of the function.
-#'
-#' @return
-#'
-#'  A matrix or a list of objects that are needed to construct the model of interest.
-#'
-#' @author F. Guillaume Blanchet
-#'
 #' @importFrom stats runif
 #' @importFrom stats pnorm
 #' @importFrom stats qnorm
-#' @keywords datagen
-#' @export
 iniYlatent <-
 function(data,param,family){
 

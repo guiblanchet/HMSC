@@ -14,6 +14,8 @@
 \item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.}
 
 \item{nsample}{A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.}
+
+\item{\dots}{Additional arguments affecting the predictions produced.}
 }
 \value{
 A matrix with the predicted values for each species at the sites in \code{newdata} or a matrix of the same dimension as the fitted values.

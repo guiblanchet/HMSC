@@ -1,5 +1,3 @@
-#' @describeIn hmsc 
-#' @export
 hmsc.Normal <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - July 2016

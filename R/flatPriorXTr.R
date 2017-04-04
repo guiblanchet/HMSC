@@ -1,5 +1,3 @@
-#' @rdname flatPriorX
-#' @export
 flatPriorXTr <-
 function(varXDf=NULL,varXScaleMat=NULL,
 		 paramTr=NULL,varTr=NULL,nTr,nparamX){
@@ -11,7 +9,7 @@ function(varXDf=NULL,varXScaleMat=NULL,
 	if(is.null(varXScaleMat)){
 		varXScaleMat<-diag(nparamX)
 	}
-	
+
 	### Prior for paramTr
 	if(is.null(paramTr)){
 		paramTr<-matrix(0,nrow=1,ncol=nTr*nparamX)
@@ -19,11 +17,11 @@ function(varXDf=NULL,varXScaleMat=NULL,
 	if(is.null(varTr)){
 		varparamTr<-diag(nTr*nparamX)
 	}
-	
+
 	priors<-list(paramTr=paramTr,
 				 varTr=varparamTr,
 				 varXDf=varXDf,
 				 varXScaleMat=varXScaleMat)
-	
+
 	return(priors)
 }

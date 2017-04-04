@@ -1,5 +1,3 @@
-#' @describeIn hmsc Perform HMSC analysis with overdispersed count data (overdispersed Poisson model) 
-#' @export
 hmsc.OverPoisson <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - March 2017

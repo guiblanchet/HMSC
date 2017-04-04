@@ -1,23 +1,3 @@
-#' @title Name result
-#'
-#' @description Name all parts of the result object. This is meant to be an internal function.
-#'
-#' @param data An object of the class \code{HMSCdata}.
-#' @param priors An object of the class \code{HMSCprior}.
-#' @param result An hmsc object without names on any part of the object.
-#' @param listLev A numeric value defining on which level of the list names should be added.
-#' @param niter An integer defining the number of iterations used to perform the analysis.
-#' @param nburn An integer defining the number of burning iterations used to perform the analysis.
-#' @param thin An integer defining thinning in the analysis.
-#'
-#' @return
-#'
-#' The result object with name for all dimensions and parts of lists
-#'
-#' @author F. Guillaume Blanchet
-#'
-#' @keywords utilities
-#' @export
 nameResult <-
 function(data,priors,result,niter,nburn,thin){
 
