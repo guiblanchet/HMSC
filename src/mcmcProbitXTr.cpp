@@ -6,13 +6,11 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Gibbs sampling for a model that includes a set of explanatory variable only.
-//' @rdname mcmcProbitX
-//' @export
 //[[Rcpp::export]]
 RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 							  arma::mat& Ylatent,
-							  arma::mat& X, 
-							  arma::mat& Tr, 
+							  arma::mat& X,
+							  arma::mat& Tr,
 							  arma::mat& paramX,
 							  arma::mat& paramTr,
 							  arma::mat& precX,
@@ -37,11 +35,11 @@ RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 	mat varX(nparamX,nparamX);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
-	
+
 	// Define meansParamX
 	mat meansParamX(nsp,nparamX);
 	meansParamX = trans(paramTr*Tr);
-	
+
 	// Define the result objects for burning
 	cube paramTrBurn(nparamX,nTr,nburn/thin);
 	cube paramXBurn(nsp,nparamX,nburn/thin);
@@ -50,46 +48,46 @@ RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 	// Define the result objects for estimation
 	int nEst;
 	nEst = niter-nburn;
-	
+
 	cube paramTrEst(nparamX,nTr,nEst/thin);
 	cube paramXEst(nsp,nparamX,nEst/thin);
 	cube varXEst(nparamX,nparamX,nEst/thin);
-	
+
 	// Define a burning counters
 	int countBurn;
 	countBurn = 0;
-	
+
 	// Define an estimation counters
 	int countEst;
 	countEst = 0;
-	
+
 	// Gibbs sampler
 	for (int i = 0; i < niter; i++) {
 		// Calculate the model estimate
 		EstModel = X*trans(paramX);
-		
+
 		// Sample Y latent
 		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
-		
+
 		// Update paramX
 		paramX = updateParamX(Ylatent,X,meansParamX,precX, paramX, nsp, nsite, nparamX);
-		
+
 		// Update precX and calculate varX
 		precX = updatePrecXTr(Tr, priorVarXScaleMat, priorVarXDf, paramTr, paramX, precX, nsp, nparamX);
 		varX = precX.i();
-		
+
 		// Update paramTr
 		paramTr = updateParamTr(Tr, paramX, paramTr, precX, priorVarTr, priorParamTr, nparamX, nTr);
-		
+
 		// Recalculate meansParamX
 		meansParamX = trans(paramTr*Tr);
-		
+
 		if(i<nburn && i%thin==0){
 			// Save burning results
 			paramTrBurn.slice(countBurn) = paramTr;
 			varXBurn.slice(countBurn) = varX;
 			paramXBurn.slice(countBurn) = paramX;
-			
+
 			// Counter
 			countBurn++;
 		}else if(i>=nburn && i%thin==0){
@@ -97,17 +95,17 @@ RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 			paramTrEst.slice(countEst) = paramTr;
 			varXEst.slice(countEst) = varX;
 			paramXEst.slice(countEst) = paramX;
-			
+
 			// Counter
 			countEst++;
 		}
-		
+
 		//Print status of MCMC run
 		if (i>1 && i%verbose==0) {
 			Rprintf("iteration %d\n",i);
 		}
 	}
-	
+
 	// Return a list of results
 	return Rcpp::List::create(
 				Rcpp::List::create(Rcpp::Named("paramX", wrap(paramXBurn)),

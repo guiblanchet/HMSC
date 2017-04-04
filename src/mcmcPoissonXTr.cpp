@@ -6,8 +6,6 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Gibbs sampling for a model that includes a set of explanatory variable only.
-//' @rdname mcmcProbitX
-//' @export
 //[[Rcpp::export]]
 RcppExport SEXP mcmcPoissonXTr(arma::mat& Y,
 							  arma::mat& Ylatent,

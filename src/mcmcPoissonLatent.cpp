@@ -6,8 +6,6 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Gibbs sampling for a model that includes a set of latent variables only.
-//' @rdname mcmcProbitX
-//' @export
 // [[Rcpp::export]]
 RcppExport SEXP mcmcPoissonLatent(arma::mat& Y,
 								 arma::mat& Ylatent,

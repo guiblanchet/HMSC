@@ -5,8 +5,6 @@
 using namespace arma ;
 using namespace Rcpp ;
 
-//' @rdname mcmcProbitX
-//' @export
 //[[Rcpp::export]]
 RcppExport SEXP mcmcNormalX(arma::mat& Ylatent,
 							arma::mat& X,

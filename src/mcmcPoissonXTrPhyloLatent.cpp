@@ -6,8 +6,6 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Gibbs sampling for a model that includes a set of explanatory variable and latent variables.
-//' @rdname mcmcProbitX
-//' @export
 // [[Rcpp::export]]
 RcppExport SEXP mcmcPoissonXTrPhyloLatent(arma::mat& Y,
 										 arma::mat& Ylatent,

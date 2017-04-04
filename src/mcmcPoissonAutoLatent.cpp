@@ -5,8 +5,6 @@
 using namespace arma ;
 using namespace Rcpp ;
 
-//' @rdname mcmcProbitX
-//' @export
 //[[Rcpp::export]]
 RcppExport SEXP mcmcPoissonAutoLatent(arma::mat& Y,
 									 arma::mat& Ylatent,

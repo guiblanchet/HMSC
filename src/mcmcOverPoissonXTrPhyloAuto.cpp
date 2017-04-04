@@ -5,8 +5,6 @@
 using namespace arma ;
 using namespace Rcpp ;
 
-//' @rdname mcmcProbitX
-//' @export
 //[[Rcpp::export]]
 RcppExport SEXP mcmcOverPoissonXTrPhyloAuto(arma::mat& Y,
 									   arma::mat& Ylatent,
