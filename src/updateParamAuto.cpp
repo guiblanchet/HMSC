@@ -15,28 +15,31 @@ arma::field<arma::vec> updateParamAuto(arma::field<arma::mat>& latentAuto,
 									   arma::vec& nLatentAuto,
 									   int nAuto){
 
-	// Defining objects
-	double quadLike;
+	// Define basic objects
+	double quadLikeVal;
 
 	for(int h = 0; h < nAuto; h++){
+		// Define some other basic objects
 		mat latentAutoMat = latentAuto(h,0);
 		cube wAutoInvCube = wAutoInv(h,0);
+		mat quadLike(npriorParamAuto,nLatentAuto(h));
+
+		for(int i = 0; i < npriorParamAuto; i++){
+			// Calculate the quadratic part of a multivariate normal log-likelihood that will be used to sample paramAuto
+			quadLike.row(i) = sum(square(wAutoInvCube.slice(i)*latentAutoMat));
+		}
 
 		vec paramAutoTmp(nLatentAuto(h));
+		// Construct an object to save likelihood results
+		Rcpp::NumericVector like(npriorParamAuto); // Rcpp code style
+
 		for(int i = 0; i < nLatentAuto(h); i++){
-			// Construct an object to save likelihood results
-			Rcpp::NumericVector like(npriorParamAuto); // Rcpp code style
-
-			// Build a few useful objects
-			mat latentAuto1 = latentAutoMat.col(i);
-			mat latentAuto1T = trans(latentAutoMat.col(i));
-
 			for(int j = 0; j < npriorParamAuto; j++){
-				// Calculate the quadratic part of a multivariate normal log-likelihood that will be used to sample paramAuto
-				quadLike = as_scalar(latentAuto1T*wAutoInvCube.slice(j)*latentAuto1); // This line of code is wrong and needs to be replaced. Check the line 34 of update_alpha.m
+				// Extract the right value
+				quadLikeVal = as_scalar(quadLike(j,i));
 
 				// Calculate the first part of the multivariate normal log-likelihood
-				like(j) = log(priorParamAutoWeight(j))-0.5*wAutoDet(j,h)-0.5*quadLike;
+				like(j) = log(priorParamAutoWeight(j))-0.5*wAutoDet(j,h)-0.5*quadLikeVal;
 			}
 
 			// Recentre log-likelihood
@@ -51,6 +54,7 @@ arma::field<arma::vec> updateParamAuto(arma::field<arma::mat>& latentAuto,
 			// Sample paramAuto
 			paramAutoTmp(i) = sampleNum(priorParamAutoDist,1,true,like)(0);
 		}
+
 		// Save object
 		paramAuto(h,0) = paramAutoTmp;
 
