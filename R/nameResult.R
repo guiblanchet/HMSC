@@ -4,7 +4,7 @@ function(data,priors,result,niter,nburn,thin){
 	### Number of parameters estimated
 	nParam<-length(names(result[[1]]))
 
-	if(attr(priors,"distr")=="probit"){
+	if(attr(priors,"distr")=="probit" | attr(priors,"distr")=="poisson"){
 		if(nParam==2){
 			#==============
 			### only Random
@@ -291,6 +291,157 @@ function(data,priors,result,niter,nburn,thin){
 			### X, Random and Auto
 			#=====================
 			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varNormal","paramLatent","latent","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
+				result<-nameAuto(data,result,niter,nburn,thin,listLev=7)
+			}
+		}
+	}
+
+	### For overdispersed Poisson data
+	if(attr(priors,"distr")=="overPoisson"){
+		if(nParam==3){
+			#==============
+			### only Random
+			#==============
+			if(all(names(result[[1]])==c("varPoisson","paramLatent","latent"))){
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=1)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=2)
+			}
+		}
+		if(nParam==4){
+			#=========
+			### only X
+			#=========
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+			}
+
+			#===========
+			### X and Tr
+			#===========
+			if(all(names(result[[1]])==c("paramX","paramTr","varX","varPoisson"))){
+				result<-nameXTr(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+			}
+
+			#============
+			### only Auto
+			#============
+			if(all(names(result[[1]])==c("varPoisson","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=1)
+				result<-nameAuto(data,result,niter,nburn,thin,listLev=2)
+			}
+		}
+
+		if(nParam==5){
+			#==============
+			### X and Phylo
+			#==============
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramPhylo"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
+			}
+
+			#==================
+			### X, Tr and Phylo
+			#==================
+			if(all(names(result[[1]])==c("paramX","paramTr","varX","varPoisson","paramPhylo"))){
+				result<-nameXTr(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
+			}
+		}
+
+		if(nParam==6){
+			#===============
+			### X and Random
+			#===============
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramLatent","latent"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
+			}
+
+			#===================
+			### X, Tr and Random
+			#===================
+			if(all(names(result[[1]])==c("paramX","paramTr","varX","varPoisson","paramLatent","latent"))){
+				result<-nameXTr(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
+			}
+
+			#==================
+			### Random and Auto
+			#==================
+			if(all(names(result[[1]])==c("varPoisson","paramLatent","latent","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=1)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=2)
+				result<-nameAuto(data,result,niter,nburn,thin,listLev=4)
+			}
+		}
+
+		if(nParam==7){
+			#=============
+			### X and Auto
+			#=============
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
+			}
+
+			#=================
+			### X, Tr and Auto
+			#=================
+			if(all(names(result[[1]])==c("paramX","paramTr","varX","varPoisson","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameXTr(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-nameAuto(data,result,niter,nburn,thin,listLev=5)
+			}
+
+			#======================
+			### X, Phylo and Random
+			#======================
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramPhylo","paramLatent","latent"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
+			}
+
+			#==========================
+			### X, Tr, Phylo and Random
+			#==========================
+			if(all(names(result[[1]])==c("paramX","paramTr","varX","varPoisson","paramPhylo","paramLatent","latent"))){
+				result<-nameXTr(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
+			}
+		}
+
+		if(nParam==8){
+			#====================
+			### X, Phylo and Auto
+			#====================
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramPhylo","paramLatentAuto","latentAuto","paramAuto"))){
+				result<-nameX(data,result,niter,nburn,thin)
+				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
+				result<-namePhylo(data,result,niter,nburn,thin,listLev=5)
+				result<-nameRandom(data,result,niter,nburn,thin,listLev=6)
+			}
+		}
+
+		if(nParam==9){
+			#=====================
+			### X, Random and Auto
+			#=====================
+			if(all(names(result[[1]])==c("paramX","meansParamX","varX","varPoisson","paramLatent","latent","paramLatentAuto","latentAuto","paramAuto"))){
 				result<-nameX(data,result,niter,nburn,thin)
 				result<-nameResidVar(data,result,niter,nburn,thin,listLev=4)
 				result<-nameRandom(data,result,niter,nburn,thin,listLev=5)
