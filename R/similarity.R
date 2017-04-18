@@ -50,8 +50,10 @@ similarity<-function(hmsc,gr=NULL){
 		stop("The HMSC model does not include any 'X'")
 	}
 
-	if(!is.factor(gr)){
-		stop("'gr' needs to be a factor")
+	if(!is.null(gr)){
+		if(!is.factor(gr)){
+			stop("'gr' needs to be a factor")
+		}
 	}
 
 	### Group the sites
