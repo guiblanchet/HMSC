@@ -7,6 +7,8 @@
 #'
 #' @details
 #'
+#' This functions should be used when the MCMC run have converged properly for all parameters.
+#'
 #' The output of this function is an object of class \code{HMSCparam}.
 #'
 #' For models that include latent variables or autocorrelated latent variables, the latent variables and their associated parameters are also returned.
@@ -25,7 +27,7 @@
 #' ### Generate data
 #' #================
 #' desc <- cbind(scale(1:50), scale(1:50)^2)
-#' nspecies <- 20
+#' nspecies <- 5
 #' commDesc <- communitySimul(X = desc, nsp = nspecies)
 #'
 #' #=============
@@ -37,7 +39,14 @@
 #' #==============
 #' ### Build model
 #' #==============
-#' modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
+#' modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1)
+#'
+#' #==============================
+#' ### Check for model convergence
+#' #==============================
+#' plot(as.mcmc(modelDesc,parameters = "paramX"))
+#' plot(as.mcmc(modelDesc,parameters = "meansParamX"))
+#' plot(as.mcmc(modelDesc,parameters = "varX"))
 #'
 #' #===============================
 #' ### Extract average coefficients
