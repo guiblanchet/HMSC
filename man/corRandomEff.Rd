@@ -43,14 +43,12 @@ commRandEff2 <- communitySimul(X = desc, Random = randEff, nsp = nspecies)
 #=================================
 ### Formatting data and parameters
 #=================================
-formdata <- as.HMSCdata(Y = commRandEff2$data$Y, X = desc, Random = randEff, 
-						   interceptX = FALSE)
+formdata <- as.HMSCdata(Y = commRandEff2$data$Y, X = desc, Random = randEff, interceptX = FALSE)
 
 #==============
 ### Build model
 #==============
-modelRandEff2 <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, 
-						  verbose = FALSE)
+modelRandEff2 <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
 
 #===============================
 ### Construct correlation matrix

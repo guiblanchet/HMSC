@@ -41,8 +41,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE,
-					     interceptTr = FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
 
 #==============
 ### Build model

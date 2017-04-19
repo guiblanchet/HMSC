@@ -108,8 +108,8 @@ as.HMSCprior(data, family = "probit", varDistShape = NULL,
 }
 \value{
 An object of the class \code{HMSCdata} is returned by \code{as.HMSCdata}.
-An object of the class \code{HMSCparam} is returned by \code{as.HMSCparam}. 
-An object of the class \code{HMSCprior} is returned by \code{as.HMSCprior}. 
+An object of the class \code{HMSCparam} is returned by \code{as.HMSCparam}.
+An object of the class \code{HMSCprior} is returned by \code{as.HMSCprior}.
 
 All of these objects present the same output data as the input except for \code{as.HMSCparam} where \code{meansparamX} is also defined.
 }
@@ -119,15 +119,15 @@ These functions are used to format the data, parameters, and priors to object of
 \details{
 Although the structure of the \code{Auto} argument may seem unusual as a list of data.frames, this structures give the possibility to account for different type of autocorrelation structure simultaneously (e.g. spatial and temporal) in the same analysis. Although it is usual for autocorrelation to be accounted for by either 1 or 2 dimensions (so 1 or 2 columns), the analyses carried out in this package can account for autocorrelation at any number of dimensions.
 
-Functions \code{as.HMSCparam} and \code{as.HMSCprior} do not need to be used when estimating a model using \code{\link{hmsc}}. In \code{\link{hmsc}}, if \code{as.HMSCparam} and \code{as.HMSCprior} are not defined, the function will define a set of default parameters and priors. \code{as.HMSCparam} and \code{as.HMSCprior} were designed so that some, not necessarily all, priors and parameters need to be defined. For example, if one defines only the prior (parameters) for \code{varTr}, all other priors (parameters) will be defined with default priors (parameter). 
+Functions \code{as.HMSCparam} and \code{as.HMSCprior} do not need to be used when estimating a model using \code{\link{hmsc}}. In \code{\link{hmsc}}, if \code{as.HMSCparam} and \code{as.HMSCprior} are not defined, the function will define a set of default parameters and priors. \code{as.HMSCparam} and \code{as.HMSCprior} were designed so that some, not necessarily all, priors and parameters need to be defined. For example, if one defines only the prior (parameters) for \code{varTr}, all other priors (parameters) will be defined with default priors (parameter).
 
-In \code{as.HMSCparam}, the argument \code{family} is used to define the  \code{paramX} by default using a univariate generalized linear model for each species. Currently, only \code{binomial(link = "probit")} should be used because \code{\link{hmsc}} only estimate probit models. 
+In \code{as.HMSCparam}, the argument \code{family} is used to define the  \code{paramX} by default using a univariate generalized linear model for each species. Currently, only \code{binomial(link = "probit")} should be used because \code{\link{hmsc}} only estimate probit models.
 
 In the hmsc function, the \code{Phylo} argument has to be a square correlation matrix. So, if a covariance matrix is given as \code{Phylo} the \code{as.HMSCdata} function will convert it to a correlation matrix.
 
 The choosing the values for \code{shrinkOverall} and \code{shrinkSpeed} is not straightforward. Bhattacharya and Dunson (2011) proposed to use a 2.1 and 1 for \code{shrinkOverall} and 3.1 and 1 for \code{shrinkSpeed}. However, for presence-absence data, it seems that these shrinkage values (especially the scale [first] parameter) are not large enough, which leads to a too many latent variables defined. It is the reason why we suggest to use larger scale values. As such, if they are not predefine, the scale value for \code{shrinkOverall} is 10 whereas the scale value for \code{shrinkSpeed} is 15. These two scale parameters are likely the only one that need to be chosen more carefully to ensure that the model estimation is accurate.
 
-\code{shrinkOverall} and \code{shrinkSpeed} are arguments that are used both for the latent variables as well as the autocorrelated latent variables. 
+\code{shrinkOverall} and \code{shrinkSpeed} are arguments that are used both for the latent variables as well as the autocorrelated latent variables.
 
 When predefining the initial value of \code{paramPhylo}, the \code{as.HMSCparam} function may change slightly the value of \code{paramPhylo} to make sure that the \code{hmsc} function runs properly. Since \code{paramPhylo} is estimated using a step function instead of sampling the parameter from a conjugate prior distribution, this step is important to ensure that the code runs well.
 }
@@ -144,16 +144,13 @@ dataBase <- communitySimul(desc, nsp = 30, Random = randomEff)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = dataBase$data$Y, X=desc, Random=randomEff, 
-						   interceptX = FALSE)
+formdata <- as.HMSCdata(Y = dataBase$data$Y, X=desc, Random=randomEff, interceptX = FALSE)
 
 ### Format priors
-formpriors <- as.HMSCprior(formdata, shrinkOverall = c(50, 1), 
-							  shrinkSpeed = c(20, 1))
+formpriors <- as.HMSCprior(formdata, shrinkOverall = c(50, 1), shrinkSpeed = c(20, 1))
 
 ### Format parameters
-formparam <- as.HMSCparam(formdata, formpriors, 
-							 paramX = dataBase$param$paramX)
+formparam <- as.HMSCparam(formdata, formpriors, paramX = dataBase$param$paramX)
 
 }
 \references{

@@ -22,7 +22,7 @@ An object of class \code{\link{mcmc}}.
 Use the Markov Chain Monte Carlo results obtained from \code{\link{hmsc}} and convert them to an \code{\link{mcmc}} object.
 }
 \details{
-The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmsc}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}} object is constructed. 
+The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmsc}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}} object is constructed.
 
 The \code{\link{mcmc}} object associated to \code{paramLatent} includes information only for the correlations among single pairs of species, that is, only the lower triangle of the correlation matrix is considered.
 
@@ -41,8 +41,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
-						   interceptTr=FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr=FALSE)
 
 #==============
 ### Build model

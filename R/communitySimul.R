@@ -77,8 +77,7 @@
 #' randEff <- data.frame(rand1 = random1, rand2 = random2)
 #'
 #' ### Simulate presence-absence community data
-#' commDescTraitRandEffProbit <- communitySimul(X = desc, Tr = traits, 
-#' 												Random = randEff, nsp = 20)
+#' commDescTraitRandEffProbit <- communitySimul(X = desc, Tr = traits, Random = randEff, nsp = 20)
 #'
 #' #--------------------
 #' ### Fixing parameters
@@ -92,9 +91,7 @@
 #' commParamTr <- communitySimul(X = desc, Tr = traits, paramTr = TrueParamTr)
 #'
 #' ### ProbMat changes
-#' commParamLatent <- communitySimul(X = desc, Random = randEff, 
-#' 								   paramLatent = commDescTraitRandEffProbit$param$paramLatent, 
-#' 								   latent = commDescTraitRandEffProbit$param$latent)
+#' commParamLatent <- communitySimul(X = desc, Random = randEff, paramLatent = commDescTraitRandEffProbit$param$paramLatent, latent = commDescTraitRandEffProbit$param$latent)
 #'
 #' ### ProbMat changes
 #' speciesCor <- cov2cor(solve(rWishart(1, 22, diag(20))[, , 1]))

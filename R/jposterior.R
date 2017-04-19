@@ -1,46 +1,45 @@
 #' @title Full joint posterior distribution
 #'
-#' @description Calculate the full joint posterior distribution of the model for each iterations 
+#' @description Calculate the full joint posterior distribution of the model for each iterations
 #'
 #'
 #' @param hmsc An object of the class \code{hmsc}
 #'
 #' @return
 #'
-#' A three dimensional array with as first dimension the number of samples in the community matrix \code{Y}, the second dimension the number of species in the community matrix \code{Y} and as third dimension the number of iterations after the burning phase when constructing the model. 
+#' A three dimensional array with as first dimension the number of samples in the community matrix \code{Y}, the second dimension the number of species in the community matrix \code{Y} and as third dimension the number of iterations after the burning phase when constructing the model.
 #'
 #' @author F. Guillaume Blanchet
 #'
 #' @examples
-#' 
+#'
 #' #================
 #' ### Generate data
 #' #================
 #' desc <- cbind(scale(1:50), scale(1:50)^2)
 #' nspecies <- 20
 #' commDesc <- communitySimul(X = desc, nsp = nspecies)
-#' 
+#'
 #' #=============
 #' ### Formatting
 #' #=============
 #' ### Format data
-#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
-#' 						   interceptTr = FALSE)
-#' 
+#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
+#'
 #' #==============
 #' ### Build model
 #' #==============
 #' modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
-#' 
+#'
 #' #==============================================
 #' ### Calculate full joint posterior distribution
 #' #==============================================
-#' jpost <- jposterior(modelDesc) 
+#' jpost <- jposterior(modelDesc)
 #'
 #' @keywords univar, multivariate, regression
 #' @export
 jposterior<-function(hmsc){
-	
+
 	### Basic objects
 	nsite<-nrow(hmsc$data$Y)
 	nsp<-ncol(hmsc$data$Y)
@@ -57,14 +56,14 @@ jposterior<-function(hmsc){
 	if(!is.null(hmsc$results$estimation$paramX)){
 		niter<-dim(hmsc$results$estimation$paramX)[3]
 	}
-	
+
 	### Results object
 	res<-array(0,dim=c(nsite,nsp,niter))
-	
+
 	### Names each dimensions
 	dimnames(res)[[1]]<-rownames(hmsc$data$Y)
 	dimnames(res)[[2]]<-colnames(hmsc$data$Y)
-	
+
 	if(!is.null(nAuto)){
 		dimnames(res)[[3]]<-rownames(hmsc$results$estimation$paramLatentAuto)
 	}
@@ -74,7 +73,7 @@ jposterior<-function(hmsc){
 	if(!is.null(hmsc$results$estimation$paramX)){
 		dimnames(res)[[3]]<-dimnames(hmsc$results$estimation$paramX)[[3]]
 	}
-	
+
 	### Fill the results object
 	if(is.null(hmsc$data$Random)){
 		if(is.null(hmsc$data$Auto)){
@@ -155,7 +154,6 @@ jposterior<-function(hmsc){
 			}
 		}
 	}
-	
-	return(res)	
-}
 
+	return(res)
+}

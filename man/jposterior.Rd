@@ -28,8 +28,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, 
-						   interceptTr = FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
 
 #==============
 ### Build model
@@ -39,7 +38,7 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 #==============================================
 ### Calculate full joint posterior distribution
 #==============================================
-jpost <- jposterior(modelDesc) 
+jpost <- jposterior(modelDesc)
 
 }
 \author{
