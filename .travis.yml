@@ -4,5 +4,7 @@ r:
   - release
   - devel
 
+cache: packages
+
 install:
   - travis_wait 30
