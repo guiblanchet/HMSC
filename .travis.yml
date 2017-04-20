@@ -4,4 +4,5 @@ r:
   - release
   - devel
 
-install: travis_wait 30 mvn install
+install:
+  - travis_wait 30
