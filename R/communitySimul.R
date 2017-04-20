@@ -475,6 +475,9 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 				stop("'Auto' should be a data.frame or a list")
 			}
 		}
+	  
+	  ### Number of levels in each random effect considered
+	  nLevelAuto<-sapply(Auto,function(x) nlevels(x[,1]))
 	}
 
 	#=========================================================
@@ -903,7 +906,7 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 		}
 
 		### Number of levels in each autocorrelated random effect considered
-		nLevelAuto<-mapply(nlevels,Auto)
+		nLevelAuto<-sapply(Auto,function(x) nlevels(x[,1]))
 
 		### Construct the model
 		for(i in 1:nAuto){
