@@ -413,6 +413,9 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 			}
 		}
 		nsite<-nrow(Random)
+
+		### Number of levels in each random effect considered
+		nLevelRandom<-mapply(nlevels,Random)
 	}
 
 	#======================================================
@@ -470,6 +473,88 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 
 			}else{
 				stop("'Auto' should be a data.frame or a list")
+			}
+		}
+	}
+
+	#=========================================================
+	### If X, Random, paramX, paramLatent and latent are given
+	#=========================================================
+	if(!is.null(paramX)){
+		if(!is.null(paramLatent)){
+			if(!is.null(latent)){
+				if(!is.null(X)){
+					if(!is.null(Random)){
+						for(i in 1:nRandom){
+							nLatent <- ncol(latent[[1,i]])
+
+							### Check if the levels match between Random and latent
+							matchLev <- which(levels(Random[,i]) %in% rownames(latent[[1,i]]))
+							locLev <- which(rownames(latent[[1,i]]) %in% Random[matchLev,i])
+
+							### Build new latent variables
+							latentNew<-matrix(NA,nrow=nLevelRandom[i],ncol=nLatent)
+							### If none of the levels match
+							if(length(matchLev) == 0){
+								latentNew <- matrix(rnorm(nLevelRandom[i]*nLatent),nrow=nLevelRandom[i],ncol=nLatent)
+							}
+
+							### If the levels match
+							if(length(matchLev) == nLevelRandom[i]){
+								latentNew <- latent[[1,i]]
+							}
+
+							### If only some of the levels match
+							if(length(matchLev) > 0 && length(matchLev) < nLevelRandom[i]){
+								latentNew[matchLev,] <- latent[[1,i]][locLev,]
+								latentNew[-matchLev,] <- matrix(norm((nLevelRandom[i]-length(matchLev))*nLatent),nrow=nLevelRandom[i],ncol=nLatent)
+							}
+							### Assign latentNew to latent
+							latent[[1,i]] <- latentNew
+						}
+					}
+				}
+			}
+		}
+	}
+
+	#===============================================================
+	### If X, Auto, paramX, paramLatentAuto and latentAuto are given
+	#===============================================================
+	if(!is.null(paramX)){
+		if(!is.null(paramLatentAuto)){
+			if(!is.null(latentAuto)){
+				if(!is.null(X)){
+					if(!is.null(Auto)){
+						for(i in 1:nAuto){
+							nLatentAuto <- ncol(latentAuto[[1,i]])
+
+							### Check if the levels match between Auto and latentAuto
+							matchLev <- which(levels(Auto[[i]][,1]) %in% rownames(latentAuto[[1,i]]))
+							locLev <- which(rownames(latentAuto[[1,i]]) %in% Auto[[i]][matchLev,1])
+
+							### Build new latentAuto variables
+							latentAutoNew<-matrix(NA,nrow=nLevelAuto[i],ncol=nLatentAuto)
+							### If none of the levels match
+							if(length(matchLev) == 0){
+								latentAutoNew <- matrix(rnorm(nLevelAuto[i]*nLatentAuto),nrow=nLevelAuto[i],ncol=nLatentAuto)
+							}
+
+							### If the levels match
+							if(length(matchLev) == nLevelAuto[i]){
+								latentAutoNew <- latentAuto[[1,i]][locLev,]
+							}
+
+							### If only some of the levels match
+							if(length(matchLev) > 0 && length(matchLev) < nLevelAuto[i]){
+								latentAutoNew[matchLev,] <- latentAuto[[1,i]][locLev,]
+								latentAutoNew[-matchLev,] <- matrix(norm((nLevelAuto[i]-length(matchLev))*nLatentAuto),nrow=nLevelAuto[i],ncol=nLatentAuto)
+							}
+							### Assign latentAutoNew to latentAuto
+							latentAuto[[1, i]] <- latentAutoNew
+						}
+					}
+				}
 			}
 		}
 	}
@@ -677,38 +762,8 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 		dimnames(latentCov)[[2]]<-paste("sp",1:nsp,sep="")
 		dimnames(latentCov)[[3]]<-paste("random",1:nRandom,sep="")
 
-		### Number of levels in each random effect considered
-		nLevelRandom<-mapply(nlevels,Random)
 		### Construct the model
 		for(i in 1:nRandom){
-			if(!is.null(latent[[1,i]]) & !is.null(paramLatent[[1,i]])){
-				nLatent <- ncol(latent[[1,i]])
-
-				### Check if the levels match between Random and latent
-				matchLev <- which(levels(Random[,i]) %in% rownames(latent[[1,i]]))
-				locLev <- which(rownames(latent[[1,i]]) %in% Random[matchLev,i])
-
-				### Build new latent variables
-				latentNew<-matrix(NA,nrow=nLevelRandom[i],ncol=nLatent)
-				### If none of the levels match
-				if(length(matchLev) == 0){
-					latentNew <- matrix(rnorm(nLevelRandom[i]*nLatent),nrow=nLevelRandom[i],ncol=nLatent)
-				}
-
-				### If the levels match
-				if(length(matchLev) == nLevelRandom[i]){
-					latentNew <- latent[[1,i]]
-				}
-
-				### If only some of the levels match
-				if(length(matchLev) > 0 && length(matchLev) < nLevelRandom[i]){
-					latentNew[matchLev,] <- latent[[1,i]][locLev,]
-					latentNew[-matchLev,] <- matrix(norm((nLevelRandom[i]-length(matchLev))*nLatent),nrow=nLevelRandom[i],ncol=nLatent)
-				}
-				### Assign latentNew to latent
-				latent[[1, i]] <- latentNew
-			}
-
 			### Define the latent variables and their associated parameters
 			if(is.null(latent[[1,i]])){
 				if(is.null(paramLatent[[1,i]])){
@@ -852,34 +907,6 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 
 		### Construct the model
 		for(i in 1:nAuto){
-			if(!is.null(latentAuto[[1,i]]) & !is.null(paramLatentAuto[[1,i]])){
-				nLatentAuto <- ncol(latentAuto[[1,i]])
-
-				### Check if the levels match between Auto and latentAuto
-				matchLev <- which(levels(Auto[[i]][,1]) %in% rownames(latentAuto[[1,i]]))
-				locLev <- which(rownames(latentAuto[[1,i]]) %in% Auto[[i]][matchLev,1])
-
-				### Build new latentAuto variables
-				latentAutoNew<-matrix(NA,nrow=nLevelAuto[i],ncol=nLatentAuto)
-				### If none of the levels match
-				if(length(matchLev) == 0){
-					latentAutoNew <- matrix(rnorm(nLevelAuto[i]*nLatentAuto),nrow=nLevelAuto[i],ncol=nLatentAuto)
-				}
-
-				### If the levels match
-				if(length(matchLev) == nLevelAuto[i]){
-					latentAutoNew <- latentAuto[[1,i]][locLev,]
-				}
-
-				### If only some of the levels match
-				if(length(matchLev) > 0 && length(matchLev) < nLevelAuto[i]){
-					latentAutoNew[matchLev,] <- latentAuto[[1,i]][locLev,]
-					latentAutoNew[-matchLev,] <- matrix(norm((nLevelAuto[i]-length(matchLev))*nLatentAuto),nrow=nLevelAuto[i],ncol=nLatentAuto)
-				}
-				### Assign latentAutoNew to latentAuto
-				latentAuto[[1, i]] <- latentAutoNew
-			}
-
 			### Define the latent variables and their associated parameters
 			if(is.null(latentAuto[[1,i]])){
 				if(is.null(paramLatentAuto[[1,i]])){
