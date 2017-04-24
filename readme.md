@@ -16,13 +16,13 @@ To install this development version of HMSC you can use the ```install_github```
 library(devtools)
 
 # install HMSC from github
-install_github('HMSC', 'guiblanchet')
+install_github('guiblanchet/HMSC')
 
 # and load it
 library(HMSC)
 ```
 
-This installing is somewhat long, it take roughly 15 minutes, do not despair. 
+This installing is somewhat long, it take roughly 15 minutes, do not despair.
 
 Note that many parts of the R package have been implemented using ```Rcpp```, ```RcppArmadillo``` and C++11. This has been known to cause some installation issues especially under Mac OS X. Essentially, these problems arise because of C/C++ and Fortran compiler related issues. So far, these problems have been solved by following the explanation presented in section 2.10 and 2.16 of http://dirk.eddelbuettel.com/code/rcpp/Rcpp-FAQ.pdf.
 
