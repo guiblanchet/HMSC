@@ -3,3 +3,6 @@ r:
   - oldrel
   - release
   - devel
+
+install:
+  - travis_wait
