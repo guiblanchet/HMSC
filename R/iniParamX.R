@@ -29,7 +29,7 @@ function(data,priors,paramX=NULL,meansParamX=NULL,varX=NULL){
 					paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=binomial(link = "probit")))
 				}
 			}
-			if(attributes(priors)$distr=="poisson"){
+			if(attributes(priors)$distr=="poisson" | attributes(priors)$distr=="overPoisson"){
 				for(i in 1:nsp){
 					paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=poisson(link = "log")))
 				}
