@@ -64,24 +64,19 @@ RcppExport SEXP mcmcOverPoissonX(arma::mat& Y,
 		// Calculate residuals
 		Yresid = Ylatent-EstModel;
 		// Update residVar
-Rprintf("1\n");
 		residVar = updateResidVar(Yresid, residVar, priorResidVarScale, priorResidVarShape, nsp, nsite);
 
-		Rprintf("2\n");
 		// Sample Y latent
 		Ylatent = sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite);
 
 		// Update paramX
-		Rprintf("3\n");
 		meansParamXRep = trans(repmat(meansParamX,1,nsp));
 		paramX = updateParamX(Ylatent,X,meansParamXRep,precX, paramX, nsp, nsite, nparamX);
 
-		Rprintf("4\n");
 		// Update precX
 		precX = updatePrecX(meansParamX,priorVarXScaleMat, priorVarXDf, paramX, precX, nsp);
 
 		// Update meanparamX
-		Rprintf("5\n");
 		meansParamX = updateMeansParamX(priorMeansParamX, priorVarXScaleMat, priorVarXDf, paramX, meansParamX, precX, nsp, nparamX);
 
 		if(i<nburn && i%thin==0){

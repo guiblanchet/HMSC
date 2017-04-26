@@ -37,7 +37,14 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 		for (int j = 0; j < nsp; j++) {
 			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
 			if(std::abs(Yresid(i,j)) == datum::inf){
-				Yresid(i,j) = high(i,j)-low(i,j);
+				if(std::abs(high(i,j)) == datum::inf){
+					Yresid(i,j) = low(i,j);
+				}
+				if(std::abs(low(i,j)) == datum::inf){
+					Yresid(i,j) = high(i,j);
+				}else{
+					Yresid(i,j) = high(i,j);
+				}
 			}
 		}
 	}
