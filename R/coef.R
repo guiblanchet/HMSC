@@ -107,61 +107,212 @@ function(object,...){
 
 	### paramLatent
 	if(any(names(res)=="paramLatent")){
-		dims <- sapply(object$results$estimation$paramLatent,dim)
+		### Number of random effect
+		nRandom <- ncol(object$results$estimation$paramLatent)
 
-		paramLatent <- array(0,dim=c(max(dims[1,]),max(dims[2,]),niter))
+		### Number of latent variables for each random effect
+		dims <- array(NA, dim=c(2,niter, nRandom))
 
-		for(i in 1:niter){
-			paramLatent[1:dims[1,i],1:dims[2,i],] <- object$results$estimation$paramLatent[[i,1]]
+		for(i in 1:nRandom){
+			dims[,,i] <- sapply(object$results$estimation$paramLatent[,i],dim)
 		}
-		res$paramLatent <- apply(paramLatent, 1:2, mean)
+
+		### Store paramLatent for each random effect
+		paramLatent <- vector("list",length=nRandom)
+		for(i in 1:nRandom){
+			paramLatent[[i]] <- array(0,dim=c(max(dims[1,,i]),max(dims[2,,i]),niter))
+		}
+
+		for(i in 1:nRandom){
+			for(j in 1:niter){
+				paramLatent[[i]][1:dims[1,j,i],1:dims[2,j,i],j] <- object$results$estimation$paramLatent[[j,i]]
+			}
+		}
+
+		### Calculate the average coefficients
+		paramLatentMean <- vector("list",length=nRandom)
+		for(i in 1:nRandom){
+			paramLatentMean[[i]]<-apply(paramLatent[[i]], 1:2, mean)
+		}
+
+		### names each part of the object
+		for(i in 1:nRandom){
+			rownames(paramLatentMean[[i]]) <- rownames(object$results$estimation$paramLatent[[1,i]])
+			colnames(paramLatentMean[[i]]) <- colnames(object$results$estimation$paramLatent[[which.max(dims[2,,i]),i]])
+		}
+
+		paramLatentMean<-matrix(paramLatentMean,ncol=nRandom)
+		colnames(paramLatentMean)<-colnames(object$results$estimation$paramLatent)
+
+		res$paramLatent <- paramLatentMean
 	}
 
 	### latent
 	if(any(names(res)=="latent")){
-		dims <- sapply(object$results$estimation$latent,dim)
+		### Number of random effect
+		nRandom <- ncol(object$results$estimation$latent)
 
-		latent <- array(0,dim=c(max(dims[1,]),max(dims[2,]),niter))
+		### Number of latent variables for each random effect
+		dims <- array(NA, dim=c(2,niter, nRandom))
 
-		for(i in 1:niter){
-			latent[1:dims[1,i],1:dims[2,i],] <- object$results$estimation$latent[[i,1]]
+		for(i in 1:nRandom){
+			dims[,,i] <- sapply(object$results$estimation$latent[,i],dim)
 		}
-		res$latent <- apply(latent, 1:2, mean)
+
+		### Store paramLatent for each random effect
+		latent <- vector("list",length=nRandom)
+		for(i in 1:nRandom){
+			latent[[i]] <- array(0,dim=c(max(dims[1,,i]),max(dims[2,,i]),niter))
+		}
+
+		for(i in 1:nRandom){
+			for(j in 1:niter){
+				latent[[i]][1:dims[1,j,i],1:dims[2,j,i],j] <- object$results$estimation$latent[[j,i]]
+			}
+		}
+
+		### Calculate the average coefficients
+		latentMean <- vector("list",length=nRandom)
+		for(i in 1:nRandom){
+			latentMean[[i]]<-apply(latent[[i]], 1:2, mean)
+		}
+
+		### names each part of the object
+		for(i in 1:nRandom){
+			rownames(latentMean[[i]]) <- rownames(object$results$estimation$latent[[1,i]])
+			colnames(latentMean[[i]]) <- colnames(object$results$estimation$latent[[which.max(dims[2,,i]),i]])
+		}
+
+		latentMean<-matrix(latentMean,ncol=nRandom)
+		colnames(latentMean)<-colnames(object$results$estimation$latent)
+
+		res$latent <- latentMean
 	}
 
 	### paramLatentAuto
 	if(any(names(res)=="paramLatentAuto")){
-		dims <- sapply(object$results$estimation$paramLatentAuto,dim)
+		### Number of autocorrelated random effect
+		nAuto <- ncol(object$results$estimation$paramLatentAuto)
 
-		paramLatentAuto <- array(0,dim=c(max(dims[1,]),max(dims[2,]),niter))
+		### Number of autocorrelated latent variables for each autocorrelated random effect
+		dims <- array(NA, dim=c(2,niter, nAuto))
 
-		for(i in 1:niter){
-			paramLatentAuto[1:dims[1,i],1:dims[2,i],] <- object$results$estimation$paramLatentAuto[[i,1]]
+		for(i in 1:nAuto){
+			dims[,,i] <- sapply(object$results$estimation$paramLatentAuto[,i],dim)
 		}
-		res$paramLatentAuto <- apply(paramLatentAuto, 1:2, mean)
+
+		### Store paramLatentAuto for each autocorrelated random effect
+		paramLatentAuto <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			paramLatentAuto[[i]] <- array(0,dim=c(max(dims[1,,i]),max(dims[2,,i]),niter))
+		}
+
+		for(i in 1:nAuto){
+			for(j in 1:niter){
+				paramLatentAuto[[i]][1:dims[1,j,i],1:dims[2,j,i],j] <- object$results$estimation$paramLatentAuto[[j,i]]
+			}
+		}
+
+		### Calculate the average coefficients
+		paramLatentAutoMean <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			paramLatentAutoMean[[i]]<-apply(paramLatentAuto[[i]], 1:2, mean)
+		}
+
+		### names each part of the object
+		for(i in 1:nAuto){
+			rownames(paramLatentAutoMean[[i]]) <- rownames(object$results$estimation$paramLatentAuto[[1,i]])
+			colnames(paramLatentAutoMean[[i]]) <- colnames(object$results$estimation$paramLatentAuto[[which.max(dims[2,,i]),i]])
+		}
+
+		paramLatentAutoMean<-matrix(paramLatentAutoMean,ncol=nAuto)
+		colnames(paramLatentAutoMean)<-colnames(object$results$estimation$paramLatentAuto)
+
+		res$paramLatentAuto <- paramLatentAutoMean
 	}
 
 	### latentAuto
 	if(any(names(res)=="latentAuto")){
-		dims <- sapply(object$results$estimation$latentAuto,dim)
+		### Number of random effect
+		nAuto <- ncol(object$results$estimation$latentAuto)
 
-		latentAuto <- array(0,dim=c(max(dims[1,]),max(dims[2,]),niter))
+		### Number of latentAuto variables for each random effect
+		dims <- array(NA, dim=c(2,niter, nAuto))
 
-		for(i in 1:niter){
-			latentAuto[1:dims[1,i],1:dims[2,i],] <- object$results$estimation$latentAuto[[i,1]]
+		for(i in 1:nAuto){
+			dims[,,i] <- sapply(object$results$estimation$latentAuto[,i],dim)
 		}
-		res$latentAuto <- apply(latentAuto, 1:2, mean)
+
+		### Store paramLatent for each random effect
+		latentAuto <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			latentAuto[[i]] <- array(0,dim=c(max(dims[1,,i]),max(dims[2,,i]),niter))
+		}
+
+		for(i in 1:nAuto){
+			for(j in 1:niter){
+				latentAuto[[i]][1:dims[1,j,i],1:dims[2,j,i],j] <- object$results$estimation$latentAuto[[j,i]]
+			}
+		}
+
+		### Calculate the average coefficients
+		latentAutoMean <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			latentAutoMean[[i]]<-apply(latentAuto[[i]], 1:2, mean)
+		}
+
+		### names each part of the object
+		for(i in 1:nAuto){
+			rownames(latentAutoMean[[i]]) <- rownames(object$results$estimation$latentAuto[[1,i]])
+			colnames(latentAutoMean[[i]]) <- colnames(object$results$estimation$latentAuto[[which.max(dims[2,,i]),i]])
+		}
+
+		latentAutoMean<-matrix(latentAutoMean,ncol=nAuto)
+		colnames(latentAutoMean)<-colnames(object$results$estimation$latentAuto)
+
+		res$latentAuto <- latentAutoMean
 	}
 
 	### paramAuto
 	if(any(names(res)=="paramAuto")){
-		paramAuto <- matrix(NA,nrow=niter,ncol=nrow(object$results$estimation$paramAuto[[1,1]]))
+		### Number of random effect
+		nAuto <- ncol(object$results$estimation$paramAuto)
 
-		for(i in 1:niter){
-			paramAuto[i,] <- object$results$estimation$paramAuto[[i,1]]
+		### Number of latentAuto variables for each random effect
+		dims <- array(NA, dim=c(2,niter, nAuto))
+
+		for(i in 1:nAuto){
+			dims[,,i] <- sapply(object$results$estimation$paramAuto[,i],dim)
 		}
 
-		res$paramAuto <- colMeans(paramAuto)
+		### Store paramLatent for each random effect
+		paramAuto <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			paramAuto[[i]] <- array(0,dim=c(max(dims[1,,i]),max(dims[2,,i]),niter))
+		}
+
+		for(i in 1:nAuto){
+			for(j in 1:niter){
+				paramAuto[[i]][1:dims[1,j,i],1:dims[2,j,i],j] <- object$results$estimation$paramAuto[[j,i]]
+			}
+		}
+
+		### Calculate the average coefficients
+		paramAutoMean <- vector("list",length=nAuto)
+		for(i in 1:nAuto){
+			paramAutoMean[[i]]<-apply(paramAuto[[i]], 1:2, mean)
+		}
+
+		### names each part of the object
+		for(i in 1:nAuto){
+			rownames(paramAutoMean[[i]]) <- rownames(object$results$estimation$paramAuto[[1,i]])
+			colnames(paramAutoMean[[i]]) <- colnames(object$results$estimation$paramAuto[[which.max(dims[2,,i]),i]])
+		}
+
+		paramAutoMean<-matrix(paramAutoMean,ncol=nAuto)
+		colnames(paramAutoMean)<-colnames(object$results$estimation$paramAuto)
+
+		res$paramAuto <- paramAutoMean
 	}
 	return(res)
 }
