@@ -5,4 +5,4 @@ r:
   - devel
 
 install:
-  - travis_wait R CMD INSTALL HMSC
+  - travis_wait R CMD INSTALL
