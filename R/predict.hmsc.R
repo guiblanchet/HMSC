@@ -440,6 +440,9 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 
 		### Average over all nsample
 		res<-apply(resArray,1:3,mean)
+	}else{
+		Y <- data$Y
+
 	}
 
 	### Apply inverse link function
@@ -455,7 +458,7 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		result<-exp(apply(res,1:2, mean))
 	}
 
-	colnames(result)<-colnames(object$data$Y)
+	colnames(result)<-colnames(Y)
 
 	### Return model
 	return(result)
