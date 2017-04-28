@@ -81,7 +81,7 @@ similarity<-function(hmsc,gr=NULL){
 	}
 
 	### Similarity if there is only phylogeny
-	if(any(names(hmsc$results$estimation) %in% "paramPhylo") & (!any(names(hmsc$results$estimation) %in% "paramTrait"))){
+	if(any(names(hmsc$results$estimation) %in% "paramPhylo") & (!any(names(hmsc$results$estimation) %in% "paramTr"))){
 		phylo <- hmsc$data$Phylo
 		diag(phylo) <- NA
 		phyloMean <- mean(phylo, na.rm = TRUE)
