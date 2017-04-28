@@ -3,6 +3,7 @@
 #' @description Calculate the coefficient of determination for a model
 #'
 #' @param hmsc An object of the class \code{hmsc}
+#' @param newdata An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
 #' @param averageSp Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.
 #'
 #' @details
@@ -55,41 +56,49 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-Rsquared <- function(hmsc, averageSp = TRUE) {
-    ### Number of species
-    nsp <- ncol(hmsc$data$Y)
+Rsquared <- function(hmsc, newdata = NULL, averageSp = TRUE) {
+  ### Account for newdata
+  if (is.null(newdata)) {
+    Y <- hmsc$data$Y
+  }
+	if (!is.null(newdata)) {
+	  Y <- newdata$Y
+  }
 
-    ### Calculate model estimates
-    Ypred <- predict(hmsc)
+  ### Number of species
+  nsp <- ncol(Y)
 
-    ### Probit model
-    if (any(class(hmsc) == "probit")) {
-      Y0 <- hmsc$data$Y == 0
-      Y1 <- hmsc$data$Y == 1
+  ### Calculate model estimates
+  Ypred <- predict(hmsc, newdata=newdata)
 
-      R2 <- numeric()
+  ### Probit model
+  if (any(class(hmsc) == "probit")) {
+    Y0 <- hmsc$data$Y == 0
+    Y1 <- hmsc$data$Y == 1
 
-      for (i in 1:nsp) {
-          R2[i] <- mean(Ypred[Y1[, i], i]) - mean(Ypred[Y0[, i], i])
-      }
+    R2 <- numeric()
+
+    for (i in 1:nsp) {
+        R2[i] <- mean(Ypred[Y1[, i], i]) - mean(Ypred[Y0[, i], i])
     }
+  }
 
-    ### Gaussian model
-    if (any(class(hmsc) == "gaussian")) {
-      ### Total sums of squares per species
-      ssY <- colSums(scale(hmsc$data$Y,scale=FALSE)^2)
+  ### Gaussian model
+  if (any(class(hmsc) == "gaussian")) {
+    ### Total sums of squares per species
+    ssY <- colSums(scale(hmsc$data$Y,scale=FALSE)^2)
 
-      ### Residual sums of squares per species
-      ssRes <- colSums((hmsc$data$Y-predict(hmsc))^2)
+    ### Residual sums of squares per species
+    ssRes <- colSums((hmsc$data$Y-predict(hmsc))^2)
 
-      ### Calculate R2
-      R2 <- 1-ssRes/ssY
-    }
+    ### Calculate R2
+    R2 <- 1-ssRes/ssY
+  }
 
-    ### Community-level R2
-    if (averageSp) {
-        R2 <- mean(R2)
-    }
+  ### Community-level R2
+  if (averageSp) {
+      R2 <- mean(R2)
+  }
 
-    return(R2)
+  return(R2)
 }

@@ -4,10 +4,12 @@
 \alias{Rsquared}
 \title{Coefficient of determination}
 \usage{
-Rsquared(hmsc, averageSp = TRUE)
+Rsquared(hmsc, newdata = NULL, averageSp = TRUE)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}}
+
+\item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
 }

@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{An object of the class \code{hmsc}}
 
-\item{newdata}{An optional of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
+\item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
 \item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.}
 
