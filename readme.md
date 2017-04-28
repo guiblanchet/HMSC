@@ -9,8 +9,11 @@ This version of the R package is in development.
 To install this development version of HMSC you can use the ```install_github``` function in the [```devtools```](http://cran.r-project.org/web/packages/devtools/index.html) package, like this:
 
 ```{r}
-# install devtools if you haven't already
+# install devtools, Rcpp, RcppArmadillo and coda if you haven't already
 # install.packages('devtools')
+# install.packages('Rcpp')
+# install.packages('RcppArmadillo')
+# install.packages('coda')
 
 # load the package
 library(devtools)

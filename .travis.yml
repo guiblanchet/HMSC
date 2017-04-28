@@ -1,8 +1,8 @@
-language: r
+language: R
 r:
   - oldrel
   - release
   - devel
 
 install:
-  - travis_wait
+  - travis_wait R CMD INSTALL HMSC
