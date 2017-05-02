@@ -86,7 +86,7 @@ similarity<-function(hmsc,gr=NULL){
 		diag(phylo) <- NA
 		phyloMean <- mean(phylo, na.rm = TRUE)
 
-		res <- X %*% (tcrossprod(param$meansParamX)+(1-param$paramPhylo*phyloMean)*param$varX) %*%t (X)
+		res <- X %*% (tcrossprod(param$meansParamX)+(1-param$paramPhylo*phyloMean)*param$varX) %*% t(X)
 	}
 
 	### Similarity if there is only phylogeny
@@ -95,7 +95,7 @@ similarity<-function(hmsc,gr=NULL){
 		diag(phylo) <- NA
 		phyloMean <- mean(phylo, na.rm = TRUE)
 
-		res <- X %*% (param$paramTr %*% cov(t(hmsc$data$Tr)) %*% t(param$paramTr)+(1-param$paramPhylo*phyloMean)*param$varX) %*%t (X)
+		res <- X %*% (param$paramTr %*% cov(t(hmsc$data$Tr)) %*% t(param$paramTr)+(1-param$paramPhylo*phyloMean)*param$varX) %*% t(X)
 	}
 
 	### Return results

@@ -305,7 +305,7 @@ function(object,...){
 
 		### names each part of the object
 		for(i in 1:nAuto){
-			rownames(paramAutoMean[[i]]) <- rownames(object$results$estimation$paramAuto[[1,i]])
+			rownames(paramAutoMean[[i]]) <- rownames(object$results$estimation$paramAuto[[which.max(dims[1,,i]),i]])
 			colnames(paramAutoMean[[i]]) <- colnames(object$results$estimation$paramAuto[[which.max(dims[2,,i]),i]])
 		}
 
