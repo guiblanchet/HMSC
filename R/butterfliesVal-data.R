@@ -4,7 +4,7 @@
 #'
 #' @docType data
 #'
-#' @usage 
+#' @usage
 #' data(butterfliesTrain)
 #' data(butterfliesVal)
 #'
@@ -21,8 +21,8 @@
 #'
 #' @references
 #' Ovaskainen, O., D. B. Roy, R. Fox and B. J. Anderson. 2016. Uncovering hidden spatial structure in species communities with spatially explicit joint species distribution models. \emph{Methods in Ecology and Evolution} \strong{7}:428-436.
-#' 
-#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
+#'
+#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. (2017) How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters} \strong{20}, 561-576.
 #'
 #' @keywords datasets
 "butterfliesVal"

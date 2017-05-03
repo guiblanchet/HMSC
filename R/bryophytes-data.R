@@ -6,7 +6,7 @@
 #'
 #' @usage data(bryophytes)
 #'
-#' @details This data was first introduced by Olden et al. (2014) and reanalyzed by Ovaskainen et al. (submitted). In all, 60 bryophyte species were sampled at 204 sites in 14 natural and 14 harvested forests in central Finland. 
+#' @details This data was first introduced by Olden et al. (2014) and reanalyzed by Ovaskainen et al. (submitted). In all, 60 bryophyte species were sampled at 204 sites in 14 natural and 14 harvested forests in central Finland.
 #'
 #' @format An object of class \code{HMSCdata} that include
 #' \itemize{
@@ -20,7 +20,7 @@
 #' @note In this data, the covariates (\code{X}) have not been scaled. Because some of the analyses in the manual require that the covariates be scaled, use the following code to perform the analysis.
 #'
 #' \code{data(bryophytes)}
-#' 
+#'
 #' \code{bryophyteNoScaleX <- bryophytes}
 #'
 #' \code{bryophytes <- as.HMSCdata(Y=bryophytes$Y, X = bryophytes$X, Tr = bryophytes$Tr,
@@ -30,8 +30,8 @@
 #'
 #' @references
 #' Olden, A., O. Ovaskainen, J. S. Kotiaho, S. Laaka-Lindberg and P. Halme. 2014. Bryophyte species richness on retention aspens recovers in time but community structure does not. \emph{PLoS ONE} \strong{9}:e93786.
-#' 
-#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
+#'
+#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. (2017) How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters} \strong{20}, 561-576.
 #'
 #' @keywords datasets
 "bryophytes"

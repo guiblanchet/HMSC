@@ -475,6 +475,16 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
+	### Check if there are duplicated sets of coordinates in Auto
+	if(!is.null(Auto)){
+		for(i in length(Auto)){
+			dupli<-sum(duplicated(Auto[[i]][,-1]) | duplicated(Auto[[i]][,-1], fromLast = TRUE))
+			if(dupli > 0){
+				stop("Some coordinates in 'Auto' are duplicate")
+			}
+		}
+	}
+
 	#### Return results
 
 	### Including Y

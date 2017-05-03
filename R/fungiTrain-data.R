@@ -4,7 +4,7 @@
 #'
 #' @docType data
 #'
-#' @usage 
+#' @usage
 #' data(fungiTrain)
 #' data(fungiVal)
 #'
@@ -21,8 +21,8 @@
 #'
 #' @references
 #' Ovaskainen, O., N. Abrego, P. Halme and D. Dunson. 2016. Using latent variable models to identify large networks of species-to-species associations at different spatial scales. \emph{Methods in Ecology and Evolution} \strong{7}:549-555.
-#' 
-#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software.
+#'
+#' Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. (2017) How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters} \strong{20}, 561-576.
 #'
 #' @keywords datasets
 "fungiTrain"

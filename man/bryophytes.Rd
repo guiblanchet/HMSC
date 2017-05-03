@@ -36,6 +36,6 @@ In this data, the covariates (\code{X}) have not been scaled. Because some of th
 \references{
 Olden, A., O. Ovaskainen, J. S. Kotiaho, S. Laaka-Lindberg and P. Halme. 2014. Bryophyte species richness on retention aspens recovers in time but community structure does not. \emph{PLoS ONE} \strong{9}:e93786.
 
-Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
+Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. (2017) How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters} \strong{20}, 561-576.
 }
 \keyword{datasets}

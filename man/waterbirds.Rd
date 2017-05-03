@@ -22,6 +22,6 @@ This data was first introduced by Sebastian-Gonzalez et al. (2010) and reanalyze
 \references{
 Sebastian-Gonzalez, E., J. A. Sanchez-Zapata, F. Botella and O. Ovaskainen. 2010. Testing the heterospecific attraction hypothesis with time-series data on species co-occurrence. \emph{Proceedings of the Royal Society B - Biological Sciences} \strong{277}:2983-2990.
 
-Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and N. Abrego. Submitted. How to make more out of community ecology data? A road map and its implementation as models and software
+Ovaskainen, O., G. Tikhonov, A. Norberg, F. G. Blanchet, L. Duan, D. Dunson, T. Roslin and Abrego, N. (2017) How to make more out of community data? A conceptual framework and its implementation as models and software. \emph{Ecology Letters} \strong{20}, 561-576.
 }
 \keyword{datasets}
