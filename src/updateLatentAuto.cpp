@@ -77,15 +77,6 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 			// Precision matrix for the latentAuto variables
 			mat precLatent = wAutoInvDiag + kron(trans(paramLatentAuto(j,0))*wparamLatentAuto,eye(nsite,nsite));
 
-			// Calculate the variance-covariance matrix for the latentAuto variables
-//			mat varLatent = inv(precLatent);
-
-			// Calculate the means for the new latentAuto variables
-//			mat meansLatent = varLatent*vectorise(Yresid*wparamLatentAuto);
-
-			// Calculate the new latentAuto variables
-//			latentAuto(j,0) = reshape(rmvnorm(1, meansLatent,varLatent),nAutoLev(j),nLatentAuto(j));
-
 			// Calculate the cholesky decomposition of precLatent
 			mat precLatentChol = chol(precLatent,"lower");
 
