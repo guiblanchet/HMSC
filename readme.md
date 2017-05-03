@@ -9,10 +9,18 @@ This version of the R package is in development.
 To install this development version of HMSC you can use the ```install_github``` function in the [```devtools```](http://cran.r-project.org/web/packages/devtools/index.html) package, like this:
 
 ```{r}
-# install devtools, Rcpp, RcppArmadillo and coda if you haven't already
+### Install devtools (if you do not have them already)
 # install.packages('devtools')
+
+### Install depend packages (if you do not have them already)
 # install.packages('Rcpp')
 # install.packages('RcppArmadillo')
+# install.packages('coda')
+
+### Install suggested packages (if you do not have them already)
+# install.packages('beanplot')
+# install.packages('circlize')
+# install.packages('corrplot')
 # install.packages('coda')
 
 # load the package
