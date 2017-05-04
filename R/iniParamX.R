@@ -68,7 +68,7 @@ function(data,priors,paramX=NULL,meansParamX=NULL,varX=NULL){
 		varX<-cov(paramX)+diag(0.1,nparamX)
 
 		if(any(is.na(varX))){
-			precX <- rWishart(1,paramX+1,diag(nparamX))[,,1]
+			precX <- rWishart(1,nparamX+1,diag(nparamX))[,,1]
 			varX <- solve(precX)
 		}else{
 			precX<-solve(varX)
