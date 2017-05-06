@@ -1,3 +1,4 @@
+#' @export
 hmscTheory1Sp <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - May 2016
@@ -71,7 +72,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 			stop("There should be only 1 autocorrelated random effect")
 		}
 
-		if(nLevAuto != nsite){
+		if(nLevelAuto != nsite){
 			stop("The number of levels in the autocorrelated random effect should equal the number of samples")
 		}
 
@@ -136,7 +137,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		if(all(dataType %in% c("X","Auto"))){
 		 ### Diagonal matrices
 		 diagMat <- diag(Y[,1])
-		 
+
 #		 diagMat <- array(NA,dim=c(nrow(nsite),ncol(nsite),nsp))
 #		 for(i in 1:nsp){
 #			 diagMat[,,i]<-diag(Y[,i])
