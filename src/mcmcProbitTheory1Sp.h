@@ -5,7 +5,7 @@
 #include "sampleYlatentProbit.h"
 #include "updateParamLatentTheory1Sp.h"
 #include "updateParamAuto.h"
-#include "updateLatentAutoTheory1Sp.h"
+#include "updateLatentAuto.h"
 #include "updateShrinkLocal.h"
 #include "updateParamShrinkGlobal.h"
 #include "adaptVarAuto.h"

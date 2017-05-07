@@ -1,5 +1,5 @@
 #' @export
-hmscTheory1Sp <-
+hmscTheoryMultiSp <-
 function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - May 2016
 ##########################################################################################
@@ -14,10 +14,6 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 	### A few basic objects
 	nsp<-ncol(data$Y)
 	nsite<-nrow(data$Y)
-
-	if(nsp > 1){
-		stop("This function is meant to be used on a single species")
-	}
 
 	### Transform each data into a matrix
 	Y<-as.matrix(data$Y)
@@ -57,7 +53,28 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 	### Initiate basic objects to define latent variables
 	#====================================================
 	if(any(names(data)=="Random")){
-		stop("This function is meant to be used without 'Random'")
+		### Some basic objects about Random
+		nRandom<-ncol(data$Random) #nr
+		nRandomLev<-mapply(nlevels,data$Random) #np
+		Random<-sapply(data$Random,as.numeric)-1
+
+		if(nRandom > 1){
+			stop("There should be only 1 random effect")
+		}
+
+		if(nRandomLev != nsite){
+			stop("The number of levels in the random effect should equal the number of samples")
+		}
+
+		### Initial number of latent variables
+		nLatent<-sapply(param$param$latent,ncol)
+
+		### Parameters for the adaptation when calculating the number and importance of latent variables
+		adapt<-c(1,0.0005) # c(b0,b1)
+
+		### redund[1] (prop) : Proportion of redundant elements within factor loadings
+		### redund [2] (epsilon) : Proportion of redundant elements within factor loadings
+		redund<-c(1,0.001) # c(prop,epsilon)
 	}
 
 	#===================================================================
@@ -131,53 +148,62 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 	### Number of datatypes
 	nDataType<-length(dataType)
 
-	if(nDataType==2){
+	if(nDataType==3){
+		### Construct model with Random and Auto
+		if(all(dataType %in% c("X","Auto","Random"))){
+			diagMat <- array(NA,dim=c(nsite,nsite,nsp))
+		 	for(i in 1:nsp){
+				diagMat[,,i]<-diag(Y[,i])
+			}
 
-		### Construct model with X and Random
-		if(all(dataType %in% c("X","Auto"))){
-		 ### Diagonal matrices
-		 diagMat <- diag(Y[,1])
-
-			result<-mcmcProbitTheory1Sp(Y,
-									Ylatent,
-									X,
-									AutoCoord,
-									RandomAuto,
-									param$param$paramX,
-									param$param$meansParamX,
-									param$param$precX,
-									param$param$residVar,
-									param$param$paramAuto,
-									param$param$latentAuto,
-									param$param$paramLatentAuto,
-									param$param$shrinkLocalAuto,
-									param$param$paramShrinkGlobalAuto,
-									priors$param$meansParamX,
-									priors$param$varXScaleMat,
-									priors$param$varXDf,
-									priors$param$residVar[1],
-									priors$param$residVar[2],
-									priors$param$paramAutoWeight,
-									priors$param$paramAutoDist,
-									priors$param$shrinkLocalAuto,
-									priors$param$shrinkOverallAuto[1],
-									priors$param$shrinkOverallAuto[2],
-									priors$param$shrinkSpeedAuto[1],
-									priors$param$shrinkSpeedAuto[2],
-									adapt,
-									redund,
-									nAuto,
-									nAutoLev,
-									nLatentAuto,
-									nsp,
-									nsite,
-									nparamX,
-									nrow(priors$param$paramAutoWeight),
-									niter,
-									nburn,
-									thin,
-									verbose,
-									diagMat)
+			result<-mcmcProbitTheoryMultiSp(Y,
+										  Ylatent,
+										  X,
+										  AutoCoord,
+										  RandomAuto,
+										  Random,
+										  param$param$paramX,
+										  param$param$meansParamX,
+										  param$param$precX,
+										  param$param$residVar,
+										  param$param$latent,
+										  param$param$paramLatent,
+										  param$param$shrinkLocal,
+										  param$param$paramShrinkGlobal,
+										  param$param$paramAuto,
+										  param$param$latentAuto,
+										  param$param$paramLatentAuto,
+										  param$param$shrinkLocalAuto,
+										  param$param$paramShrinkGlobalAuto,
+										  priors$param$meansParamX,
+										  priors$param$varXScaleMat,
+										  priors$param$varXDf,
+										  priors$param$residVar[1],
+										  priors$param$residVar[2],
+										  priors$param$paramAutoWeight,
+										  priors$param$paramAutoDist,
+										  priors$param$shrinkLocal,
+										  priors$param$shrinkOverall[1],
+										  priors$param$shrinkOverall[2],
+										  priors$param$shrinkSpeed[1],
+										  priors$param$shrinkSpeed[2],
+										  adapt,
+										  redund,
+										  nAuto,
+										  nAutoLev,
+										  nLatentAuto,
+										  nRandom,
+										  nRandomLev,
+										  nLatent,
+										  nsp,
+										  nsite,
+										  nparamX,
+										  nrow(priors$param$paramAutoWeight),
+										  niter,
+										  nburn,
+										  thin,
+										  verbose,
+											diagMat)
 		}
 	}
 
