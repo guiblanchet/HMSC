@@ -344,6 +344,7 @@ sampleYlatentPoisson <- function(Y, Ylatent, EstModel, residVar, nsp, nsite) {
 #'
 #' @param Y0Loc A vector defining the locations of all 0s in the community matrix (\code{Y}).
 #' @param Y1Loc A vector defining the locations of all 1s in the community matrix (\code{Y}).
+#' @param YNALoc A vector defining the locations of all NAs in the community matrix (\code{Y}).
 #' @param Ylatent Model site by species community matrix after the link function is applied.
 #' @param EstModel Estimated model for the site by species community matrix.
 #' @param residVar Vector of parameters with as many entries as there are species. Each values in this vector describes how much variation is not explained by the model. This vector should only contains 1s, but it was included in this function to deal with potential situations that may arise (in other words, in case I forgot a special case).
@@ -351,7 +352,7 @@ sampleYlatentPoisson <- function(Y, Ylatent, EstModel, residVar, nsp, nsite) {
 #' @param nsite Numeric. Number of site sampled.
 #'
 #' @export
-sampleYlatentProbit <- function(Y0Loc, Y1Loc, Ylatent, EstModel, residVar, nsp, nsite) {
-    .Call('HMSC_sampleYlatentProbit', PACKAGE = 'HMSC', Y0Loc, Y1Loc, Ylatent, EstModel, residVar, nsp, nsite)
+sampleYlatentProbit <- function(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite) {
+    .Call('HMSC_sampleYlatentProbit', PACKAGE = 'HMSC', Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite)
 }
 

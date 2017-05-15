@@ -125,13 +125,6 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
-	### Check for NAs
-	if(!is.null(Y)){
-		if(any(is.na(Y))){
-			stop("There is at least one NA in 'Y'")
-		}
-	}
-
 	if(!is.null(X)){
 		if(any(is.na(X))){
 			stop("There is at least one NA in 'X'")
@@ -164,7 +157,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 
 	### Check for non-numeric values
 	if(!is.null(Y)){
-		if(any(is.na(suppressWarnings(as.numeric(apply(Y, 1, as.character)))))){
+		if(is.numeric(Y)){
 			stop("There is at least one non-numeric value in 'Y'")
 		}
 	}

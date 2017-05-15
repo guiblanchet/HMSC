@@ -11,6 +11,7 @@ using namespace Rcpp ;
 //'
 //' @param Y0Loc A vector defining the locations of all 0s in the community matrix (\code{Y}).
 //' @param Y1Loc A vector defining the locations of all 1s in the community matrix (\code{Y}).
+//' @param YNALoc A vector defining the locations of all NAs in the community matrix (\code{Y}).
 //' @param Ylatent Model site by species community matrix after the link function is applied.
 //' @param EstModel Estimated model for the site by species community matrix.
 //' @param residVar Vector of parameters with as many entries as there are species. Each values in this vector describes how much variation is not explained by the model. This vector should only contains 1s, but it was included in this function to deal with potential situations that may arise (in other words, in case I forgot a special case).
@@ -20,10 +21,11 @@ using namespace Rcpp ;
 //' @export
 // [[Rcpp::export]]
 arma::mat sampleYlatentProbit(arma::uvec& Y0Loc,
-							  arma::uvec& Y1Loc,
+								arma::uvec& Y1Loc,
+								arma::uvec& YNALoc,
 							  arma::mat& Ylatent,
 							  arma::mat& EstModel,
-							  arma::vec residVar,
+							  arma::vec& residVar,
 							  double nsp,
 							  int nsite){
 
@@ -46,6 +48,16 @@ arma::mat sampleYlatentProbit(arma::uvec& Y0Loc,
 	// Fill low and high with the right part of EstModelNeg
 	low.elem(Y1Loc) = EstModelNeg.elem(Y1Loc);
 	high.elem(Y0Loc) = EstModelNeg.elem(Y0Loc);
+
+	// Fill low and high associated to NAs with -Inf and +Inf
+	vec nasPos(size(YNALoc));
+	nasPos.fill(datum::inf);
+
+	vec nasNeg(size(YNALoc));
+	nasNeg.fill(-datum::inf);
+
+	low.elem(YNALoc) = nasNeg;
+	high.elem(YNALoc) = nasPos;
 
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {

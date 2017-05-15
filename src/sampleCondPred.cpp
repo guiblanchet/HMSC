@@ -23,12 +23,13 @@ arma::field<arma::cube> sampleCondPred(arma::mat& Y,
 	if(family == "probit"){
 		uvec Y0Loc = find(Y==0);
 		uvec Y1Loc = find(Y==1);
+		uvec YNALoc = find_nonfinite(Y);
 
 		mat YlatentIni = zeros(nsite,nsp);
 
 		for (int i = 0; i < nsample; i++) {
 			for(int j = 0; j < niter; j++){
-				YlatentTmp.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YlatentIni, EstModel.slice(j), trans(residVar.row(j)), nsp, nsite);
+				YlatentTmp.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel.slice(j), trans(residVar.row(j)), nsp, nsite);
 			}
 			Ylatent(i,0) = YlatentTmp;
 		}

@@ -107,8 +107,8 @@ function(data,param,family){
 		if(family == "probit"){
 			Y0<-Y==0
 			Y1<-Y==1
-
-			Ylatent<-sampleYlatentProbit(Y0,Y1,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
+			YNA<-is.na(Y)
+			Ylatent<-sampleYlatentProbit(Y0,Y1,YNA,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
 		}
 
 		if(family == "poisson" | family == "overPoisson"){

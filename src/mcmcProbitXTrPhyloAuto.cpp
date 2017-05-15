@@ -59,6 +59,8 @@ RcppExport SEXP mcmcProbitXTrPhyloAuto(arma::mat& Y,
 	mat EstModel = zeros<mat>(nsite,nsp);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
+
 	mat Yresid(nsite,nsp);
 	mat varX(nparamX,nparamX);
 	double probAdapt;
@@ -180,7 +182,7 @@ RcppExport SEXP mcmcProbitXTrPhyloAuto(arma::mat& Y,
 			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
 		}
 
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 
 		//--------------
 		// Update paramX
