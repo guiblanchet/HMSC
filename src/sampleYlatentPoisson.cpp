@@ -32,6 +32,17 @@ arma::mat sampleYlatentPoisson(arma::mat& Y,
 	mat low = log(Y) - EstModel;
 	mat high = log(Y+1) - EstModel;
 
+	// Find all the NAs and fill low and high associated to NAs with -Inf and +Inf
+	uvec YNALoc = find_nonfinite(Y);
+	vec nasPos(size(YNALoc));
+	nasPos.fill(datum::inf);
+
+	vec nasNeg(size(YNALoc));
+	nasNeg.fill(-datum::inf);
+
+	low.elem(YNALoc) = nasNeg;
+	high.elem(YNALoc) = nasPos;
+
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {
 		for (int j = 0; j < nsp; j++) {
