@@ -3643,7 +3643,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // sampleYlatentProbit
-arma::mat sampleYlatentProbit(arma::uvec& Y0Loc, arma::uvec& Y1Loc, arma::uvec& YNALoc, arma::mat& Ylatent, arma::mat& EstModel, arma::vec& residVar, double nsp, int nsite);
+arma::mat sampleYlatentProbit(arma::uvec& Y0Loc, arma::uvec& Y1Loc, arma::uvec& YNALoc, arma::mat& Ylatent, arma::mat& EstModel, arma::vec residVar, double nsp, int nsite);
 RcppExport SEXP HMSC_sampleYlatentProbit(SEXP Y0LocSEXP, SEXP Y1LocSEXP, SEXP YNALocSEXP, SEXP YlatentSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nspSEXP, SEXP nsiteSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -3653,7 +3653,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uvec& >::type YNALoc(YNALocSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type EstModel(EstModelSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type residVar(residVarSEXP);
     Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
     Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
     rcpp_result_gen = Rcpp::wrap(sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite));
