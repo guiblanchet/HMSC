@@ -129,6 +129,908 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mcmcNormalNAAuto
+RcppExport SEXP mcmcNormalNAAuto(arma::mat& Y, arma::mat& Ylatent, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAAuto(SEXP YSEXP, SEXP YlatentSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAAuto(Y, Ylatent, Auto, RandomAuto, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAAutoLatent
+RcppExport SEXP mcmcNormalNAAutoLatent(arma::mat& Y, arma::mat& Ylatent, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAAutoLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAAutoLatent(Y, Ylatent, Auto, RandomAuto, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNALatent
+RcppExport SEXP mcmcNormalNALatent(arma::mat& Y, arma::mat& Ylatent, arma::umat& Random, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, double priorResidVarScale, double priorResidVarShape, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNALatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP RandomSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNALatent(Y, Ylatent, Random, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAX
+RcppExport SEXP mcmcNormalNAX(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double nsp, int nsite, int nparamX, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAX(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAX(Y, Ylatent, X, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXAuto
+RcppExport SEXP mcmcNormalNAXAuto(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int nparamX, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXAuto(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXAuto(Y, Ylatent, X, Auto, RandomAuto, paramX, meansParamX, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXAutoLatent
+RcppExport SEXP mcmcNormalNAXAutoLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXAutoLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXAutoLatent(Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXLatent
+RcppExport SEXP mcmcNormalNAXLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXLatent(Y, Ylatent, X, Random, paramX, meansParamX, precX, residVar, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXPhylo
+RcppExport SEXP mcmcNormalNAXPhylo(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Phylo, arma::mat& iPhylo, arma::mat& paramX, arma::mat& meansParamX, double paramPhylo, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, double nsp, int nsite, int nparamX, int nparamPhylo, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXPhylo(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP paramPhyloSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nparamPhyloSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarMeansParamX(priorVarMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXPhylo(Y, Ylatent, X, Phylo, iPhylo, paramX, meansParamX, paramPhylo, precX, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXPhyloAuto
+RcppExport SEXP mcmcNormalNAXPhyloAuto(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Phylo, arma::mat& iPhylo, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, double paramPhylo, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int nparamX, int nparamPhylo, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXPhyloAuto(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP paramPhyloSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nparamPhyloSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarMeansParamX(priorVarMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXPhyloAuto(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, paramX, meansParamX, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXPhyloAutoLatent
+RcppExport SEXP mcmcNormalNAXPhyloAutoLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Phylo, arma::mat& iPhylo, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, double paramPhylo, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int npriorParamAuto, int nparamPhylo, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXPhyloAutoLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP paramPhyloSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP npriorParamAutoSEXP, SEXP nparamPhyloSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarMeansParamX(priorVarMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXPhyloAutoLatent(Y, Ylatent, X, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, meansParamX, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, nparamPhylo, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXPhyloLatent
+RcppExport SEXP mcmcNormalNAXPhyloLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Phylo, arma::mat& iPhylo, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, double paramPhylo, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int nparamPhylo, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXPhyloLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP paramPhyloSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nparamPhyloSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type meansParamX(meansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorMeansParamX(priorMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarMeansParamX(priorVarMeansParamXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXPhyloLatent(Y, Ylatent, X, Phylo, iPhylo, Random, paramX, meansParamX, precX, paramPhylo, residVar, priorMeansParamX, priorVarMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nparamPhylo, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTr
+RcppExport SEXP mcmcNormalNAXTr(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, arma::vec& residVar, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double nsp, int nsite, int nparamX, int nTr, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTr(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTr(Y, Ylatent, X, Tr, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrAuto
+RcppExport SEXP mcmcNormalNAXTrAuto(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int nparamX, int nTr, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrAuto(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrAuto(Y, Ylatent, X, Tr, Auto, RandomAuto, paramX, paramTr, precX, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrAutoLatent
+RcppExport SEXP mcmcNormalNAXTrAutoLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int nTr, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrAutoLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrAutoLatent(Y, Ylatent, X, Tr, Auto, RandomAuto, Random, paramX, paramTr, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrLatent
+RcppExport SEXP mcmcNormalNAXTrLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::umat& Random, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, arma::vec& residVar, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int nTr, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrLatent(Y, Ylatent, X, Tr, Random, paramX, paramTr, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrPhylo
+RcppExport SEXP mcmcNormalNAXTrPhylo(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::mat& Phylo, arma::mat& iPhylo, arma::mat& paramX, arma::mat& paramTr, double paramPhylo, arma::mat& precX, arma::vec& residVar, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, double nsp, int nsite, int nparamX, int nTr, int nparamPhylo, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrPhylo(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP paramPhyloSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP nparamPhyloSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrPhylo(Y, Ylatent, X, Tr, Phylo, iPhylo, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrPhyloAuto
+RcppExport SEXP mcmcNormalNAXTrPhyloAuto(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::mat& Phylo, arma::mat& iPhylo, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, double paramPhylo, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int nparamX, int nTr, int nparamPhylo, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrPhyloAuto(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP paramPhyloSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP nparamPhyloSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrPhyloAuto(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, paramX, paramTr, precX, paramPhylo, residVar, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrPhyloAutoLatent
+RcppExport SEXP mcmcNormalNAXTrPhyloAutoLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::mat& Phylo, arma::mat& iPhylo, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& paramTr, arma::mat& precX, double paramPhylo, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int nTr, int nparamPhylo, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrPhyloAutoLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP precXSEXP, SEXP paramPhyloSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP nparamPhyloSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocal(shrinkLocalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobal(paramShrinkGlobalSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type shrinkLocalAuto(shrinkLocalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field< arma::vec >& >::type paramShrinkGlobalAuto(paramShrinkGlobalAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoWeight(priorParamAutoWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrPhyloAutoLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Auto, RandomAuto, Random, paramX, paramTr, precX, paramPhylo, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, npriorParamAuto, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mcmcNormalNAXTrPhyloLatent
+RcppExport SEXP mcmcNormalNAXTrPhyloLatent(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::mat& Tr, arma::mat& Phylo, arma::mat& iPhylo, arma::umat& Random, arma::mat& paramX, arma::mat& paramTr, double paramPhylo, arma::mat& precX, arma::vec& residVar, arma::mat& priorParamTr, arma::mat& priorVarTr, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamPhyloWeight, Rcpp::NumericVector& priorParamPhyloGrid, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int nTr, int nparamPhylo, int niter, int nburn, int thin, int verbose);
+RcppExport SEXP HMSC_mcmcNormalNAXTrPhyloLatent(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP TrSEXP, SEXP PhyloSEXP, SEXP iPhyloSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP paramTrSEXP, SEXP paramPhyloSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorParamTrSEXP, SEXP priorVarTrSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamPhyloWeightSEXP, SEXP priorParamPhyloGridSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP nTrSEXP, SEXP nparamPhyloSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Tr(TrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type Phylo(PhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type iPhylo(iPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type paramTr(paramTrSEXP);
+    Rcpp::traits::input_parameter< double >::type paramPhylo(paramPhyloSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type precX(precXSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamTr(priorParamTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarTr(priorVarTrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorVarXScaleMat(priorVarXScaleMatSEXP);
+    Rcpp::traits::input_parameter< double >::type priorVarXDf(priorVarXDfSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarScale(priorResidVarScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorResidVarShape(priorResidVarShapeSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamPhyloWeight(priorParamPhyloWeightSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type priorParamPhyloGrid(priorParamPhyloGridSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkLocal(priorShrinkLocalSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallShape(priorShrinkOverallShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkOverallScale(priorShrinkOverallScaleSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedShape(priorShrinkSpeedShapeSEXP);
+    Rcpp::traits::input_parameter< double >::type priorShrinkSpeedScale(priorShrinkSpeedScaleSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type adapt(adaptSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type redund(redundSEXP);
+    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatent(nLatentSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamX(nparamXSEXP);
+    Rcpp::traits::input_parameter< int >::type nTr(nTrSEXP);
+    Rcpp::traits::input_parameter< int >::type nparamPhylo(nparamPhyloSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    Rcpp::traits::input_parameter< int >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcmcNormalNAXTrPhyloLatent(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mcmcNormalX
 RcppExport SEXP mcmcNormalX(arma::mat& Ylatent, arma::mat& X, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, double nsp, int nsite, int nparamX, int niter, int nburn, int thin, int verbose);
 RcppExport SEXP HMSC_mcmcNormalX(SEXP YlatentSEXP, SEXP XSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
@@ -3623,6 +4525,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type nsample(nsampleSEXP);
     Rcpp::traits::input_parameter< std::string >::type family(familySEXP);
     rcpp_result_gen = Rcpp::wrap(sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sampleYlatentNormal
+arma::mat sampleYlatentNormal(arma::mat& Y, arma::mat& EstModel, arma::vec& residVar, double nsp, int nsite);
+RcppExport SEXP HMSC_sampleYlatentNormal(SEXP YSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nspSEXP, SEXP nsiteSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type EstModel(EstModelSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    rcpp_result_gen = Rcpp::wrap(sampleYlatentNormal(Y, EstModel, residVar, nsp, nsite));
     return rcpp_result_gen;
 END_RCPP
 }

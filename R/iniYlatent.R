@@ -15,17 +15,19 @@ function(data,param,family){
 	### Initiate a latent Y for gaussian models
 	#==========================================
 	if(family=="gaussian"){
-		### Transform Y into a matrix
-		Y<-as.matrix(data$Y)
+		if(!any(is.na(comm$data$Y))){
+			### Transform Y into a matrix
+			Y<-as.matrix(data$Y)
 
-		### Initial latent Y
-		Ylatent<-Y
+			### Initial latent Y
+			Ylatent<-Y
+		}
 	}
 
 	#=======================================
 	### Initiate a latent Y for other models
 	#=======================================
-	if(family!="gaussian"){
+	if((family=="gaussian" & any(is.na(comm$data$Y))) | family!="gaussian"){
 		### Transform X and Y into a matrix
 		Y<-as.matrix(data$Y)
 		if(!is.null(data$X)){
@@ -104,6 +106,10 @@ function(data,param,family){
 			}
 		}
 
+		if(family == "gaussian"){
+			Ylatent <- sampleYlatentNormal(Y,matrix(0,nrow=nsite,ncol=nsp),param$param$residVar,nsp,nsite)
+		}
+
 		if(family == "probit"){
 			Y0<-Y==0
 			Y1<-Y==1
@@ -114,7 +120,6 @@ function(data,param,family){
 		if(family == "poisson" | family == "overPoisson"){
 			Ylatent<-sampleYlatentPoisson(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
 		}
-
 	}
 
 	class(Ylatent)<-"HMSCYlatent"
