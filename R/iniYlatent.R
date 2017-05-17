@@ -15,7 +15,7 @@ function(data,param,family){
 	### Initiate a latent Y for gaussian models
 	#==========================================
 	if(family=="gaussian"){
-		if(!any(is.na(comm$data$Y))){
+		if(!any(is.na(data$Y))){
 			### Transform Y into a matrix
 			Y<-as.matrix(data$Y)
 
@@ -27,7 +27,7 @@ function(data,param,family){
 	#=======================================
 	### Initiate a latent Y for other models
 	#=======================================
-	if((family=="gaussian" & any(is.na(comm$data$Y))) | family!="gaussian"){
+	if((family=="gaussian" & any(is.na(data$Y))) | family!="gaussian"){
 		### Transform X and Y into a matrix
 		Y<-as.matrix(data$Y)
 		if(!is.null(data$X)){
