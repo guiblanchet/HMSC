@@ -73,8 +73,8 @@ Rsquared <- function(hmsc, newdata = NULL, averageSp = TRUE) {
 
   ### Probit model
   if (any(class(hmsc) == "probit")) {
-    Y0 <- hmsc$data$Y == 0
-    Y1 <- hmsc$data$Y == 1
+    Y0 <- Y == 0
+    Y1 <- Y == 1
 
     R2 <- numeric()
 
@@ -86,10 +86,10 @@ Rsquared <- function(hmsc, newdata = NULL, averageSp = TRUE) {
   ### Gaussian model
   if (any(class(hmsc) == "gaussian")) {
     ### Total sums of squares per species
-    ssY <- colSums(scale(hmsc$data$Y,scale=FALSE)^2)
+    ssY <- colSums(scale(Y,scale=FALSE)^2)
 
     ### Residual sums of squares per species
-    ssRes <- colSums((hmsc$data$Y-predict(hmsc))^2)
+    ssRes <- colSums((Y-predict(hmsc))^2)
 
     ### Calculate R2
     R2 <- 1-ssRes/ssY
