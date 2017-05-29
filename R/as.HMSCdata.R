@@ -99,7 +99,7 @@
 #' @export
 as.HMSCdata <-
 function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
-		 scaleX=TRUE, scaleTr=TRUE, interceptX=TRUE, interceptTr=TRUE){
+		  formula=NULL,scaleX=TRUE, scaleTr=TRUE, interceptX=TRUE, interceptTr=TRUE){
 #### F. Guillaume Blanchet - July 2014, January 2016
 ##########################################################################################
 	Ynames <- colnames(Y)
@@ -473,6 +473,15 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 			Phylo <- as.matrix(Phylo)
 			print("'Phylo' was converted to a matrix")
 		}
+	}
+	###  ICI ###
+	###  ICI ###
+	###  ICI ###
+	###  ICI ###
+	###  ICI ###
+	if(!is.null(formula)){
+		if()
+
 	}
 
 	#### Return results
