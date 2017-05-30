@@ -389,6 +389,9 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 
 	### Fill the results object
 	if(!is.null(conditional)){
+		### Average the result matrix
+		res <- apply(res,1:2, mean)
+
 		### A few checks
 		if(!is.character(conditional)){
 			stop("'conditional' needs to be a vector of characters")
@@ -409,11 +412,11 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		nsp <- ncol(Y)
 
 		### Extract the species to consider in the estimated model calculated above
-		EstModel <- res[,spSel,]
+		EstModel <- res[,spSel]
 
-		### Check to make sure that EstModel always has 3 dimensions
-		if(length(dim(EstModel))!=3){
-			EstModel <- array(EstModel,dim=c(nrow(EstModel),1,ncol(EstModel)))
+		### Check to make sure that EstModel always has 2 dimensions
+		if(!is.matrix(EstModel)){
+			EstModel <- as.matrix(EstModel)
 		}
 
 		### Construct residVar for the different types of models
@@ -430,16 +433,7 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		}
 
 		### Sample conditional prediction
-		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family=class(object)[2])
-
-		### Reorganize result in an array
-		resArray<-array(dim=c(nsite,nsp,niter,nsample))
-		for(i in 1:nsample){
-			resArray[,,,i] <- res[[i]]
-		}
-
-		### Average over all nsample
-		res<-apply(resArray,1:3,mean)
+		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
 	}else{
 		Y <- data$Y
 
