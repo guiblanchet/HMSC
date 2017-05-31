@@ -313,9 +313,9 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 		}
 	}
 
-	#============================================
-	### If X, latent and latentAuto are both NULL
-	#============================================
+	#===========================================
+	### If X, latent and latentAuto are all NULL
+	#===========================================
 	if(is.null(X) & is.null(latent) & is.null(Random) & is.null(Auto) & is.null(latentAuto)){
 		stop("At least one of 'X', 'Random', 'latent', 'Auto' or 'latentAuto' needs to be given")
 	}
@@ -475,7 +475,7 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 				stop("'Auto' should be a data.frame or a list")
 			}
 		}
-	  
+
 	  ### Number of levels in each random effect considered
 	  nLevelAuto<-sapply(Auto,function(x) nlevels(x[,1]))
 	}
@@ -644,31 +644,31 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 			### Mean of the community paramX
 			if(is.null(paramX)){
 				### Sigma matrix of the community
-			if(is.null(varX)){
-				varX<-chol2inv(chol(rWishart(1,nparamX+2,diag(nparamX))[,,1]))
-			}else{
-				if(!isSymmetric(varX)){
-					stop("'varX' is not a symmetric matrix")
+				if(is.null(varX)){
+					varX<-chol2inv(chol(rWishart(1,nparamX+2,diag(nparamX))[,,1]))
+				}else{
+					if(!isSymmetric(varX)){
+						stop("'varX' is not a symmetric matrix")
+					}
 				}
-			}
-			if(is.null(colnames(varX))){
-				colnames(varX)<-paste("p",1:nparamX,sep="")
-			}
-			if(is.null(rownames(varX))){
-				rownames(varX)<-paste("p",1:nparamX,sep="")
-			}
+				if(is.null(colnames(varX))){
+					colnames(varX)<-paste("p",1:nparamX,sep="")
+				}
+				if(is.null(rownames(varX))){
+					rownames(varX)<-paste("p",1:nparamX,sep="")
+				}
 
-			### paramX for each species
-			paramX<-matrix(NA,nrow=nsp,ncol=nparamX)
-			if(!is.null(Tr)){
-				for(i in 1:nsp){
-					paramX[i,]<-mvrnorm(1,mu=meansParamX[i,],Sigma=(1/outlierWeightVec[i])*varX)
+				### paramX for each species
+				paramX<-matrix(NA,nrow=nsp,ncol=nparamX)
+				if(!is.null(Tr)){
+					for(i in 1:nsp){
+						paramX[i,]<-mvrnorm(1,mu=meansParamX[i,],Sigma=(1/outlierWeightVec[i])*varX)
+					}
+				}else{
+					for(i in 1:nsp){
+						paramX[i,]<-mvrnorm(1,mu=meansParamX,Sigma=(1/outlierWeightVec[i])*varX)
+					}
 				}
-			}else{
-				for(i in 1:nsp){
-					paramX[i,]<-mvrnorm(1,mu=meansParamX,Sigma=(1/outlierWeightVec[i])*varX)
-				}
-			}
 				colnames(paramX)<-paste("p",1:nparamX,sep="")
 				rownames(paramX)<-paste("sp",1:nsp,sep="")
 			}else{
