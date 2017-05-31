@@ -436,7 +436,6 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
 	}else{
 		Y <- data$Y
-
 	}
 
 	### Apply inverse link function
