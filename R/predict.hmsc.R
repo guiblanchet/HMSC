@@ -191,7 +191,9 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 					stop("This object is essentially empty")
 				}else{
 					### Only X
-					res<-predLinkX(data$X,object$results$estimation$paramX,nsite,nsp,niter)
+					for(i in 1:niter){
+						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+					}
 				}
 			}else{
 				if(is.null(data$X)){
@@ -269,7 +271,9 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 					stop("This object is essentially empty")
 				}else{
 					### Only X
-					res<-predLinkX(data$X,object$results$estimation$paramX,nsite,nsp,niter)
+					for(i in 1:niter){
+						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+					}
 				}
 			}else{
 				if(is.null(data$X)){
