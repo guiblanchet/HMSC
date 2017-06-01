@@ -4497,6 +4497,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// predLinkX
+arma::cube predLinkX(arma::mat& X, arma::cube& paramX, int nsite, int nsp, int niter);
+RcppExport SEXP HMSC_predLinkX(SEXP XSEXP, SEXP paramXSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP niterSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::cube& >::type paramX(paramXSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    Rcpp::traits::input_parameter< int >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
+    rcpp_result_gen = Rcpp::wrap(predLinkX(X, paramX, nsite, nsp, niter));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rmvnorm
 arma::mat rmvnorm(int n, arma::vec Mean, arma::mat Var);
 RcppExport SEXP HMSC_rmvnorm(SEXP nSEXP, SEXP MeanSEXP, SEXP VarSEXP) {

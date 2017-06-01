@@ -381,6 +381,10 @@ mcmcProbitXTrPhyloLatent <- function(Y, Ylatent, X, Tr, Phylo, iPhylo, Random, p
     .Call('HMSC_mcmcProbitXTrPhyloLatent', PACKAGE = 'HMSC', Y, Ylatent, X, Tr, Phylo, iPhylo, Random, paramX, paramTr, paramPhylo, precX, residVar, priorParamTr, priorVarTr, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamPhyloWeight, priorParamPhyloGrid, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, nTr, nparamPhylo, niter, nburn, thin, verbose)
 }
 
+predLinkX <- function(X, paramX, nsite, nsp, niter) {
+    .Call('HMSC_predLinkX', PACKAGE = 'HMSC', X, paramX, nsite, nsp, niter)
+}
+
 #' @title Sample from a multivariate Normal distribution.
 #'
 #' @description Produces one or more samples from the specified multivariate normal distribution. Unlike the function \code{\link{mvrnorm}[MASS]}, this function is very simple and does not perform the many checks carried out in the \code{\link{mvrnorm}[MASS]}. For this reason, it is faster but it must be used carefully as it may lead to some unexpected error. This function is only meant to be used internally.
