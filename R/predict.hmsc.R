@@ -4,6 +4,7 @@
 #'
 #' @param object An object of the class \code{hmsc}
 #' @param newdata An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
+#' @param type A character vector defining whether the prediction should be return on the scale of the response variable ("response", default) or on the scale of the linear predictors ("link"). See details.
 #' @param conditional A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.
 #' @param nsample A numerical value defining the number of samples to carry out when calculating conditional probability. If the \code{conditional} is NULL, this argument will not be considered.
 #' @param \dots Additional arguments affecting the predictions produced.
@@ -11,6 +12,7 @@
 #' @details
 #'
 #' The function is designed for conditional predictions to be calculated so species are the variables that can be used to condition the prediction.
+#'
 #'
 #' @return
 #'
@@ -44,10 +46,22 @@
 #' ### Calculate prediction
 #' #=======================
 #' predModel <- predict(modelDesc)
+#''
+#' #===================================
+#' ### Calculate conditional prediction
+#' #===================================
+#' ### Conditional only on sp1
+#' predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 1)
+#'
+#' ### Conditional on the whole community but with an interest on sp1
+#' formdata$Y[,1] <- NA
+#' predCondSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 1)[,1]
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
+predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, nsample, ...){
+
+	type <- match.arg(type)
 
 	### Data to use for prediction
 	if(missing(newdata) || is.null(newdata)){
@@ -389,6 +403,9 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 
 	### Fill the results object
 	if(!is.null(conditional)){
+		### Average the result matrix
+		res <- apply(res,1:2, mean)
+
 		### A few checks
 		if(!is.character(conditional)){
 			stop("'conditional' needs to be a vector of characters")
@@ -409,11 +426,11 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		nsp <- ncol(Y)
 
 		### Extract the species to consider in the estimated model calculated above
-		EstModel <- res[,spSel,]
+		EstModel <- res[,spSel]
 
-		### Check to make sure that EstModel always has 3 dimensions
-		if(length(dim(EstModel))!=3){
-			EstModel <- array(EstModel,dim=c(nrow(EstModel),1,ncol(EstModel)))
+		### Check to make sure that EstModel always has 2 dimensions
+		if(!is.matrix(EstModel)){
+			EstModel <- as.matrix(EstModel)
 		}
 
 		### Construct residVar for the different types of models
@@ -430,35 +447,53 @@ predict.hmsc<-function(object, newdata, conditional=NULL, nsample, ...){
 		}
 
 		### Sample conditional prediction
-		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, niter, nsample, family=class(object)[2])
-
-		### Reorganize result in an array
-		resArray<-array(dim=c(nsite,nsp,niter,nsample))
-		for(i in 1:nsample){
-			resArray[,,,i] <- res[[i]]
-		}
-
-		### Average over all nsample
-		res<-apply(resArray,1:3,mean)
+		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
 	}else{
 		Y <- data$Y
-
 	}
 
-	### Apply inverse link function
-	if(any(class(object)=="probit")){
-		result<-pnorm(apply(res,1:2, mean))
-	}
+	if(is.null(conditional)){
+		### Apply inverse link function
+		if(type=="response"){
+			if(any(class(object)=="probit")){
+				result<-pnorm(apply(res,1:2, mean))
+			}
 
-	if(any(class(object)=="gaussian")){
-		result<-apply(res,1:2, mean)
-	}
+			if(any(class(object)=="gaussian")){
+				result<-apply(res,1:2, mean)
+			}
 
-	if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
-		result<-exp(apply(res,1:2, mean))
-	}
+			if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
+				result<-exp(apply(res,1:2, mean))
+			}
+		}
 
-	colnames(result)<-colnames(Y)
+		if(type=="link"){
+				result<-apply(res,1:2, mean)
+		}
+		colnames(result)<-colnames(Y)
+	}else{
+		### Apply inverse link function
+		if(type=="response"){
+			if(any(class(object)=="probit")){
+				result<-pnorm(res)
+			}
+
+			if(any(class(object)=="gaussian")){
+				result<-res
+			}
+
+			if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
+				result<-exp(res)
+			}
+		}
+
+		if(type=="link"){
+			result<-res
+		}
+		dimnames(result)[[2]]<-colnames(Y)
+		dimnames(result)[[3]]<-paste("sample",1:dim(result)[3],sep="")
+	}
 
 	### Return model
 	return(result)

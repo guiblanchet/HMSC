@@ -5,12 +5,11 @@
 #include "sampleYlatentProbit.h"
 #include "sampleYlatentPoisson.h"
 
-arma::field<arma::cube> sampleCondPred(arma::mat& Y,
-				   arma::cube& EstModel,
-					 arma::mat residVar,
+arma::cube sampleCondPred(arma::mat& Y,
+				   arma::mat& EstModel,
+					 arma::vec residVar,
 					 int nsite,
 					 double nsp,
-					 int niter,
 					 int nsample,
 				 	 std::string family);
 

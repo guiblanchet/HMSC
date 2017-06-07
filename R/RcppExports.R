@@ -394,8 +394,8 @@ rmvnorm <- function(n, Mean, Var) {
     .Call('HMSC_rmvnorm', PACKAGE = 'HMSC', n, Mean, Var)
 }
 
-sampleCondPred <- function(Y, EstModel, residVar, nsite, nsp, niter, nsample, family) {
-    .Call('HMSC_sampleCondPred', PACKAGE = 'HMSC', Y, EstModel, residVar, nsite, nsp, niter, nsample, family)
+sampleCondPred <- function(Y, EstModel, residVar, nsite, nsp, nsample, family) {
+    .Call('HMSC_sampleCondPred', PACKAGE = 'HMSC', Y, EstModel, residVar, nsite, nsp, nsample, family)
 }
 
 #' @title Sample the model response matrix

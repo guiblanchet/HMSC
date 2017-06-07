@@ -4,12 +4,15 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, conditional = NULL, nsample, ...)
+\method{predict}{hmsc}(object, newdata, type = "response",
+  conditional = NULL, nsample, ...)
 }
 \arguments{
 \item{object}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
+
+\item{type}{A character vector defining whether the prediction should be return on the scale of the response variable ("response", default) or on the scale of the linear predictors ("link"). See details.}
 
 \item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.}
 
@@ -27,32 +30,6 @@ Obtains predictions for a model constructed using \code{hmsc}
 }
 \details{
 The function is designed for conditional predictions to be calculated so species are the variables that can be used to condition the prediction.
-}
-\examples{
-
-#================
-### Generate data
-#================
-desc <- cbind(scale(1:50), scale(1:50)^2)
-nspecies <- 20
-commDesc <- communitySimul(X = desc, nsp = nspecies)
-
-#=============
-### Formatting
-#=============
-### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
-
-#==============
-### Build model
-#==============
-modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
-
-#=======================
-### Calculate prediction
-#=======================
-predModel <- predict(modelDesc)
-
 }
 \author{
 F. Guillaume Blanchet
