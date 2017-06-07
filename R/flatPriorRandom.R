@@ -19,7 +19,7 @@ function(shrinkOverall=NULL,shrinkSpeed=NULL,shrinkLocal=NULL,family="probit"){
 		print("The priors for the latent variables should be OK for probit models but not necessarily for other models, be careful")
 	}
 
-	if(family=="poisson"){
+	if(family=="poisson" | family=="overPoisson"){
 		### Controls the overall shrinkage level
 		if(is.null(shrinkOverall)){
 			shrinkOverall<-c(50,1)
