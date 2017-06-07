@@ -221,6 +221,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
+	### Check the structure of Auto
 	if(!is.null(Auto)){
 		if(!all(sapply(Auto, function(x) is.factor(x[, 1])))){
 			stop("The first column of the data.frame in each list should be a factor and the other columns should be coordinates")
@@ -232,8 +233,15 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		if(!all(unlist(lapply(AutoCoord, function(x) apply(x, 2, is.numeric))))){
 			stop("When Auto is a list, the first column of the data.frame in each list should be a factor and the other columns should be coordinates")
 		}
+		### Check that the number of levels in each factor is represented
+		nLevAuto<-sapply(Auto, function(x) nlevels(x[,1]))
+		lengthUniAuto<-sapply(Auto, function(x) length(unique(x[,1])))
+		if(!all(nLevAuto == lengthUniAuto)){
+			stop("All levels in each factor of 'Auto' should be represented")
+		}
 	}
 
+	### Check the structure of Random
 	if(!is.null(Random)){
 		if(is.factor(Random)){
 			Random <- data.frame(random=Random)
@@ -246,6 +254,12 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 			}else{
 				stop("'Random' should be a factor or a data.frame")
 			}
+		}
+		### Check that the number of levels in each factor is represented
+		nLevRandom<-sapply(Random, nlevels)
+		lengthUniRandom<-sapply(Random, function(x) length(unique(x)))
+		if(!all(nLevRandom == lengthUniRandom)){
+			stop("All levels in each factor of 'Random' should be represented")
 		}
 	}
 
