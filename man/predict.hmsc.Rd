@@ -31,6 +31,42 @@ Obtains predictions for a model constructed using \code{hmsc}
 \details{
 The function is designed for conditional predictions to be calculated so species are the variables that can be used to condition the prediction.
 }
+\examples{
+
+#================
+### Generate data
+#================
+desc <- cbind(scale(1:50), scale(1:50)^2)
+nspecies <- 20
+commDesc <- communitySimul(X = desc, nsp = nspecies)
+
+#=============
+### Formatting
+#=============
+### Format data
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
+
+#==============
+### Build model
+#==============
+modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
+
+#=======================
+### Calculate prediction
+#=======================
+predModel <- predict(modelDesc)
+
+#===================================
+### Calculate conditional prediction
+#===================================
+### Conditional only on sp1
+predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 1)
+
+### Conditional on the whole community but with an interest on sp1
+formdata$Y[,1] <- NA
+predCondSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 1)[,1]
+
+}
 \author{
 F. Guillaume Blanchet
 }

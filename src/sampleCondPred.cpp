@@ -27,15 +27,15 @@ arma::cube sampleCondPred(arma::mat& Y,
 		mat YlatentIni = zeros(nsite,nsp);
 
 		for (int i = 0; i < nsample; i++) {
-					Ylatent.slice(i) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVar, nsp, nsite);
+			Ylatent.slice(i) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVar, nsp, nsite);
 		}
 	}
 
 	if(family == "gaussian"){
 		mat repResidVar(nsite,nsp);
 		for (int i = 0; i < nsample; i++) {
-				repResidVar = repmat(residVar,nsite,1);
-				Ylatent.slice(i) = randn(nsite,nsp)%repResidVar+EstModel;
+			repResidVar = repmat(residVar,nsite,1);
+			Ylatent.slice(i) = randn(nsite,nsp)%repResidVar+EstModel;
 		}
 	}
 
@@ -43,7 +43,7 @@ arma::cube sampleCondPred(arma::mat& Y,
 		mat YlatentIni = zeros(nsite,nsp);
 
 		for (int i = 0; i < nsample; i++) {
-				Ylatent.slice(i) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVar, nsp, nsite);
+			Ylatent.slice(i) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVar, nsp, nsite);
 		}
 	}
 
