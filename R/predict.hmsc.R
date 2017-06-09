@@ -400,6 +400,26 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 				}
 			}
 		}
+
+		### Apply inverse link function
+		if(type=="response"){
+			if(any(class(object)=="probit")){
+				result<-pnorm(apply(res,1:2, mean))
+			}
+
+			if(any(class(object)=="gaussian")){
+				result<-apply(res,1:2, mean)
+			}
+
+			if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
+				result<-exp(apply(res,1:2, mean))
+			}
+		}
+
+		if(type=="link"){
+				result<-apply(res,1:2, mean)
+		}
+		colnames(result)<-colnames(data$Y)
 	}else{
 		### Average the result matrix
 		res <- apply(res,1:2, mean)
@@ -446,31 +466,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 
 		### Sample conditional prediction
 		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
-	}else{
-		Y <- data$Y
-	}
 
-	if(is.null(conditional)){
-		### Apply inverse link function
-		if(type=="response"){
-			if(any(class(object)=="probit")){
-				result<-pnorm(apply(res,1:2, mean))
-			}
-
-			if(any(class(object)=="gaussian")){
-				result<-apply(res,1:2, mean)
-			}
-
-			if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
-				result<-exp(apply(res,1:2, mean))
-			}
-		}
-
-		if(type=="link"){
-				result<-apply(res,1:2, mean)
-		}
-		colnames(result)<-colnames(Y)
-	}else{
 		### Apply inverse link function
 		if(type=="response"){
 			if(any(class(object)=="probit")){
