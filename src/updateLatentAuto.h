@@ -6,7 +6,7 @@
 
 arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 										arma::umat& RandomAuto,
-										arma::vec& residVar,
+										arma::vec residVar,
 										arma::field<arma::vec>& paramAuto,
 										arma::field<arma::cube>& wAutoInv,
 										arma::field<arma::mat>& paramLatentAuto,

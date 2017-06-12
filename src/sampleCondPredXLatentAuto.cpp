@@ -1,22 +1,29 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
-#include "sampleCondPredAuto.h"
+#include "sampleCondPredXLatentAuto.h"
 
 using namespace arma;
 using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
+arma::field<arma::cube> sampleCondPredXLatentAuto(arma::mat& Y,
+					 arma::mat& X,
 					 arma::field< arma::mat >& Auto,
+					 arma::umat& Random,
 					 arma::umat& RandomAuto,
+					 arma::cube& paramX,
+					 arma::field< arma::mat >& latent,
+					 arma::field< arma::mat >& paramLatent,
 					 arma::field< arma::mat >& latentAuto,
 					 arma::field< arma::mat >& paramLatentAuto,
 					 arma::field<arma::vec>& paramAuto,
-					 arma::mat& residVar,
+					 arma::mat residVar,
 					 Rcpp::NumericMatrix& priorParamAutoDist,
 					 int nsite,
 					 double nsp,
+					 int nRandom,
+					 arma::vec& nRandomLev,
 					 int nAuto,
 					 arma::vec& nAutoLev,
 					 int npriorParamAuto,
@@ -26,14 +33,19 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 
 	// Define basic objects to store results
 	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter,1);
-
+	field<cube> Ylatent(nsite, nsp, nsample);
 	mat EstModel(nsite, nsp);
 	EstModel.zeros();
+
+	mat Yresid(nsite,nsp);
 
 	mat residVarT = trans(residVar);
 
 	// Define field object to store one iterations of latent variables and their associated parameters
+	field<mat> latent1iter(nRandom,1);
+	field<mat> paramLatent1iter(nRandom,1);
+	vec nLatent(nRandom);
+
 	field<mat> latentAuto1iter(nAuto,1);
 	field<mat> paramLatentAuto1iter(nAuto,1);
 	vec nLatentAuto(nAuto);
@@ -48,6 +60,18 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 
 	// Convert NumericMatrix to arma::mat
 	mat priorParamAutoDistArma = as<arma::mat>(priorParamAutoDist);
+
+	// Reorganize latent
+	field<mat> latentOrg(niter, nRandom);
+	field<mat> paramLatentOrg(niter, nRandom);
+	int counter = 0;
+	for(int j = 0; j < nRandom ; j++){
+		for(int i = 0; i < niter ; i++){
+			latentOrg(i,j) = latent(counter,0);
+			paramLatentOrg(i,j) = paramLatent(counter,0);
+			counter++;
+		}
+	}
 
 	// Reorganize latentAuto
 	field<mat> latentAutoOrg(niter, nAuto);
@@ -66,7 +90,14 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 	////////////////////////////////
 	for(int i = 0; i < niter ; i++){
 		// Calculate the model estimation
-		EstModel.zeros();
+		EstModel = X * trans(paramX.slice(i));
+
+		for(int j = 0; j < nRandom ; j++){
+			mat latentMat = latentOrg(i,j);
+			nLatent(j) = latentMat.n_cols;
+			mat paramLatentMat = paramLatentOrg(i,j);
+			EstModel = EstModel + latentMat.rows(Random.col(j))*trans(paramLatentMat);
+		}
 
 		for(int j = 0; j < nAuto ; j++){
 			mat latentAutoMat = latentAutoOrg(i,j);
@@ -103,12 +134,43 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 			////////////////
 			// Update latent
 			////////////////
+			for(int j = 0; j < nRandom ; j++){
+				latent1iter(j,0) = latentOrg(i,j);
+				paramLatent1iter(j,0) = paramLatentOrg(i,j);
+			}
+
 			for(int j = 0; j < nAuto ; j++){
 				latentAuto1iter(j,0) = latentAutoOrg(i,j);
 				paramLatentAuto1iter(j,0) = paramLatentAutoOrg(i,j);
 			}
 
-			latentAuto1iter = updateLatentAuto(YlatentSample.slice(j), RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
+			// Remove influence of X variables
+			Yresid = YlatentSample.slice(j) - X * trans(paramX.slice(i));
+
+			// Remove influence of latentAuto
+			for(int j = 0; j < nAuto ; j++){
+				Yresid = Yresid - latentAuto1iter(j,0) * trans(paramLatentAuto1iter(j,0));
+			}
+
+			latent1iter = updateLatent(Yresid,Random,residVarT.col(i),paramLatent1iter,latent1iter,nRandom,nRandomLev,nLatent,nsp,nsite);
+
+			for(int j = 0; j < nRandom ; j++){
+				latentOrg(i,j) = latent1iter(j,0);
+			}
+
+			////////////////////
+			// Update latentAuto
+			////////////////////
+
+			// Remove influence of X variables
+			Yresid = YlatentSample.slice(j) - X * trans(paramX.slice(i));
+
+			// Remove influence of latentAuto
+			for(int j = 0; j < nRandom ; j++){
+				Yresid = Yresid - latent1iter(j,0) * trans(paramLatent1iter(j,0));
+			}
+
+			latentAuto1iter = updateLatentAuto(Yresid, RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
 
 			for(int j = 0; j < nAuto ; j++){
 				latentAutoOrg(i,j) = latentAuto1iter(j,0);

@@ -403,230 +403,6 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 
 	### Fill the results object
 	if(!is.null(conditional)){
-		for(i in 1:niter){
-		if(missing(newdata) || is.null(newdata)){
-			if(is.null(data$Random)){
-				if(is.null(data$Auto)){
-					if(is.null(data$X)){
-						stop("This object is essentially empty")
-					}else{
-						### Only X
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-						}
-				}else{
-					if(is.null(data$X)){
-						### Only Auto
-							for(j in 1:nAuto){
-								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-					}else{
-						### X and Auto
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nAuto){
-								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-					}
-				}
-			}else{
-				if(is.null(data$Auto)){
-					if(is.null(data$X)){
-						### Only Random
-							for(j in 1:nRandom){
-								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-					}else{
-						### X and Random
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nRandom){
-								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-						}
-				}else{
-					if(is.null(data$X)){
-						### Auto and Random
-							for(j in 1:nAuto){
-								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-							for(j in 1:nRandom){
-								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-					}else{
-						### X, Auto and Random
-						for(i in 1:niter){
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nAuto){
-								AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-							for(j in 1:nRandom){
-								RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-						}
-					}
-				}
-			}
-		}else{
-			if(is.null(data$Random)){
-				if(is.null(data$Auto)){
-					if(is.null(data$X)){
-						stop("This object is essentially empty")
-					}else{
-						### Only X
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-					}
-				}else{
-					if(is.null(data$X)){
-						### Only Auto
-							for(j in 1:nAuto){
-								### Construct latentAuto variables
-								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-
-								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-					}else{
-						### X and Auto
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nAuto){
-								### Construct latentAuto variables
-								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-
-								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-					}
-				}
-			}else{
-				if(is.null(data$Auto)){
-					if(is.null(data$X)){
-						### Only Random
-							for(j in 1:nRandom){
-								### Construct latent variables
-								nlatent<-ncol(object$results$estimation$latent[[i,j]])
-								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-
-								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-					}else{
-						### X and Random
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nRandom){
-								### Construct latent variables
-								nlatent<-ncol(object$results$estimation$latent[[i,j]])
-								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-
-								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-					}
-				}else{
-					if(is.null(data$X)){
-						### Auto and Random
-							for(j in 1:nAuto){
-								### Construct latentAuto variables
-								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-
-								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-							for(j in 1:nRandom){
-								### Construct latent variables
-								nlatent<-ncol(object$results$estimation$latent[[i,j]])
-								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-
-								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-					}else{
-						### X, Auto and Random
-							res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
-							for(j in 1:nAuto){
-								### Construct latentAuto variables
-								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
-								latentAuto<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
-								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
-
-								AutoModel<-tcrossprod(latentAuto,object$results$estimation$paramLatentAuto[[i,j]])
-								res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
-							}
-							for(j in 1:nRandom){
-								### Construct latent variables
-								nlatent<-ncol(object$results$estimation$latent[[i,j]])
-								latent<-rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
-								rownames(latent)<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-
-								RandomModel<-tcrossprod(latent,object$results$estimation$paramLatent[[i,j]])
-								res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
-							}
-						}
-					}
-				}
-			}
-
-			### Find the species to consider as conditional
-			condSp <- colnames(data$Y)%in%conditional
-			if(sum(condSp)!=length(conditional)){
-				stop("Some species defined in 'conditional' were not found in the species data matrix")
-			}
-			### Selected species
-			spSel <- which(condSp)
-
-			### Select the species in Y
-			Y <- as.matrix(data$Y[,spSel])
-
-			### Redefine the number of species
-			nsp <- ncol(Y)
-
-			### Extract the species to consider in the estimated model calculated above
-			EstModel <- res[,spSel,i]
-
-			### Check to make sure that EstModel always has 2 dimensions
-			if(!is.matrix(EstModel)){
-				EstModel <- as.matrix(EstModel)
-			}
-
-			### Construct residVar for the different types of models
-			if(any(class(object)=="probit") | any(class(object)=="poisson")){
-				residVar <- matrix(1,nrow=niter,ncol=nsp)
-			}
-
-			if(any(class(object)=="gaussian")){
-				residVar <- as.matrix(object$results$estimation$varNormal[,spSel])
-			}
-
-			if(any(class(object)=="overPoisson")){
-				residVar <- as.matrix(object$results$estimation$varPoisson[,spSel])
-			}
-
-			### Sample conditional prediction
-			res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
-		}
-
-
-	}
-
-
-	if(!is.null(conditional)){
-		### Average the result matrix
-		res <- apply(res,1:2, mean)
-
 		### A few checks
 		if(!is.character(conditional)){
 			stop("'conditional' needs to be a vector of characters")
@@ -646,29 +422,333 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 		### Redefine the number of species
 		nsp <- ncol(Y)
 
-		### Extract the species to consider in the estimated model calculated above
-		EstModel <- res[,spSel]
-
-		### Check to make sure that EstModel always has 2 dimensions
-		if(!is.matrix(EstModel)){
-			EstModel <- as.matrix(EstModel)
-		}
-
 		### Construct residVar for the different types of models
 		if(any(class(object)=="probit") | any(class(object)=="poisson")){
 			residVar <- matrix(1,nrow=niter,ncol=nsp)
 		}
 
 		if(any(class(object)=="gaussian")){
-			residVar <- as.matrix(object$results$estimation$varNormal[,spSel])
+			residVar <- as.matrix(object$results$estimation$varNormal)
 		}
 
 		if(any(class(object)=="overPoisson")){
-			residVar <- as.matrix(object$results$estimation$varPoisson[,spSel])
+			residVar <- as.matrix(object$results$estimation$varPoisson)
 		}
 
-		### Sample conditional prediction
-		res <- sampleCondPred(Y, EstModel, residVar, nsite, nsp, nsample, family=class(object)[2])
+		if(is.null(data$Random)){
+			if(is.null(data$Auto)){
+				if(is.null(data$X)){
+					stop("This object is essentially empty")
+				}else{
+					#=========
+					### Only X
+					#=========
+					res <- sampleCondPredX(Y, data$X, object$results$estimation$paramX, residVar, nsite, niter, nsample, class(object)[2])
+				}
+			}else{
+				if(is.null(data$X)){
+					#============
+					### Only Auto
+					#============
+					if(missing(newdata) || is.null(newdata)){
+						latentAuto<-vector("list",length=niter*nAuto)
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto[[i,j]]<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+							}
+						}
+					}else{
+						latentAuto <- object$results$estimation$latentAuto
+					}
+
+					### Build Auto and RandomAuto
+					Auto <- lapply(data$Auto,function(x) x[,-1])
+					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
+					nAutoLev <- sapply(RandomAuto, nlevels)
+
+					### Flat prior definition
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					npriorParamAuto <- nrow(priorParamAutoDist)
+
+					res <- sampleCondPredAuto(Y,
+																		Auto,
+																		RandomAuto,
+																		latentAuto,
+																		object$results$estimation$paramLatentAuto,
+																		object$results$estimation$paramAuto,
+																		residVar,
+																		priorParamAutoDist,
+																		nsite,
+																		nsp,
+																		nAuto,
+																		nAutoLev,
+																		npriorParamAuto,
+																		niter,
+																		nsample,
+																		class(object)[2])
+				}else{
+					#=============
+					### X and Auto
+					#=============
+					if(missing(newdata) || is.null(newdata)){
+						latentAuto<-vector("list",length=niter*nAuto)
+						for(i in 1:niter){
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto[[i,j]]<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+							}
+						}
+					}else{
+						latentAuto <- object$results$estimation$latentAuto
+					}
+
+					### Build Auto and RandomAuto
+					Auto <- lapply(data$Auto,function(x) x[,-1])
+					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
+					nAutoLev <- sapply(RandomAuto, nlevels)
+
+					### Flat prior definition
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					npriorParamAuto <- nrow(priorParamAutoDist)
+
+					res <- sampleCondPredXAuto(Y,
+																		data$X,
+																		Auto,
+																		RandomAuto,
+																		object$results$estimation$paramX,
+																		latentAuto,
+																		object$results$estimation$paramLatentAuto,
+																		object$results$estimation$paramAuto,
+																		residVar,
+																		priorParamAutoDist,
+																		nsite,
+																		nsp,
+																		nAuto,
+																		nAutoLev,
+																		npriorParamAuto,
+																		niter,
+																		nsample,
+																		class(object)[2])
+				}
+			}
+		}else{
+			if(is.null(data$Auto)){
+				if(is.null(data$X)){
+					#==============
+					### Only Random
+					#==============
+					if(missing(newdata) || is.null(newdata)){
+						latent<-vector("list",length=niter*nRandom)
+						dim(latent)<-c(niter,nRandom)
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent[[i,j]] <- rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent[[i,j]])<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+						 	}
+						}
+					}else{
+						latent <- object$results$estimation$latent
+					}
+
+					### Organize Random
+					Random<-sapply(data$Random,as.numeric)-1
+					nRandomLev <- sapply(data$Random, nlevels)
+
+					res <- sampleCondPredLatent(Y,
+																			Random,
+																			latent,
+																			object$results$estimation$paramLatent,
+																			residVar,
+																			nsite,
+																			nsp,
+																			nRandom,
+																			nRandomLev,
+																			niter,
+																			nsample,
+																			class(object)[2])
+				}else{
+					#===============
+					### X and Random
+					#===============
+					if(missing(newdata) || is.null(newdata)){
+						latent<-vector("list",length=niter*nRandom)
+						dim(latent)<-c(niter,nRandom)
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent[[i,j]] <- rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent[[i,j]])<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+						 	}
+						}
+					}else{
+						latent <- object$results$estimation$latent
+					}
+
+					### Organize Random
+					Random<-sapply(data$Random,as.numeric)-1
+					nRandomLev <- sapply(data$Random, nlevels)
+
+					res <- sampleCondPredXLatent(Y,
+						 													 data$X,
+																			 Random,
+																			 object$results$estimation$paramX,
+																			 latent,
+																			 object$results$estimation$paramLatent,
+																			 residVar,
+																			 nsite,
+																			 nsp,
+																			 nRandom,
+																			 nRandomLev,
+																			 niter,
+																			 nsample,
+																			 class(object)[2])
+				}
+			}else{
+				if(is.null(data$X)){
+					#==================
+					### Auto and Random
+					#==================
+					if(missing(newdata) || is.null(newdata)){
+						latent<-vector("list",length=niter*nRandom)
+						latentAuto<-vector("list",length=niter*nAuto)
+						dim(latent)<-c(niter,nRandom)
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent[[i,j]] <- rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent[[i,j]])<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+						 	}
+
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto[[i,j]]<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+							}
+						}
+					}else{
+						latent <- object$results$estimation$latent
+						latentAuto <- object$results$estimation$latentAuto
+					}
+
+					### Organize Random
+					Random<-sapply(data$Random,as.numeric)-1
+					nRandomLev <- sapply(data$Random, nlevels)
+
+					### Build Auto and RandomAuto
+					Auto <- lapply(data$Auto,function(x) x[,-1])
+					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
+					nAutoLev <- sapply(RandomAuto, nlevels)
+
+					### Flat prior definition
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					npriorParamAuto <- nrow(priorParamAutoDist)
+
+					res <- sampleCondPredLatentAuto(Y,
+																					Auto,
+																					data$Random,
+																					RandomAuto,
+																					latent,
+																					object$results$estimation$paramLatent,
+																					latentAuto,
+																					object$results$estimation$paramLatentAuto,
+																					object$results$estimation$paramAuto,
+																					residVar,
+																					priorParamAutoDist,
+																					nsite,
+																					nsp,
+																					nRandom,
+																					nRandomLev,
+																					nAuto,
+																					nAutoLev,
+																					npriorParamAuto,
+																					niter,
+																					nsample,
+																					class(object)[2])
+				}else{
+					#=====================
+					### X, Auto and Random
+					#=====================
+					if(missing(newdata) || is.null(newdata)){
+						latent<-vector("list",length=niter*nRandom)
+						latentAuto<-vector("list",length=niter*nAuto)
+						dim(latent)<-c(niter,nRandom)
+						for(i in 1:niter){
+							for(j in 1:nRandom){
+								### Construct latent variables
+								nlatent<-ncol(object$results$estimation$latent[[i,j]])
+								latent[[i,j]] <- rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
+								rownames(latent[[i,j]])<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
+						 	}
+
+							for(j in 1:nAuto){
+								### Construct latentAuto variables
+								nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
+								latentAuto[[i,j]]<-rbind(object$results$estimation$latentAuto[[i,j]][matchAuto[[j]],],matrix(rnorm(length(noMatchAuto[[j]])*nlatentAuto),ncol=nlatentAuto))
+								rownames(latentAuto)<-c(objectAutoNlev[[j]][matchAuto[[j]]],noMatchAuto[[j]])
+							}
+						}
+					}else{
+						latent <- object$results$estimation$latent
+						latentAuto <- object$results$estimation$latentAuto
+					}
+
+					### Organize Random
+					Random<-sapply(data$Random,as.numeric)-1
+					nRandomLev <- sapply(data$Random, nlevels)
+
+					### Build Auto and RandomAuto
+					Auto <- lapply(data$Auto,function(x) x[,-1])
+					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
+					nAutoLev <- sapply(RandomAuto, nlevels)
+
+					### Flat prior definition
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					npriorParamAuto <- nrow(priorParamAutoDist)
+
+					res <- sampleCondPredXLatentAuto(Y,
+																					 data$X,
+																					 Auto,
+																					 data$Random,
+																					 RandomAuto,
+																					 object$results$estimation$paramX,
+																					 latent,
+																					 object$results$estimation$paramLatent,
+																					 latentAuto,
+																					 object$results$estimation$paramLatentAuto,
+																					 object$results$estimation$paramAuto,
+																					 residVar,
+																					 priorParamAutoDist,
+																					 nsite,
+																					 nsp,
+																					 nRandom,
+																					 nRandomLev,
+																					 nAuto,
+																					 nAutoLev,
+																					 npriorParamAuto,
+																					 niter,
+																					 nsample,
+																					 class(object)[2])
+				}
+			}
+		}
+
+		Res <- array(dim=c(nsite,nsp,nsample,niter))
+		for(i in 1:niter){
+			Res[,,,i] <- res[[i]]
+		}
+
+		### Average the result matrix
+		res <- apply(Res,1:2, mean)
 	}else{
 		Y <- data$Y
 	}
@@ -712,8 +792,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 		if(type=="link"){
 			result<-res
 		}
-		dimnames(result)[[2]]<-colnames(Y)
-		dimnames(result)[[3]]<-paste("sample",1:dim(result)[3],sep="")
+		colnames(result)<-colnames(Y)
 	}
 
 	### Return model

@@ -394,10 +394,6 @@ rmvnorm <- function(n, Mean, Var) {
     .Call('HMSC_rmvnorm', PACKAGE = 'HMSC', n, Mean, Var)
 }
 
-sampleCondPred <- function(Y, EstModel, residVar, nsite, nsp, nsample, family) {
-    .Call('HMSC_sampleCondPred', PACKAGE = 'HMSC', Y, EstModel, residVar, nsite, nsp, nsample, family)
-}
-
 sampleCondPredAuto <- function(Y, Auto, RandomAuto, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family) {
     .Call('HMSC_sampleCondPredAuto', PACKAGE = 'HMSC', Y, Auto, RandomAuto, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family)
 }
@@ -406,8 +402,25 @@ sampleCondPredLatent <- function(Y, Random, latent, paramLatent, residVar, nsite
     .Call('HMSC_sampleCondPredLatent', PACKAGE = 'HMSC', Y, Random, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family)
 }
 
+sampleCondPredLatentAuto <- function(Y, Auto, Random, RandomAuto, latent, paramLatent, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nRandom, nRandomLev, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family) {
+    .Call('HMSC_sampleCondPredLatentAuto', PACKAGE = 'HMSC', Y, Auto, Random, RandomAuto, latent, paramLatent, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nRandom, nRandomLev, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family)
+}
+
 sampleCondPredX <- function(Y, X, paramX, residVar, nsite, nsp, niter, nsample, family) {
     .Call('HMSC_sampleCondPredX', PACKAGE = 'HMSC', Y, X, paramX, residVar, nsite, nsp, niter, nsample, family)
+}
+
+sampleCondPredXAuto <- function(Y, X, Auto, RandomAuto, paramX, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family) {
+    .Call('HMSC_sampleCondPredXAuto', PACKAGE = 'HMSC', Y, X, Auto, RandomAuto, paramX, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family)
+}
+
+#' @export
+sampleCondPredXLatent <- function(Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family) {
+    .Call('HMSC_sampleCondPredXLatent', PACKAGE = 'HMSC', Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family)
+}
+
+sampleCondPredXLatentAuto <- function(Y, X, Auto, Random, RandomAuto, paramX, latent, paramLatent, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nRandom, nRandomLev, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family) {
+    .Call('HMSC_sampleCondPredXLatentAuto', PACKAGE = 'HMSC', Y, X, Auto, Random, RandomAuto, paramX, latent, paramLatent, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nRandom, nRandomLev, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family)
 }
 
 #' @title Sample the model response matrix

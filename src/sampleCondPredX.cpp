@@ -10,7 +10,7 @@ using namespace Rcpp;
 arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 					 arma::mat& X,
 					 arma::cube& paramX,
-					 arma::vec residVar,
+					 arma::mat residVar,
 					 int nsite,
 					 double nsp,
 					 int niter,
@@ -23,6 +23,8 @@ arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 
 	mat EstModel(nsite, nsp);
 
+	mat residVarT = trans(residVar);
+
 	for(int i = 0; i < niter ; i++){
 		EstModel = X * trans(paramX.slice(i));
 
@@ -34,19 +36,19 @@ arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVar, nsp, nsite);
+				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
-				repResidVar = repmat(residVar,nsite,1);
+				repResidVar = repmat(residVarT.col(i),nsite,1);
 				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVar, nsp, nsite);
+				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 			// Store in final object
 			Ylatent(j,0) = YlatentSample;

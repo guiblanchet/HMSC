@@ -7,7 +7,7 @@ using namespace Rcpp ;
 
 arma::field<arma::mat> updateLatent(arma::mat& Ylatent,
 									arma::umat& Random,
-									arma::vec& residVar,
+									arma::vec residVar,
 									arma::field<arma::mat>& paramLatent,
 									arma::field<arma::mat>& latent,
 									int nRandom,

@@ -8,7 +8,7 @@
 arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 					 arma::mat& X,
 					 arma::cube& paramX,
-					 arma::vec residVar,
+					 arma::mat residVar,
 					 int nsite,
 					 double nsp,
 					 int niter,

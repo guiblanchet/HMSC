@@ -1,19 +1,21 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
-#include "sampleCondPredAuto.h"
+#include "sampleCondPredXAuto.h"
 
 using namespace arma;
 using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
+arma::field<arma::cube> sampleCondPredXAuto(arma::mat& Y,
+					 arma::mat& X,
 					 arma::field< arma::mat >& Auto,
 					 arma::umat& RandomAuto,
+					 arma::cube& paramX,
 					 arma::field< arma::mat >& latentAuto,
 					 arma::field< arma::mat >& paramLatentAuto,
 					 arma::field<arma::vec>& paramAuto,
-					 arma::mat& residVar,
+					 arma::mat residVar,
 					 Rcpp::NumericMatrix& priorParamAutoDist,
 					 int nsite,
 					 double nsp,
@@ -26,10 +28,11 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 
 	// Define basic objects to store results
 	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter,1);
-
+	field<cube> Ylatent(niter, 1);
 	mat EstModel(nsite, nsp);
 	EstModel.zeros();
+
+	mat Yresid(nsite,nsp);
 
 	mat residVarT = trans(residVar);
 
@@ -66,7 +69,7 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 	////////////////////////////////
 	for(int i = 0; i < niter ; i++){
 		// Calculate the model estimation
-		EstModel.zeros();
+		EstModel = X * trans(paramX.slice(i));
 
 		for(int j = 0; j < nAuto ; j++){
 			mat latentAutoMat = latentAutoOrg(i,j);
@@ -108,12 +111,16 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 				paramLatentAuto1iter(j,0) = paramLatentAutoOrg(i,j);
 			}
 
-			latentAuto1iter = updateLatentAuto(YlatentSample.slice(j), RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
+			// Remove influence of X variables
+			Yresid = YlatentSample.slice(j) - X * trans(paramX.slice(i));
+
+			latentAuto1iter = updateLatentAuto(Yresid, RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
 
 			for(int j = 0; j < nAuto ; j++){
 				latentAutoOrg(i,j) = latentAuto1iter(j,0);
 			}
 		}
+
 		// Save results
 		Ylatent(i,0) = YlatentSample;
 	}
