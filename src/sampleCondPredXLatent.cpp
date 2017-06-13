@@ -8,7 +8,7 @@ using namespace Rcpp;
 // Calculates a prediction conditional on a subset of species.
 //' @export
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
+arma::cube sampleCondPredXLatent(arma::mat& Y,
 					 arma::mat& X,
 					 arma::umat& Random,
 					 arma::cube& paramX,
@@ -24,8 +24,8 @@ arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
 				 	 std::string family) {
 
 	// Define basic objects to store results
-	cube YlatentSample(nsite, nsp, niter);
-	field<cube> Ylatent(niter,1);
+	cube Ylatent(nsite, nsp, niter);
+	mat YlatentSample(nsite, nsp);
 	mat EstModel(nsite, nsp);
 
 	mat Yresid(nsite,nsp);
@@ -61,7 +61,7 @@ arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
 		}
 
 		// Sample Ylatent
-		for (int j = 0; j < nsample; j++) {
+		for (int k = 0; k < nsample; k++) {
 			if(family == "probit"){
 				uvec Y0Loc = find(Y==0);
 				uvec Y1Loc = find(Y==1);
@@ -69,18 +69,18 @@ arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
 				repResidVar = repmat(residVar.row(i),nsite,1);
-				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
+				YlatentSample = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			// Update latent
@@ -90,7 +90,7 @@ arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
 			}
 
 			// Remove influence of X variables
-			Yresid = YlatentSample.slice(j) - X * trans(paramX.slice(i));
+			Yresid = YlatentSample - X * trans(paramX.slice(i));
 
 			latent1iter = updateLatent(Yresid,Random,residVarT.col(i),paramLatent1iter,latent1iter,nRandom,nRandomLev,nLatent,nsp,nsite);
 
@@ -99,7 +99,7 @@ arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y,
 			}
 		}
 		// Save results
-		Ylatent(i,0) = YlatentSample;
+		Ylatent.slice(i) = YlatentSample;
 	}
 
 	// return result object

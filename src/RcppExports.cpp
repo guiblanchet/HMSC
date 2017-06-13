@@ -4637,7 +4637,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // sampleCondPredXLatent
-arma::field<arma::cube> sampleCondPredXLatent(arma::mat& Y, arma::mat& X, arma::umat& Random, arma::cube& paramX, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::mat residVar, int nsite, double nsp, int nRandom, arma::vec& nRandomLev, int niter, int nsample, std::string family);
+arma::cube sampleCondPredXLatent(arma::mat& Y, arma::mat& X, arma::umat& Random, arma::cube& paramX, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::mat residVar, int nsite, double nsp, int nRandom, arma::vec& nRandomLev, int niter, int nsample, std::string family);
 RcppExport SEXP HMSC_sampleCondPredXLatent(SEXP YSEXP, SEXP XSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP residVarSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP niterSEXP, SEXP nsampleSEXP, SEXP familySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

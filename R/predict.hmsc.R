@@ -443,14 +443,17 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#=========
 					### Only X
 					#=========
-					res <- sampleCondPredX(Y, data$X, object$results$estimation$paramX, residVar, nsite, niter, nsample, class(object)[2])
+					### Isolate parameters for selected species
+					paramX <- array(object$results$estimation$paramX[spSel,,],dim=c(nsp,dim(object$results$estimation$paramX)[2],niter))
+
+					res <- sampleCondPredX(Y, data$X, paramX, residVar[spSel], nsite, niter, nsample, class(object)[2])
 				}
 			}else{
 				if(is.null(data$X)){
 					#============
 					### Only Auto
 					#============
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latentAuto<-vector("list",length=niter*nAuto)
 						for(i in 1:niter){
 							for(j in 1:nAuto){
@@ -473,11 +476,20 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
+					### Isolate parameters for selected species
+					paramLatentAuto<-vector("list",length=niter*nAuto)
+					dim(paramLatentAuto)<-c(niter,nAuto)
+					for(i in 1:niter){
+						for(j in 1:nAuto){
+							paramLatentAuto[[i,j]] <- matrix(object$results$estimation$paramLatentAuto[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
 					res <- sampleCondPredAuto(Y,
 																		Auto,
 																		RandomAuto,
 																		latentAuto,
-																		object$results$estimation$paramLatentAuto,
+																		paramLatentAuto,
 																		object$results$estimation$paramAuto,
 																		residVar,
 																		priorParamAutoDist,
@@ -493,7 +505,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#=============
 					### X and Auto
 					#=============
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latentAuto<-vector("list",length=niter*nAuto)
 						for(i in 1:niter){
 							for(j in 1:nAuto){
@@ -516,13 +528,24 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
+					### Isolate parameters for selected species
+					paramX <- array(object$results$estimation$paramX[spSel,,],dim=c(nsp,dim(object$results$estimation$paramX)[2],niter))
+
+					paramLatentAuto<-vector("list",length=niter*nAuto)
+					dim(paramLatentAuto)<-c(niter,nAuto)
+					for(i in 1:niter){
+						for(j in 1:nAuto){
+							paramLatentAuto[[i,j]] <- matrix(object$results$estimation$paramLatentAuto[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
 					res <- sampleCondPredXAuto(Y,
 																		data$X,
 																		Auto,
 																		RandomAuto,
-																		object$results$estimation$paramX,
+																		paramX,
 																		latentAuto,
-																		object$results$estimation$paramLatentAuto,
+																		paramLatentAuto,
 																		object$results$estimation$paramAuto,
 																		residVar,
 																		priorParamAutoDist,
@@ -542,7 +565,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#==============
 					### Only Random
 					#==============
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latent<-vector("list",length=niter*nRandom)
 						dim(latent)<-c(niter,nRandom)
 						for(i in 1:niter){
@@ -551,10 +574,24 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 								nlatent<-ncol(object$results$estimation$latent[[i,j]])
 								latent[[i,j]] <- rbind(object$results$estimation$latent[[i,j]][matchRandom[[j]],],matrix(rnorm(length(noMatchRandom[[j]])*nlatent),ncol=nlatent))
 								rownames(latent[[i,j]])<-c(objectRandomNlev[[j]][matchRandom[[j]]],noMatchRandom[[j]])
-						 	}
+
+								### Isolate parameters for selected species
+								paramLatent<-vector("list",length=niter*nRandom)
+								dim(paramLatent)<-c(niter,nRandom)
+								paramLatent[[i,j]] <- object$results$estimation$paramLatent[[i,j]][spSel,]
+							}
 						}
 					}else{
 						latent <- object$results$estimation$latent
+					}
+
+					### Isolate parameters for selected species
+					paramLatent<-vector("list",length=niter*nRandom)
+					dim(paramLatent)<-c(niter,nRandom)
+					for(i in 1:niter){
+						for(j in 1:nRandom){
+							paramLatent[[i,j]] <- matrix(object$results$estimation$paramLatent[[i,j]][spSel,],nrow=nsp)
+						}
 					}
 
 					### Organize Random
@@ -564,7 +601,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					res <- sampleCondPredLatent(Y,
 																			Random,
 																			latent,
-																			object$results$estimation$paramLatent,
+																			paramLatent,
 																			residVar,
 																			nsite,
 																			nsp,
@@ -577,7 +614,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#===============
 					### X and Random
 					#===============
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latent<-vector("list",length=niter*nRandom)
 						dim(latent)<-c(niter,nRandom)
 						for(i in 1:niter){
@@ -596,12 +633,23 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					Random<-sapply(data$Random,as.numeric)-1
 					nRandomLev <- sapply(data$Random, nlevels)
 
+					### Isolate parameters for selected species
+					paramX <- array(object$results$estimation$paramX[spSel,,],dim=c(nsp,dim(object$results$estimation$paramX)[2],niter))
+
+					paramLatent<-vector("list",length=niter*nRandom)
+					dim(paramLatent)<-c(niter,nRandom)
+					for(i in 1:niter){
+						for(j in 1:nRandom){
+							paramLatent[[i,j]] <- matrix(object$results$estimation$paramLatent[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
 					res <- sampleCondPredXLatent(Y,
 						 													 data$X,
 																			 Random,
-																			 object$results$estimation$paramX,
+																			 paramX,
 																			 latent,
-																			 object$results$estimation$paramLatent,
+																			 paramLatent,
 																			 residVar,
 																			 nsite,
 																			 nsp,
@@ -616,7 +664,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#==================
 					### Auto and Random
 					#==================
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latent<-vector("list",length=niter*nRandom)
 						latentAuto<-vector("list",length=niter*nAuto)
 						dim(latent)<-c(niter,nRandom)
@@ -653,14 +701,31 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
+					### Isolate parameters for selected species
+					paramLatent<-vector("list",length=niter*nRandom)
+					dim(paramLatent)<-c(niter,nRandom)
+					for(i in 1:niter){
+						for(j in 1:nRandom){
+							paramLatent[[i,j]] <- matrix(object$results$estimation$paramLatent[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
+					paramLatentAuto<-vector("list",length=niter*nAuto)
+					dim(paramLatentAuto)<-c(niter,nAuto)
+					for(i in 1:niter){
+						for(j in 1:nAuto){
+							paramLatentAuto[[i,j]] <- matrix(object$results$estimation$paramLatentAuto[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
 					res <- sampleCondPredLatentAuto(Y,
 																					Auto,
 																					data$Random,
 																					RandomAuto,
 																					latent,
-																					object$results$estimation$paramLatent,
+																					paramLatent,
 																					latentAuto,
-																					object$results$estimation$paramLatentAuto,
+																					paramLatentAuto,
 																					object$results$estimation$paramAuto,
 																					residVar,
 																					priorParamAutoDist,
@@ -678,7 +743,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					#=====================
 					### X, Auto and Random
 					#=====================
-					if(missing(newdata) || is.null(newdata)){
+					if(!(missing(newdata) || is.null(newdata))){
 						latent<-vector("list",length=niter*nRandom)
 						latentAuto<-vector("list",length=niter*nAuto)
 						dim(latent)<-c(niter,nRandom)
@@ -715,16 +780,35 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
+					### Isolate parameters for selected species
+					paramX <- array(object$results$estimation$paramX[spSel,,],dim=c(nsp,dim(object$results$estimation$paramX)[2],niter))
+
+					paramLatent<-vector("list",length=niter*nRandom)
+					dim(paramLatent)<-c(niter,nRandom)
+					for(i in 1:niter){
+						for(j in 1:nRandom){
+							paramLatent[[i,j]] <- matrix(object$results$estimation$paramLatent[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
+					paramLatentAuto<-vector("list",length=niter*nAuto)
+					dim(paramLatentAuto)<-c(niter,nAuto)
+					for(i in 1:niter){
+						for(j in 1:nAuto){
+							paramLatentAuto[[i,j]] <- matrix(object$results$estimation$paramLatentAuto[[i,j]][spSel,],nrow=nsp)
+						}
+					}
+
 					res <- sampleCondPredXLatentAuto(Y,
 																					 data$X,
 																					 Auto,
 																					 data$Random,
 																					 RandomAuto,
-																					 object$results$estimation$paramX,
+																					 paramX,
 																					 latent,
-																					 object$results$estimation$paramLatent,
+																					 paramLatent,
 																					 latentAuto,
-																					 object$results$estimation$paramLatentAuto,
+																					 paramLatentAuto,
 																					 object$results$estimation$paramAuto,
 																					 residVar,
 																					 priorParamAutoDist,
@@ -742,13 +826,8 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 			}
 		}
 
-		Res <- array(dim=c(nsite,nsp,nsample,niter))
-		for(i in 1:niter){
-			Res[,,,i] <- res[[i]]
-		}
-
 		### Average the result matrix
-		res <- apply(Res,1:2, mean)
+		res <- apply(res,1:2, mean)
 	}else{
 		Y <- data$Y
 	}

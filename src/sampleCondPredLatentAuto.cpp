@@ -74,7 +74,7 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 	// Reorganize latentAuto
 	field<mat> latentAutoOrg(niter, nAuto);
 	field<mat> paramLatentAutoOrg(niter, nAuto);
-	int counter = 0;
+	counter = 0;
 	for(int j = 0; j < nAuto ; j++){
 		for(int i = 0; i < niter ; i++){
 			latentAutoOrg(i,j) = latentAuto(counter,0);
