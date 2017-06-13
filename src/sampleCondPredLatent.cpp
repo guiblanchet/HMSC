@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredLatent(arma::mat& Y,
+arma::cube sampleCondPredLatent(arma::mat& Y,
 					 arma::umat& Random,
 					 arma::field< arma::mat >& latent,
 					 arma::field< arma::mat >& paramLatent,
@@ -21,8 +21,8 @@ arma::field<arma::cube> sampleCondPredLatent(arma::mat& Y,
 				 	 std::string family) {
 
 	// Define basic objects to store results
-	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter, 1);
+	mat YlatentSample(nsite, nsp);
+	cube Ylatent(nsite, nsp, niter);
 	mat EstModel(nsite, nsp);
 
 	mat residVarT = trans(residVar);
@@ -56,7 +56,7 @@ arma::field<arma::cube> sampleCondPredLatent(arma::mat& Y,
 		}
 
 		// Sample Ylatent
-		for (int j = 0; j < nsample; j++) {
+		for (int k = 0; k < nsample; k++) {
 			if(family == "probit"){
 				uvec Y0Loc = find(Y==0);
 				uvec Y1Loc = find(Y==1);
@@ -64,18 +64,18 @@ arma::field<arma::cube> sampleCondPredLatent(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
 				repResidVar = repmat(residVarT.col(i),nsite,1);
-				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
+				YlatentSample = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			// Update latent
@@ -84,14 +84,14 @@ arma::field<arma::cube> sampleCondPredLatent(arma::mat& Y,
 				paramLatent1iter(j,0) = paramLatentOrg(i,j);
 			}
 
-			latent1iter = updateLatent(YlatentSample.slice(j),Random,residVarT.col(i),paramLatent1iter,latent1iter,nRandom,nRandomLev,nLatent,nsp,nsite);
+			latent1iter = updateLatent(YlatentSample,Random,residVarT.col(i),paramLatent1iter,latent1iter,nRandom,nRandomLev,nLatent,nsp,nsite);
 
 			for(int j = 0; j < nRandom ; j++){
 				latentOrg(i,j) = latent1iter(j,0);
 			}
 		}
 		// Save results
-		Ylatent(i,0) = YlatentSample;
+		Ylatent.slice(i) = YlatentSample;
 	}
 
 	// return result object

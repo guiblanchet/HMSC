@@ -101,7 +101,6 @@ arma::cube sampleCondPredXLatent(arma::mat& Y,
 		// Save results
 		Ylatent.slice(i) = YlatentSample;
 	}
-
 	// return result object
 	return Ylatent;
 }

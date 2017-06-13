@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
+arma::cube sampleCondPredX(arma::mat& Y,
 					 arma::mat& X,
 					 arma::cube& paramX,
 					 arma::mat residVar,
@@ -18,8 +18,8 @@ arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 				 	 std::string family) {
 
 	// Define objects to store results
-	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter,1);
+	mat YlatentSample(nsite, nsp);
+	cube Ylatent(nsite,nsp,niter);
 
 	mat EstModel(nsite, nsp);
 
@@ -36,23 +36,23 @@ arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
 				repResidVar = repmat(residVarT.col(i),nsite,1);
-				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
+				YlatentSample = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
-			// Store in final object
-			Ylatent(j,0) = YlatentSample;
 		}
+		// Store in final object
+		Ylatent.slice(i) = YlatentSample;
 	}
 	// return result object
 	return Ylatent;

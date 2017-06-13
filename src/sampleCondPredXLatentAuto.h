@@ -8,7 +8,7 @@
 #include "sampleYlatentProbit.h"
 #include "sampleYlatentPoisson.h"
 
-arma::field<arma::cube> sampleCondPredXLatentAuto(arma::mat& Y,
+arma::cube sampleCondPredXLatentAuto(arma::mat& Y,
 					 arma::mat& X,
 					 arma::field< arma::mat >& Auto,
 					 arma::umat& Random,

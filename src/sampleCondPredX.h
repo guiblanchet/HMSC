@@ -5,7 +5,7 @@
 #include "sampleYlatentProbit.h"
 #include "sampleYlatentPoisson.h"
 
-arma::field<arma::cube> sampleCondPredX(arma::mat& Y,
+arma::cube sampleCondPredX(arma::mat& Y,
 					 arma::mat& X,
 					 arma::cube& paramX,
 					 arma::mat residVar,

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
+arma::cube sampleCondPredLatentAuto(arma::mat& Y,
 					 arma::field< arma::mat >& Auto,
 					 arma::umat& Random,
 					 arma::umat& RandomAuto,
@@ -30,8 +30,8 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 				 	 std::string family) {
 
 	// Define basic objects to store results
-	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter, 1);
+	mat YlatentSample(nsite, nsp);
+	cube Ylatent(nsite, nsp, nsample);
 	mat EstModel(nsite, nsp);
 	EstModel.zeros();
 
@@ -115,18 +115,18 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
 				repResidVar = repmat(residVarT.col(i),nsite,1);
-				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
+				YlatentSample = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			////////////////
@@ -142,7 +142,7 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 				paramLatentAuto1iter(j,0) = paramLatentAutoOrg(i,j);
 			}
 
-			Yresid = YlatentSample.slice(j);
+			Yresid = YlatentSample;
 
 			// Remove influence of latentAuto
 			for(int j = 0; j < nAuto ; j++){
@@ -158,7 +158,7 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 			////////////////////
 			// Update latentAuto
 			////////////////////
-			Yresid = YlatentSample.slice(j);
+			Yresid = YlatentSample;
 
 			// Remove influence of latentAuto
 			for(int j = 0; j < nRandom ; j++){
@@ -172,7 +172,7 @@ arma::field<arma::cube> sampleCondPredLatentAuto(arma::mat& Y,
 			}
 		}
 		// Save results
-		Ylatent(i,0) = YlatentSample;
+		Ylatent.slice(i) = YlatentSample;
 	}
 
 	// return result object
