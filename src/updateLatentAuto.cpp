@@ -15,7 +15,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 										arma::mat& priorParamAutoDistArma,
 										int nAuto,
 										arma::vec& nAutoLev,
-										arma::vec& nLatentAuto,
+										arma::vec nLatentAuto,
 										double nsp,
 										int nsite){
 
@@ -51,7 +51,6 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 
 		// Construct a matrix of 0
 		mat wAutoInvDiag = zeros(nLatentAuto(j)*nAutoLev(j),nLatentAuto(j)*nAutoLev(j));
-
 
 		// Fill wAutoInvDiag on the diagonal with the matrix selected in wAutoInvSel
 		for(int k = 1; k <= nLatentAuto(j); k++){

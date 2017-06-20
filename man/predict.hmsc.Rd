@@ -60,11 +60,11 @@ predModel <- predict(modelDesc)
 ### Calculate conditional prediction
 #===================================
 ### Conditional only on sp1
-predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 1)
+predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 10)
 
 ### Conditional on the whole community but with an interest on sp1
 formdata$Y[,1] <- NA
-predCondSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 1)[,1]
+predCondAllSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 10)[,1]
 
 }
 \author{

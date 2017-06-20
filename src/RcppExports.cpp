@@ -4511,7 +4511,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // sampleCondPredAuto
-arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field<arma::vec>& paramAuto, arma::mat& residVar, Rcpp::NumericMatrix& priorParamAutoDist, int nsite, double nsp, int nAuto, arma::vec& nAutoLev, int npriorParamAuto, int niter, int nsample, std::string family);
+arma::cube sampleCondPredAuto(arma::mat& Y, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field<arma::vec>& paramAuto, arma::mat& residVar, Rcpp::NumericMatrix& priorParamAutoDist, int nsite, double nsp, int nAuto, arma::vec& nAutoLev, int npriorParamAuto, int niter, int nsample, std::string family);
 RcppExport SEXP HMSC_sampleCondPredAuto(SEXP YSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP paramAutoSEXP, SEXP residVarSEXP, SEXP priorParamAutoDistSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nsampleSEXP, SEXP familySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

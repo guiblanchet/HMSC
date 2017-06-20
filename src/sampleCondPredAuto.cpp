@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // Calculates a prediction conditional on a subset of species.
 //[[Rcpp::export]]
-arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
+arma::cube sampleCondPredAuto(arma::mat& Y,
 					 arma::field< arma::mat >& Auto,
 					 arma::umat& RandomAuto,
 					 arma::field< arma::mat >& latentAuto,
@@ -25,8 +25,8 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 				 	 std::string family) {
 
 	// Define basic objects to store results
-	cube YlatentSample(nsite, nsp, nsample);
-	field<cube> Ylatent(niter,1);
+	mat YlatentSample(nsite, nsp);
+	cube Ylatent(nsite, nsp, niter);
 
 	mat EstModel(nsite, nsp);
 	EstModel.zeros();
@@ -86,18 +86,18 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 
 				mat YlatentIni = zeros(nsite,nsp);
 
-				YlatentSample.slice(j) = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			if(family == "gaussian"){
 				mat repResidVar(nsite,nsp);
 				repResidVar = repmat(residVarT.col(i),nsite,1);
-				YlatentSample.slice(j) = randn(nsite,nsp)%repResidVar+EstModel;
+				YlatentSample = randn(nsite,nsp)%repResidVar+EstModel;
 			}
 
 			if(family == "poisson" | family == "overPoisson"){
 				mat YlatentIni = zeros(nsite,nsp);
-				YlatentSample.slice(j) = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
+				YlatentSample = sampleYlatentPoisson(Y, YlatentIni, EstModel, residVarT.col(i), nsp, nsite);
 			}
 
 			////////////////
@@ -108,14 +108,14 @@ arma::field<arma::cube> sampleCondPredAuto(arma::mat& Y,
 				paramLatentAuto1iter(j,0) = paramLatentAutoOrg(i,j);
 			}
 
-			latentAuto1iter = updateLatentAuto(YlatentSample.slice(j), RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
+			latentAuto1iter = updateLatentAuto(YlatentSample, RandomAuto, residVarT.col(i), paramAuto, wAutoInv, paramLatentAuto1iter, latentAuto1iter, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite);
 
 			for(int j = 0; j < nAuto ; j++){
 				latentAutoOrg(i,j) = latentAuto1iter(j,0);
 			}
 		}
 		// Save results
-		Ylatent(i,0) = YlatentSample;
+		Ylatent.slice(i) = YlatentSample;
 	}
 
 	// return result object

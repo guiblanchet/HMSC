@@ -50,11 +50,11 @@
 #' ### Calculate conditional prediction
 #' #===================================
 #' ### Conditional only on sp1
-#' predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 1)
+#' predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 10)
 #'
 #' ### Conditional on the whole community but with an interest on sp1
 #' formdata$Y[,1] <- NA
-#' predCondSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 1)[,1]
+#' predCondAllSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 10)[,1]
 #'
 #' @keywords univar, multivariate, regression
 #' @export
@@ -428,11 +428,11 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 		}
 
 		if(any(class(object)=="gaussian")){
-			residVar <- as.matrix(object$results$estimation$varNormal)
+			residVar <- as.matrix(object$results$estimation$varNormal)[,spSep]
 		}
 
 		if(any(class(object)=="overPoisson")){
-			residVar <- as.matrix(object$results$estimation$varPoisson)
+			residVar <- as.matrix(object$results$estimation$varPoisson)[,spSep]
 		}
 
 		if(is.null(data$Random)){
@@ -446,7 +446,15 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					### Isolate parameters for selected species
 					paramX <- array(object$results$estimation$paramX[spSel,,],dim=c(nsp,dim(object$results$estimation$paramX)[2],niter))
 
-					res <- sampleCondPredX(Y, data$X, paramX, residVar[spSel], nsite, niter, nsample, class(object)[2])
+					res <- sampleCondPredX(Y,
+						 										 data$X,
+																 paramX,
+																 residVar,
+																 nsite,
+																 nsp,
+																 niter,
+																 nsample,
+																 class(object)[2])
 				}
 			}else{
 				if(is.null(data$X)){
@@ -468,12 +476,25 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					}
 
 					### Build Auto and RandomAuto
-					Auto <- lapply(data$Auto,function(x) x[,-1])
 					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
 					nAutoLev <- sapply(RandomAuto, nlevels)
+					RandomAuto<-sapply(RandomAuto,as.numeric)-1
+
+					AutoCoord<-vector("list",length=nAuto)
+
+					for(i in 1:nAuto){
+						nAutoCoord<-ncol(data$Auto[[i]])-1
+						AutoCoordMean<-matrix(NA,nrow=nAutoLev[i],ncol=nAutoCoord)
+
+						for(j in 1:nAutoCoord){
+							AutoCoordMean[,j]<-tapply(data$Auto[[i]][,j+1],data$Auto[[i]][,1],mean)
+						}
+
+						AutoCoord[[i]]<-AutoCoordMean
+					}
 
 					### Flat prior definition
-					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object)[2])$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
 					### Isolate parameters for selected species
@@ -486,7 +507,7 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					}
 
 					res <- sampleCondPredAuto(Y,
-																		Auto,
+																		AutoCoord,
 																		RandomAuto,
 																		latentAuto,
 																		paramLatentAuto,
@@ -520,12 +541,13 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					}
 
 					### Build Auto and RandomAuto
-					Auto <- lapply(data$Auto,function(x) x[,-1])
+					Auto <- lapply(data$Auto,function(x) as.matrix(x[,-1]))
 					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
 					nAutoLev <- sapply(RandomAuto, nlevels)
+					RandomAuto<-sapply(RandomAuto,as.numeric)-1
 
 					### Flat prior definition
-					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object)[2])$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
 					### Isolate parameters for selected species
@@ -693,12 +715,13 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					nRandomLev <- sapply(data$Random, nlevels)
 
 					### Build Auto and RandomAuto
-					Auto <- lapply(data$Auto,function(x) x[,-1])
+					Auto <- lapply(data$Auto,function(x) as.matrix(x[,-1]))
 					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
 					nAutoLev <- sapply(RandomAuto, nlevels)
+					RandomAuto<-sapply(RandomAuto,as.numeric)-1
 
 					### Flat prior definition
-					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object)[2])$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
 					### Isolate parameters for selected species
@@ -772,12 +795,13 @@ predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, n
 					nRandomLev <- sapply(data$Random, nlevels)
 
 					### Build Auto and RandomAuto
-					Auto <- lapply(data$Auto,function(x) x[,-1])
+					Auto <- lapply(data$Auto,function(x) as.matrix(x[,-1]))
 					RandomAuto <- data.frame(lapply(data$Auto,function(x) x[,1]))
 					nAutoLev <- sapply(RandomAuto, nlevels)
+					RandomAuto<-sapply(RandomAuto,as.numeric)-1
 
 					### Flat prior definition
-					priorParamAutoDist <- flatPriorAuto(data, family = class(object))$paramAutoDist
+					priorParamAutoDist <- flatPriorAuto(data, family = class(object)[2])$paramAutoDist
 					npriorParamAuto <- nrow(priorParamAutoDist)
 
 					### Isolate parameters for selected species

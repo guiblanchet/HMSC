@@ -14,7 +14,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 										arma::mat& priorParamAutoDistArma,
 										int nAuto,
 										arma::vec& nAutoLev,
-										arma::vec& nLatentAuto,
+										arma::vec nLatentAuto,
 										double nsp,
 										int nsite);
 

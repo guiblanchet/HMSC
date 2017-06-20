@@ -414,7 +414,6 @@ sampleCondPredXAuto <- function(Y, X, Auto, RandomAuto, paramX, latentAuto, para
     .Call('HMSC_sampleCondPredXAuto', PACKAGE = 'HMSC', Y, X, Auto, RandomAuto, paramX, latentAuto, paramLatentAuto, paramAuto, residVar, priorParamAutoDist, nsite, nsp, nAuto, nAutoLev, npriorParamAuto, niter, nsample, family)
 }
 
-#' @export
 sampleCondPredXLatent <- function(Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family) {
     .Call('HMSC_sampleCondPredXLatent', PACKAGE = 'HMSC', Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family)
 }
