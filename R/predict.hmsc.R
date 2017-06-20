@@ -46,7 +46,7 @@
 #' ### Calculate prediction
 #' #=======================
 #' predModel <- predict(modelDesc)
-#''
+#'
 #' #===================================
 #' ### Calculate conditional prediction
 #' #===================================
