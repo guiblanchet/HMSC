@@ -2870,11 +2870,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // mcmcProbitTheoryMultiSp
-RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int npriorParamAuto, int niter, int nburn, int thin, int verbose, arma::cube& diagMat);
-RcppExport SEXP HMSC_mcmcProbitTheoryMultiSp(SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP, SEXP diagMatSEXP) {
+RcppExport SEXP mcmcProbitTheoryMultiSp(int focal, arma::mat& Y, arma::mat& Ylatent, arma::mat& X, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::umat& Random, arma::mat& paramX, arma::mat& meansParamX, arma::mat& precX, arma::vec& residVar, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::field< arma::mat >& shrinkLocal, arma::field< arma::vec >& paramShrinkGlobal, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, arma::mat& priorMeansParamX, arma::mat& priorVarXScaleMat, double priorVarXDf, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, int nRandom, arma::vec& nRandomLev, arma::vec& nLatent, double nsp, int nsite, int nparamX, int npriorParamAuto, int niter, int nburn, int thin, int verbose, arma::cube& diagMat);
+RcppExport SEXP HMSC_mcmcProbitTheoryMultiSp(SEXP focalSEXP, SEXP YSEXP, SEXP YlatentSEXP, SEXP XSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP meansParamXSEXP, SEXP precXSEXP, SEXP residVarSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP shrinkLocalSEXP, SEXP paramShrinkGlobalSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorMeansParamXSEXP, SEXP priorVarXScaleMatSEXP, SEXP priorVarXDfSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP nLatentSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP nparamXSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP, SEXP diagMatSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type focal(focalSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Ylatent(YlatentSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
@@ -2923,7 +2924,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< arma::cube& >::type diagMat(diagMatSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcmcProbitTheoryMultiSp(Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose, diagMat));
+    rcpp_result_gen = Rcpp::wrap(mcmcProbitTheoryMultiSp(focal, Y, Ylatent, X, Auto, RandomAuto, Random, paramX, meansParamX, precX, residVar, latent, paramLatent, shrinkLocal, paramShrinkGlobal, paramAuto, latentAuto, paramLatentAuto, shrinkLocalAuto, paramShrinkGlobalAuto, priorMeansParamX, priorVarXScaleMat, priorVarXDf, priorResidVarScale, priorResidVarShape, priorParamAutoWeight, priorParamAutoDist, priorShrinkLocal, priorShrinkOverallShape, priorShrinkOverallScale, priorShrinkSpeedShape, priorShrinkSpeedScale, adapt, redund, nAuto, nAutoLev, nLatentAuto, nRandom, nRandomLev, nLatent, nsp, nsite, nparamX, npriorParamAuto, niter, nburn, thin, verbose, diagMat));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -3766,4 +3767,95 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(sampleYlatentProbit(Y0Loc, Y1Loc, Ylatent, EstModel, residVar, nsp, nsite));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"HMSC_mcmcNormalAuto", (DL_FUNC) &HMSC_mcmcNormalAuto, 30},
+    {"HMSC_mcmcNormalAutoLatent", (DL_FUNC) &HMSC_mcmcNormalAutoLatent, 38},
+    {"HMSC_mcmcNormalLatent", (DL_FUNC) &HMSC_mcmcNormalLatent, 25},
+    {"HMSC_mcmcNormalX", (DL_FUNC) &HMSC_mcmcNormalX, 18},
+    {"HMSC_mcmcNormalXAuto", (DL_FUNC) &HMSC_mcmcNormalXAuto, 38},
+    {"HMSC_mcmcNormalXAutoLatent", (DL_FUNC) &HMSC_mcmcNormalXAutoLatent, 46},
+    {"HMSC_mcmcNormalXLatent", (DL_FUNC) &HMSC_mcmcNormalXLatent, 29},
+    {"HMSC_mcmcNormalXPhylo", (DL_FUNC) &HMSC_mcmcNormalXPhylo, 25},
+    {"HMSC_mcmcNormalXPhyloAuto", (DL_FUNC) &HMSC_mcmcNormalXPhyloAuto, 45},
+    {"HMSC_mcmcNormalXPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcNormalXPhyloAutoLatent, 53},
+    {"HMSC_mcmcNormalXPhyloLatent", (DL_FUNC) &HMSC_mcmcNormalXPhyloLatent, 36},
+    {"HMSC_mcmcNormalXTr", (DL_FUNC) &HMSC_mcmcNormalXTr, 21},
+    {"HMSC_mcmcNormalXTrAuto", (DL_FUNC) &HMSC_mcmcNormalXTrAuto, 41},
+    {"HMSC_mcmcNormalXTrAutoLatent", (DL_FUNC) &HMSC_mcmcNormalXTrAutoLatent, 49},
+    {"HMSC_mcmcNormalXTrLatent", (DL_FUNC) &HMSC_mcmcNormalXTrLatent, 32},
+    {"HMSC_mcmcNormalXTrPhylo", (DL_FUNC) &HMSC_mcmcNormalXTrPhylo, 27},
+    {"HMSC_mcmcNormalXTrPhyloAuto", (DL_FUNC) &HMSC_mcmcNormalXTrPhyloAuto, 47},
+    {"HMSC_mcmcNormalXTrPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcNormalXTrPhyloAutoLatent, 55},
+    {"HMSC_mcmcNormalXTrPhyloLatent", (DL_FUNC) &HMSC_mcmcNormalXTrPhyloLatent, 38},
+    {"HMSC_mcmcOverPoissonAuto", (DL_FUNC) &HMSC_mcmcOverPoissonAuto, 31},
+    {"HMSC_mcmcOverPoissonAutoLatent", (DL_FUNC) &HMSC_mcmcOverPoissonAutoLatent, 39},
+    {"HMSC_mcmcOverPoissonLatent", (DL_FUNC) &HMSC_mcmcOverPoissonLatent, 26},
+    {"HMSC_mcmcOverPoissonX", (DL_FUNC) &HMSC_mcmcOverPoissonX, 19},
+    {"HMSC_mcmcOverPoissonXAuto", (DL_FUNC) &HMSC_mcmcOverPoissonXAuto, 39},
+    {"HMSC_mcmcOverPoissonXAutoLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXAutoLatent, 47},
+    {"HMSC_mcmcOverPoissonXLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXLatent, 30},
+    {"HMSC_mcmcOverPoissonXPhylo", (DL_FUNC) &HMSC_mcmcOverPoissonXPhylo, 26},
+    {"HMSC_mcmcOverPoissonXPhyloAuto", (DL_FUNC) &HMSC_mcmcOverPoissonXPhyloAuto, 46},
+    {"HMSC_mcmcOverPoissonXPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXPhyloAutoLatent, 54},
+    {"HMSC_mcmcOverPoissonXPhyloLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXPhyloLatent, 37},
+    {"HMSC_mcmcOverPoissonXTr", (DL_FUNC) &HMSC_mcmcOverPoissonXTr, 22},
+    {"HMSC_mcmcOverPoissonXTrAuto", (DL_FUNC) &HMSC_mcmcOverPoissonXTrAuto, 42},
+    {"HMSC_mcmcOverPoissonXTrAutoLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXTrAutoLatent, 50},
+    {"HMSC_mcmcOverPoissonXTrLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXTrLatent, 33},
+    {"HMSC_mcmcOverPoissonXTrPhylo", (DL_FUNC) &HMSC_mcmcOverPoissonXTrPhylo, 28},
+    {"HMSC_mcmcOverPoissonXTrPhyloAuto", (DL_FUNC) &HMSC_mcmcOverPoissonXTrPhyloAuto, 48},
+    {"HMSC_mcmcOverPoissonXTrPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXTrPhyloAutoLatent, 56},
+    {"HMSC_mcmcOverPoissonXTrPhyloLatent", (DL_FUNC) &HMSC_mcmcOverPoissonXTrPhyloLatent, 39},
+    {"HMSC_mcmcPoissonAuto", (DL_FUNC) &HMSC_mcmcPoissonAuto, 31},
+    {"HMSC_mcmcPoissonAutoLatent", (DL_FUNC) &HMSC_mcmcPoissonAutoLatent, 39},
+    {"HMSC_mcmcPoissonLatent", (DL_FUNC) &HMSC_mcmcPoissonLatent, 26},
+    {"HMSC_mcmcPoissonX", (DL_FUNC) &HMSC_mcmcPoissonX, 19},
+    {"HMSC_mcmcPoissonXAuto", (DL_FUNC) &HMSC_mcmcPoissonXAuto, 39},
+    {"HMSC_mcmcPoissonXAutoLatent", (DL_FUNC) &HMSC_mcmcPoissonXAutoLatent, 47},
+    {"HMSC_mcmcPoissonXLatent", (DL_FUNC) &HMSC_mcmcPoissonXLatent, 30},
+    {"HMSC_mcmcPoissonXPhylo", (DL_FUNC) &HMSC_mcmcPoissonXPhylo, 26},
+    {"HMSC_mcmcPoissonXPhyloAuto", (DL_FUNC) &HMSC_mcmcPoissonXPhyloAuto, 46},
+    {"HMSC_mcmcPoissonXPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcPoissonXPhyloAutoLatent, 54},
+    {"HMSC_mcmcPoissonXPhyloLatent", (DL_FUNC) &HMSC_mcmcPoissonXPhyloLatent, 37},
+    {"HMSC_mcmcPoissonXTr", (DL_FUNC) &HMSC_mcmcPoissonXTr, 22},
+    {"HMSC_mcmcPoissonXTrAuto", (DL_FUNC) &HMSC_mcmcPoissonXTrAuto, 42},
+    {"HMSC_mcmcPoissonXTrAutoLatent", (DL_FUNC) &HMSC_mcmcPoissonXTrAutoLatent, 50},
+    {"HMSC_mcmcPoissonXTrLatent", (DL_FUNC) &HMSC_mcmcPoissonXTrLatent, 33},
+    {"HMSC_mcmcPoissonXTrPhylo", (DL_FUNC) &HMSC_mcmcPoissonXTrPhylo, 28},
+    {"HMSC_mcmcPoissonXTrPhyloAuto", (DL_FUNC) &HMSC_mcmcPoissonXTrPhyloAuto, 48},
+    {"HMSC_mcmcPoissonXTrPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcPoissonXTrPhyloAutoLatent, 56},
+    {"HMSC_mcmcPoissonXTrPhyloLatent", (DL_FUNC) &HMSC_mcmcPoissonXTrPhyloLatent, 39},
+    {"HMSC_mcmcProbitAuto", (DL_FUNC) &HMSC_mcmcProbitAuto, 31},
+    {"HMSC_mcmcProbitAutoLatent", (DL_FUNC) &HMSC_mcmcProbitAutoLatent, 39},
+    {"HMSC_mcmcProbitLatent", (DL_FUNC) &HMSC_mcmcProbitLatent, 26},
+    {"HMSC_mcmcProbitTheory1Sp", (DL_FUNC) &HMSC_mcmcProbitTheory1Sp, 40},
+    {"HMSC_mcmcProbitTheoryMultiSp", (DL_FUNC) &HMSC_mcmcProbitTheoryMultiSp, 49},
+    {"HMSC_mcmcProbitX", (DL_FUNC) &HMSC_mcmcProbitX, 19},
+    {"HMSC_mcmcProbitXAuto", (DL_FUNC) &HMSC_mcmcProbitXAuto, 39},
+    {"HMSC_mcmcProbitXAutoLatent", (DL_FUNC) &HMSC_mcmcProbitXAutoLatent, 47},
+    {"HMSC_mcmcProbitXLatent", (DL_FUNC) &HMSC_mcmcProbitXLatent, 30},
+    {"HMSC_mcmcProbitXPhylo", (DL_FUNC) &HMSC_mcmcProbitXPhylo, 26},
+    {"HMSC_mcmcProbitXPhyloAuto", (DL_FUNC) &HMSC_mcmcProbitXPhyloAuto, 46},
+    {"HMSC_mcmcProbitXPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcProbitXPhyloAutoLatent, 54},
+    {"HMSC_mcmcProbitXPhyloLatent", (DL_FUNC) &HMSC_mcmcProbitXPhyloLatent, 37},
+    {"HMSC_mcmcProbitXTr", (DL_FUNC) &HMSC_mcmcProbitXTr, 22},
+    {"HMSC_mcmcProbitXTrAuto", (DL_FUNC) &HMSC_mcmcProbitXTrAuto, 42},
+    {"HMSC_mcmcProbitXTrAutoLatent", (DL_FUNC) &HMSC_mcmcProbitXTrAutoLatent, 50},
+    {"HMSC_mcmcProbitXTrLatent", (DL_FUNC) &HMSC_mcmcProbitXTrLatent, 33},
+    {"HMSC_mcmcProbitXTrPhylo", (DL_FUNC) &HMSC_mcmcProbitXTrPhylo, 28},
+    {"HMSC_mcmcProbitXTrPhyloAuto", (DL_FUNC) &HMSC_mcmcProbitXTrPhyloAuto, 48},
+    {"HMSC_mcmcProbitXTrPhyloAutoLatent", (DL_FUNC) &HMSC_mcmcProbitXTrPhyloAutoLatent, 56},
+    {"HMSC_mcmcProbitXTrPhyloLatent", (DL_FUNC) &HMSC_mcmcProbitXTrPhyloLatent, 39},
+    {"HMSC_rmvnorm", (DL_FUNC) &HMSC_rmvnorm, 3},
+    {"HMSC_sampleCondPred", (DL_FUNC) &HMSC_sampleCondPred, 8},
+    {"HMSC_sampleYlatentPoisson", (DL_FUNC) &HMSC_sampleYlatentPoisson, 6},
+    {"HMSC_sampleYlatentProbit", (DL_FUNC) &HMSC_sampleYlatentProbit, 7},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_HMSC(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

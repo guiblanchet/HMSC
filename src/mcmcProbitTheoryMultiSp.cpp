@@ -6,7 +6,8 @@ using namespace arma ;
 using namespace Rcpp ;
 
 //[[Rcpp::export]]
-RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y,
+RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
+										arma::mat& Y,
 									  arma::mat& Ylatent,
 									  arma::mat& X,
 									  arma::field< arma::mat >& Auto,
@@ -180,7 +181,7 @@ RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y,
 			Yresid = Yresid - latentMat.rows(Random.col(j))*trans(paramLatent(j,0));
 		}
 
-		paramLatentAuto = updateParamLatentTheoryMultiSp(Yresid, RandomAuto, residVar, paramLatentAuto, latentAuto, shrinkAuto, nAuto, nLatentAuto, nsp, nsite, diagMat);
+		paramLatentAuto = updateParamLatentTheoryMultiSp(focal, Yresid, RandomAuto, residVar, paramLatentAuto, latentAuto, shrinkAuto, nAuto, nLatentAuto, nsp, nsite, diagMat);
 
 		//------------------
 		// Update latentAuto

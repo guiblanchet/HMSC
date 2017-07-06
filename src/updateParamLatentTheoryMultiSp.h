@@ -3,7 +3,8 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
-arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
+arma::field<arma::mat> updateParamLatentTheoryMultiSp(int focal,
+										 arma::mat& Ylatent,
 										 arma::umat& Random,
 										 arma::vec& residVar,
 										 arma::field<arma::mat>& paramLatent,

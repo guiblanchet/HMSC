@@ -5,7 +5,8 @@
 using namespace arma ;
 using namespace Rcpp ;
 
-arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
+arma::field<arma::mat> updateParamLatentTheoryMultiSp(int focal,
+										 arma::mat& Ylatent,
 										 arma::umat& Random,
 										 arma::vec& residVar,
 										 arma::field<arma::mat>& paramLatent,
@@ -30,7 +31,8 @@ arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
 		mat paramLatentT = trans(paramLatent(j,0));
 
 		// Update paramLatent for each species
-		for (int k = 0; k < nsp; k++) {
+		int k = focal;
+//		for (int k = 0; k < nsp; k++) {
 			mat latentCross = trans(diagMat.slice(k)*latent(j,0).rows(Random.col(j)))*diagMat.slice(k)*latent(j,0).rows(Random.col(j));
 			shrinkLatent = diagmat(shrink(j,0).row(k))+residVar(k)*latentCross;
 			mat latentSp = residVar(k)*trans(diagMat.slice(k)*latent(j,0).rows(Random.col(j)))*Yresid.col(k);
@@ -38,7 +40,7 @@ arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
 			meanparamLatentSp = solve(trimatu(trans(cholShrinkLatent)),solve(trimatl(cholShrinkLatent),latentSp));
 			mat structLatentSp = solve(trimatu(trans(cholShrinkLatent)),randn(nLatent(j)));
 			paramLatentT.col(k) = structLatentSp+meanparamLatentSp;
-		}
+//		}
 
 		// Save paramLatentT into paramLatent object
 		paramLatent(j,0) = trans(paramLatentT);

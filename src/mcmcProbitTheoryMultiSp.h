@@ -17,7 +17,8 @@
 #include "updateMeansParamX.h"
 #include "fixParamAuto.h"
 
-RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y,
+RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
+										arma::mat& Y,
 									  arma::mat& Ylatent,
 									  arma::mat& X,
 									  arma::field< arma::mat >& Auto,

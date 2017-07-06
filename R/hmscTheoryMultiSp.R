@@ -1,6 +1,6 @@
 #' @export
 hmscTheoryMultiSp <-
-function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
+function(data,param=NULL,priors=NULL,focal,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - May 2016
 ##########################################################################################
 	### General checks
@@ -156,7 +156,8 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 				diagMat[,,i]<-diag(Y[,i])
 			}
 
-			result<-mcmcProbitTheoryMultiSp(Y,
+			result<-mcmcProbitTheoryMultiSp(focal-1,
+											Y,
 										  Ylatent,
 										  X,
 										  AutoCoord,
