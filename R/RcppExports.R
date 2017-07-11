@@ -398,10 +398,6 @@ sampleCondPred <- function(Y, EstModel, residVar, nsite, nsp, nsample, family) {
     .Call('HMSC_sampleCondPred', PACKAGE = 'HMSC', Y, EstModel, residVar, nsite, nsp, nsample, family)
 }
 
-sampleCondPredXLatent <- function(Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family) {
-    .Call('HMSC_sampleCondPredXLatent', PACKAGE = 'HMSC', Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family)
-}
-
 #' @title Sample the model response matrix
 #'
 #' @description Sample the model response matrix after the iddentity link function was applied. This function is meant to be used internally.

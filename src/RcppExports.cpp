@@ -4527,30 +4527,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sampleCondPredXLatent
-arma::cube sampleCondPredXLatent(arma::mat& Y, arma::mat& X, arma::umat& Random, arma::cube& paramX, arma::field< arma::mat >& latent, arma::field< arma::mat >& paramLatent, arma::mat residVar, int nsite, double nsp, int nRandom, arma::vec& nRandomLev, int niter, int nsample, std::string family);
-RcppExport SEXP HMSC_sampleCondPredXLatent(SEXP YSEXP, SEXP XSEXP, SEXP RandomSEXP, SEXP paramXSEXP, SEXP latentSEXP, SEXP paramLatentSEXP, SEXP residVarSEXP, SEXP nsiteSEXP, SEXP nspSEXP, SEXP nRandomSEXP, SEXP nRandomLevSEXP, SEXP niterSEXP, SEXP nsampleSEXP, SEXP familySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::umat& >::type Random(RandomSEXP);
-    Rcpp::traits::input_parameter< arma::cube& >::type paramX(paramXSEXP);
-    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type latent(latentSEXP);
-    Rcpp::traits::input_parameter< arma::field< arma::mat >& >::type paramLatent(paramLatentSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type residVar(residVarSEXP);
-    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
-    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
-    Rcpp::traits::input_parameter< int >::type nRandom(nRandomSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type nRandomLev(nRandomLevSEXP);
-    Rcpp::traits::input_parameter< int >::type niter(niterSEXP);
-    Rcpp::traits::input_parameter< int >::type nsample(nsampleSEXP);
-    Rcpp::traits::input_parameter< std::string >::type family(familySEXP);
-    rcpp_result_gen = Rcpp::wrap(sampleCondPredXLatent(Y, X, Random, paramX, latent, paramLatent, residVar, nsite, nsp, nRandom, nRandomLev, niter, nsample, family));
-    return rcpp_result_gen;
-END_RCPP
-}
 // sampleYlatentNormal
 arma::mat sampleYlatentNormal(arma::mat& Y, arma::mat& EstModel, arma::vec& residVar, double nsp, int nsite);
 RcppExport SEXP HMSC_sampleYlatentNormal(SEXP YSEXP, SEXP EstModelSEXP, SEXP residVarSEXP, SEXP nspSEXP, SEXP nsiteSEXP) {
@@ -4699,7 +4675,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"HMSC_mcmcProbitXTrPhyloLatent", (DL_FUNC) &HMSC_mcmcProbitXTrPhyloLatent, 39},
     {"HMSC_rmvnorm", (DL_FUNC) &HMSC_rmvnorm, 3},
     {"HMSC_sampleCondPred", (DL_FUNC) &HMSC_sampleCondPred, 7},
-    {"HMSC_sampleCondPredXLatent", (DL_FUNC) &HMSC_sampleCondPredXLatent, 14},
     {"HMSC_sampleYlatentNormal", (DL_FUNC) &HMSC_sampleYlatentNormal, 5},
     {"HMSC_sampleYlatentPoisson", (DL_FUNC) &HMSC_sampleYlatentPoisson, 6},
     {"HMSC_sampleYlatentProbit", (DL_FUNC) &HMSC_sampleYlatentProbit, 8},

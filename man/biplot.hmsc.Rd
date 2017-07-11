@@ -62,7 +62,7 @@ formdata <- as.HMSCdata(Y = comm$data$Y, X = desc, Random = randEff, interceptX 
 #==============
 ### Build model
 #==============
-model <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
+model <- hmsc(formdata)
 
 #===============================
 ### Construct correlation matrix
