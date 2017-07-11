@@ -17,6 +17,9 @@ A list presenting how the explained variation in the data is partitioned between
 \description{
 Partition the variation of models
 }
+\details{
+When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
+}
 \examples{
 
 #================

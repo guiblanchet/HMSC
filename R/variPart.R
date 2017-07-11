@@ -5,6 +5,10 @@
 #' @param hmsc An object of the class \code{hmsc}.
 #' @param groupX A vector defining how the covariates (\code{X}) are grouped. This argument is ignored if the models does not have any covariates.
 #'
+#' @details
+#'
+#' When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group. 
+#'
 #' @return
 #'
 #' A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
@@ -48,26 +52,31 @@ variPart<-function(hmsc,groupX){
 	### Basic objects
 	nsite<-nrow(hmsc$data$Y)
 	nsp<-ncol(hmsc$data$Y)
-	nX<-length(hmsc$data$X)
+	nX<-ncol(hmsc$data$X)
 	nAuto<-length(hmsc$data$Auto)
 	nRandom<-ncol(hmsc$data$Random)
 
+	### Check groupX
+	if(!is.null(nX)){
+		if(length(groupX) != nX){
+			stop("groupX should have the same length as there are variables in X (including the intercept)")
+		}
+	}
+
 	### Objects related to X
 	if(!is.null(nX)){
-		if(nX>0){
-			nGroups<-length(unique(groupX))
-			groupXLev<-unique(groupX)
-			covX<-cov(hmsc$data$X)
+		nGroups<-length(unique(groupX))
+		groupXLev<-unique(groupX)
+		covX<-cov(hmsc$data$X)
 
-			### Result objects
-			variPartX <- vector(length=nsp,"numeric")
-			variPartXSplit <- matrix(0, nrow=nsp, ncol=nGroups)
-			rownames(variPartXSplit)<-colnames(hmsc$data$Y)
-			colnames(variPartXSplit)<-groupXLev
+		### Result objects
+		variPartX <- vector(length=nsp,"numeric")
+		variPartXSplit <- matrix(0, nrow=nsp, ncol=nGroups)
+		rownames(variPartXSplit)<-colnames(hmsc$data$Y)
+		colnames(variPartXSplit)<-groupXLev
 
-			if(any(names(hmsc$data) == "Tr")){
-				traitR2 <- 0
-			}
+		if(any(names(hmsc$data) == "Tr")){
+			traitR2 <- 0
 		}
 	}
 
@@ -91,10 +100,10 @@ variPart<-function(hmsc,groupX){
 
 	### Number of iterations
 	if(!is.null(nAuto)){
-		niter<-length(hmsc$results$estimation$paramLatentAuto)
+		niter<-nrow(hmsc$results$estimation$paramLatentAuto)
 	}
 	if(!is.null(nRandom)){
-		niter<-length(hmsc$results$estimation$paramLatent)
+		niter<-nrow(hmsc$results$estimation$paramLatent)
 	}
 	if(!is.null(nX)){
 		niter<-dim(hmsc$results$estimation$paramX)[3]
