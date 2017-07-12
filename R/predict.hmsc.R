@@ -35,7 +35,7 @@
 #' ### Formatting
 #' #=============
 #' ### Format data
-#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
+#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE)
 #'
 #' #==============
 #' ### Build model
@@ -59,7 +59,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-predict.hmsc<-function(object, newdata, type = "response", conditional = NULL, nsample, ...){
+predict.hmsc<-function(object, newdata, type = c("response","link"), conditional = NULL, nsample, ...){
 
 	type <- match.arg(type)
 
