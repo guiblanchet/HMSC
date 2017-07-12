@@ -4,7 +4,7 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, type = "response",
+\method{predict}{hmsc}(object, newdata, type = c("response", "link"),
   conditional = NULL, nsample, ...)
 }
 \arguments{
@@ -44,7 +44,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE)
 
 #==============
 ### Build model
