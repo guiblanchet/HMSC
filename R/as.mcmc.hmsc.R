@@ -122,92 +122,90 @@ function(x,parameters="paramX",burning=FALSE,...){
 		for(i in 1:nrandom){
 			res[[i]] <- mcmc(paramMCMCMat[,,i], ...)
 		}
-	}else{
-		### For varX
-		if(parameters=="varX"){
-			paramMCMC <- x$results$est[[parameters]]
-			niter <- dim(paramMCMC)[3]
+	}
+	### For varX
+	if(parameters=="varX"){
+		paramMCMC <- x$results$est[[parameters]]
+		niter <- dim(paramMCMC)[3]
 
-			lowerTri <- lower.tri(paramMCMC[,,1],diag=TRUE)
-			lowerTriMatPointer <- which(lowerTri,arr.ind=TRUE)
+		lowerTri <- lower.tri(paramMCMC[,,1],diag=TRUE)
+		lowerTriMatPointer <- which(lowerTri,arr.ind=TRUE)
 
-			paramMCMCMat <- matrix(NA,niter,nrow(lowerTriMatPointer))
-			for(i in 1:niter){
-				paramMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
-			}
-
-			rownames(paramMCMCMat) <- dimnames(x$results$est$varX)[[3]]
-
-			### Include burning information
-			if(burning){
-				paramBurnMCMC <- x$results$burn[[parameters]]
-				nburn <- dim(paramBurnMCMC)[3]
-
-				paramBurnMCMCMat <- matrix(NA,nburn,nrow(lowerTriMatPointer))
-				for(i in 1:nburn){
-					paramBurnMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
-				}
-
-				paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-				rownames(paramMCMCMat) <- c(dimnames(x$results$burn$varX)[[3]],dimnames(x$results$est$varX)[[3]])
-			}
-
-			varXNames <- expand.grid(dimnames(x$results$est$varX)[[1]],dimnames(x$results$est$varX)[[1]])[which(lowerTri),]
-			if(ncol(varXNames)>0){
-				colnames(paramMCMCMat) <- paste(varXNames[,1],".",varXNames[,2],sep="")
-			}
-
-			### Output
-			res <- mcmc(paramMCMCMat, ...)
-
-		}else{
-			if(parameters=="meansParamX" | parameters=="varNormal" | parameters=="paramPhylo"){
-				paramMCMCMat <- x$results$est[[parameters]]
-
-				### Name rows and columns of matrix
-				rownames(paramMCMCMat) <- rownames(x$results$est[[parameters]])
-				colnames(paramMCMCMat) <- colnames(x$results$est[[parameters]])
-
-				### Output
-				if(burning){
-					paramBurnMCMC <- x$results$burn[[parameters]]
-					rownames(paramBurnMCMC) <- rownames(x$results$burn[[parameters]])
-					colnames(paramBurnMCMC) <- colnames(x$results$burn[[parameters]])
-					paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-				}
-				res <- mcmc(paramMCMCMat, ...)
-
-			}else{
-				if(parameters=="paramPhylo"){
-
-				}else{
-					### Reorganize results
-					paramMCMC <- x$results$est[[parameters]]
-					paramMCMCMat <- aperm(paramMCMC,c(3,1,2))
-					dim(paramMCMCMat) <- c(dim(x$results$est[[parameters]])[[3]],dim(x$results$est[[parameters]])[[1]]*dim(x$results$est[[parameters]])[[2]])
-
-					### Name rows and columns of matrix
-					rownames(paramMCMCMat) <- dimnames(x$results$est[[parameters]])[[3]]
-					colNameRough <- expand.grid(dimnames(x$results$est[[parameters]])[[1]],dimnames(x$results$est[[parameters]])[[2]])
-
-					if(nrow(colNameRough)>0){
-						colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],sep="")
-					}
-
-					### Include burning information
-					if(burning){
-						paramBurnMCMC <- x$results$burn[[parameters]]
-						paramBurnMCMCMat <- aperm(paramBurnMCMC,c(3,1,2))
-						dim(paramBurnMCMCMat) <- c(dim(x$results$burn[[parameters]])[[3]],dim(x$results$burn[[parameters]])[[1]]*dim(x$results$burn[[parameters]])[[2]])
-						rownames(paramBurnMCMCMat) <- dimnames(x$results$burn[[parameters]])[[3]]
-						paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-					}
-
-					### Output
-					res <- mcmc(paramMCMCMat, ...)
-				}
-			}
+		paramMCMCMat <- matrix(NA,niter,nrow(lowerTriMatPointer))
+		for(i in 1:niter){
+			paramMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
 		}
+
+		rownames(paramMCMCMat) <- dimnames(x$results$est$varX)[[3]]
+
+		### Include burning information
+		if(burning){
+			paramBurnMCMC <- x$results$burn[[parameters]]
+			nburn <- dim(paramBurnMCMC)[3]
+
+			paramBurnMCMCMat <- matrix(NA,nburn,nrow(lowerTriMatPointer))
+			for(i in 1:nburn){
+				paramBurnMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
+			}
+
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+			rownames(paramMCMCMat) <- c(dimnames(x$results$burn$varX)[[3]],dimnames(x$results$est$varX)[[3]])
+		}
+
+		varXNames <- expand.grid(dimnames(x$results$est$varX)[[1]],dimnames(x$results$est$varX)[[1]])[which(lowerTri),]
+		if(ncol(varXNames)>0){
+			colnames(paramMCMCMat) <- paste(varXNames[,1],".",varXNames[,2],sep="")
+		}
+
+		### Output
+		res <- mcmc(paramMCMCMat, ...)
+	}
+
+	### meansParamX, varNormal, varPoisson, paramPhylo
+	if(parameters=="meansParamX" | parameters=="varNormal" | parameters=="varPoisson" | parameters=="paramPhylo"){
+		paramMCMCMat <- x$results$est[[parameters]]
+
+		### Name rows and columns of matrix
+		rownames(paramMCMCMat) <- rownames(x$results$est[[parameters]])
+		colnames(paramMCMCMat) <- colnames(x$results$est[[parameters]])
+
+		### Output
+		if(burning){
+			paramBurnMCMC <- x$results$burn[[parameters]]
+			rownames(paramBurnMCMC) <- rownames(x$results$burn[[parameters]])
+			colnames(paramBurnMCMC) <- colnames(x$results$burn[[parameters]])
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+		}
+		res <- mcmc(paramMCMCMat, ...)
+
+	}
+
+	### paramX
+	if(parameters == "paramX" | parameters == "paramTr"){
+		### Reorganize results
+		paramMCMC <- x$results$est[[parameters]]
+		paramMCMCMat <- aperm(paramMCMC,c(3,1,2))
+		dim(paramMCMCMat) <- c(dim(x$results$est[[parameters]])[[3]],dim(x$results$est[[parameters]])[[1]]*dim(x$results$est[[parameters]])[[2]])
+
+		### Name rows and columns of matrix
+		rownames(paramMCMCMat) <- dimnames(x$results$est[[parameters]])[[3]]
+		colNameRough <- expand.grid(dimnames(x$results$est[[parameters]])[[1]],dimnames(x$results$est[[parameters]])[[2]])
+
+		if(nrow(colNameRough)>0){
+			colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],sep="")
+		}
+
+		### Include burning information
+		if(burning){
+			paramBurnMCMC <- x$results$burn[[parameters]]
+			paramBurnMCMCMat <- aperm(paramBurnMCMC,c(3,1,2))
+			dim(paramBurnMCMCMat) <- c(dim(x$results$burn[[parameters]])[[3]],dim(x$results$burn[[parameters]])[[1]]*dim(x$results$burn[[parameters]])[[2]])
+			rownames(paramBurnMCMCMat) <- dimnames(x$results$burn[[parameters]])[[3]]
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+		}
+
+		### Output
+		res <- mcmc(paramMCMCMat, ...)
 	}
 	return(res)
 }
