@@ -4,7 +4,8 @@
 \alias{as.mcmc.hmsc}
 \title{Convert MCMC parameters estimation to \code{\link{mcmc}} object}
 \usage{
-\method{as.mcmc}{hmsc}(x, parameters = "paramX", burning = FALSE, ...)
+\method{as.mcmc}{hmsc}(x, parameters = "paramX", burning = FALSE,
+  Random = 1, Auto = 1, ...)
 }
 \arguments{
 \item{x}{An object of the class \code{hmsc}.}
@@ -22,11 +23,7 @@ An object of class \code{\link{mcmc}}.
 Use the Markov Chain Monte Carlo results obtained from \code{\link{hmsc}} and convert them to an \code{\link{mcmc}} object.
 }
 \details{
-The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmsc}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}} object is constructed.
-
-The \code{\link{mcmc}} object associated to \code{paramLatent} includes information only for the correlations among single pairs of species, that is, only the lower triangle of the correlation matrix is considered.
-
-When there are multiple random effects estimated for the model, associated to each random effect there is a set of estimated latent parameters (\code{paramLatent}). For this reason, when the Markov Chain Monte Carlo results for \code{paramLatent} is converted with \code{as.mcmc}, parameters associated to each set of latent variables in \code{paramLatent} becomes an code{\link{mcmc}} object in a list. It is important to note that this "list" is \emph{NOT} an \code{mcmc.list}.
+Since the algorithm used adapts the number of latent variables to use, the \code{\link{mcmc}} object associated to \code{paramLatent} only includes information associated to the latent variables that are available for all iterations.
 }
 \examples{
 
