@@ -394,6 +394,9 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 	#=======================================
 	if(!is.null(Random)){
 		if(is.factor(Random)){
+			### Number of sites
+			nsite<-length(Random)
+
 			Random<-data.frame(random1=Random)
 			rownames(Random)<-paste("site",1:nsite,sep="")
 			### Number or random effects
@@ -405,6 +408,8 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 				}
 				### Number or random effects
 				nRandom<-ncol(Random)
+				### Number of sites
+				nsite<-nrow(Random)
 
 				colnames(Random)<-paste("random",1:nRandom,sep="")
 				rownames(Random)<-paste("site",1:nsite,sep="")
@@ -412,7 +417,6 @@ communitySimul<-function(X=NULL,Tr=NULL,Phylo=NULL,Random=NULL,Auto=NULL,nsp=NUL
 				stop("'Random' should be a factor or a data.frame")
 			}
 		}
-		nsite<-nrow(Random)
 
 		### Number of levels in each random effect considered
 		nLevelRandom<-mapply(nlevels,Random)
