@@ -51,12 +51,57 @@ function(x, parameters = "paramX", burning = FALSE, Random = 1, Auto = 1,...){
 ##########################################################################################
 
 	### For latent
-	if(parameters=="latent"){
-		stop("an mcmc object for 'latent' should not be constructed")
+	if(parameters == "latent" | parameters == "latentAuto"){
+		nrandom <- ncol(x$results$estimation[[parameters]])
+		nsite <- nrow(x$results$estimation[[parameters]][[1,1]])
+		nlatent <- min(sapply(x$results$estimation[[parameters]],ncol))
+		niter <- nrow(x$results$estimation$paramLatent)
+
+		### Include burning information
+		if(burning){
+			nlatent<-min(sapply(x$results$estimation[[parameters]],ncol),sapply(x$results$burning[[parameters]],ncol))
+			nburn <- length(x$results$burning[[parameters]])
+			paramMCMC <- array(dim=c(nsite,nlatent,niter,nrandom))
+			for(i in 1:nrandom){
+				for(j in 1:nburn){
+					paramMCMC[,,j,i] <- x$results$burning[[parameters]][[j,i]][,1:nlatent]
+				}
+
+				for(j in 1:niter){
+					paramMCMC[,,j,i] <- x$results$estimation[[parameters]][[j,i]][,1:nlatent]
+				}
+			}
+
+		### Without burning information
+		}else{
+			paramMCMC <- array(dim=c(nsite,nlatent,niter,nrandom))
+			for(i in 1:nrandom){
+				for(j in 1:niter){
+					paramMCMC[,,j,i] <- x$results$estimation[[parameters]][[j,i]][,1:nlatent]
+				}
+			}
+		}
+
+		### Reorganize paramMCMC
+		paramMCMCMat <- aperm(paramMCMC,c(3,1,2,4))
+		dim(paramMCMCMat) <- c(niter,nsite*nlatent*nrandom)
+
+		### Name the different dimensions of paramMCMCMat
+		if(burning){
+			rownames(paramMCMCMat) <- c(rownames(x$results$burning[[parameters]]),rownames(x$results$estimation[[parameters]]))
+		}else{
+			rownames(paramMCMCMat) <- rownames(x$results$estimation[[parameters]])
+		}
+
+		colNameRough<-expand.grid(rownames(x$data$Y), colnames(x$results$estimation[[parameters]][[1,1]])[1:nlatent], colnames(x$results$estimation[[parameters]]))
+
+		if(nrow(colNameRough)>0){
+			colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],".",colNameRough[,3],sep="")
+		}
 	}
 
 	### For paramLatent
-	if(parameters == "paramLatent" | parameters=="paramLatentAuto"){
+	if(parameters == "paramLatent" | parameters == "paramLatentAuto"){
 		nrandom <- ncol(x$results$estimation[[parameters]])
 		nsp <- nrow(x$results$estimation[[parameters]][[1,1]])
 		nlatent <- min(sapply(x$results$estimation[[parameters]],ncol))
