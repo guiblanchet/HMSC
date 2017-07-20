@@ -4,13 +4,12 @@
 \alias{as.mcmc.hmsc}
 \title{Convert MCMC parameters estimation to \code{\link{mcmc}} object}
 \usage{
-\method{as.mcmc}{hmsc}(x, parameters = "paramX", burning = FALSE,
-  Random = 1, Auto = 1, ...)
+\method{as.mcmc}{hmsc}(x, parameters = "paramX", burning = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of the class \code{hmsc}.}
 
-\item{parameters}{A character string defining the parameters for which the convergions needs to be carried out.}
+\item{parameters}{A character string defining the parameters for which the conversions needs to be carried out.}
 
 \item{burning}{Logical. Whether the burning iterations should be include (\code{TRUE}) or not (\code{FALSE}).}
 
@@ -23,7 +22,7 @@ An object of class \code{\link{mcmc}}.
 Use the Markov Chain Monte Carlo results obtained from \code{\link{hmsc}} and convert them to an \code{\link{mcmc}} object.
 }
 \details{
-Since the algorithm used adapts the number of latent variables to use, the \code{\link{mcmc}} object associated to \code{paramLatent} only includes information associated to the latent variables that are available for all iterations.
+Since the algorithm used adapts the number of latent variables to use, the resulting \code{\link{mcmc}} object associated to \code{paramLatent}, \code{paramLatentAuto}, \code{latent}, \code{latentAuto} only includes information associated to the autocorrelated and non-autocorrelated latent variables that are available for all iterations.
 }
 \examples{
 
@@ -38,14 +37,14 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr=FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE)
 
 #==============
 ### Build model
 #==============
-modelDesc <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
+model <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
 
-paramXmcmc <- as.mcmc(modelDesc, parameters = "paramX")
+paramXmcmc <- as.mcmc(model, parameters = "paramX")
 
 }
 \seealso{
