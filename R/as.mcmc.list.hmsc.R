@@ -19,7 +19,7 @@
 #'
 #' @seealso \code{\link{mcmc.list}}, \code{\link{hmsc}}
 #'
-#' @importFrom coda as.mcmc.list
+#' @importFrom coda mcmc.list
 #' @examples
 #'
 #' #================
@@ -52,6 +52,10 @@ as.mcmc.list.hmsc <-
 function(x, parameters = "paramX", burning = FALSE, ...){
 #### F. Guillaume Blanchet - July 2017
 ##########################################################################################
+
+# @method as.mcmc.list hmsc
+# @export
+
 	### Checks
 	if(!is.list(x)){
 		stop("'x' needs to be a list")
@@ -69,6 +73,6 @@ function(x, parameters = "paramX", burning = FALSE, ...){
 	}
 
 	### Output
-	res <- as.mcmc.list(paramMCMC)
+	res <- as.mcmc.list(paramMCMC, ...)
 	return(res)
 }
