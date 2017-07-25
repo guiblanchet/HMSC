@@ -7,7 +7,7 @@
 #'
 #' @details
 #'
-#' When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group. 
+#' When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
 #'
 #' @return
 #'
@@ -431,11 +431,11 @@ variPart<-function(hmsc,groupX){
 						}
 					}
 
-					variTotal <- predXTotal + cbind(PredRandom,PredAuto)
+					variTotal <- predXTotal + rowSums(cbind(PredRandom,PredAuto))
 					variPartX <- variPartX + predXTotal/variTotal;
 					variPartAuto <- variPartAuto + PredAuto/replicate(nAuto, variTotal)
 					variPartRandom <- variPartRandom + PredRandom/replicate(nRandom, variTotal)
-					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, apply(predXSplit, 1, sum));
+					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, apply(predXSplit, 1, sum))
 				}
 
 
