@@ -73,6 +73,6 @@ function(x, parameters = "paramX", burning = FALSE, ...){
 	}
 
 	### Output
-	res <- as.mcmc.list(paramMCMC, ...)
+	res <- mcmc.list(paramMCMC, ...)
 	return(res)
 }
