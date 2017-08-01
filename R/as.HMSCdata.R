@@ -337,7 +337,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
-	if(!is.null(colnames(Random))){
+	if(is.null(colnames(Random))){
 		colnames(Random) <- paste("random", 1:ncol(Random), sep="")
 		print("column names were added to 'Random'")
 	}
