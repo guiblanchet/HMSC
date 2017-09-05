@@ -489,7 +489,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		for(i in length(Auto)){
 			dupli<-sum(duplicated(Auto[[i]][,-1]) | duplicated(Auto[[i]][,-1], fromLast = TRUE))
 			if(dupli > 0){
-				stop("Some coordinates in 'Auto' are duplicate")
+				warning("Some coordinates in 'Auto' are duplicate")
 			}
 		}
 	}
