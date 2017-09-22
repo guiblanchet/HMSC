@@ -6,6 +6,22 @@
 
 using namespace Rcpp;
 
+// fixParamAuto
+arma::field<arma::cube> fixParamAuto(arma::mat& Auto, Rcpp::NumericMatrix& priorParamAutoDist, double nsp, arma::vec& nAutoLev, int npriorParamAuto, int i);
+RcppExport SEXP _HMSC_fixParamAuto(SEXP AutoSEXP, SEXP priorParamAutoDistSEXP, SEXP nspSEXP, SEXP nAutoLevSEXP, SEXP npriorParamAutoSEXP, SEXP iSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Auto(AutoSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type priorParamAutoDist(priorParamAutoDistSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< int >::type npriorParamAuto(npriorParamAutoSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    rcpp_result_gen = Rcpp::wrap(fixParamAuto(Auto, priorParamAutoDist, nsp, nAutoLev, npriorParamAuto, i));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mcmcNormalAuto
 RcppExport SEXP mcmcNormalAuto(arma::mat& Ylatent, arma::field< arma::mat >& Auto, arma::umat& RandomAuto, arma::vec& residVar, arma::field< arma::vec >& paramAuto, arma::field< arma::mat >& latentAuto, arma::field< arma::mat >& paramLatentAuto, arma::field< arma::mat >& shrinkLocalAuto, arma::field< arma::vec >& paramShrinkGlobalAuto, double priorResidVarScale, double priorResidVarShape, arma::mat& priorParamAutoWeight, Rcpp::NumericMatrix& priorParamAutoDist, double priorShrinkLocal, double priorShrinkOverallShape, double priorShrinkOverallScale, double priorShrinkSpeedShape, double priorShrinkSpeedScale, arma::vec& adapt, arma::vec& redund, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite, int npriorParamAuto, int niter, int nburn, int thin, int verbose);
 RcppExport SEXP _HMSC_mcmcNormalAuto(SEXP YlatentSEXP, SEXP AutoSEXP, SEXP RandomAutoSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP latentAutoSEXP, SEXP paramLatentAutoSEXP, SEXP shrinkLocalAutoSEXP, SEXP paramShrinkGlobalAutoSEXP, SEXP priorResidVarScaleSEXP, SEXP priorResidVarShapeSEXP, SEXP priorParamAutoWeightSEXP, SEXP priorParamAutoDistSEXP, SEXP priorShrinkLocalSEXP, SEXP priorShrinkOverallShapeSEXP, SEXP priorShrinkOverallScaleSEXP, SEXP priorShrinkSpeedShapeSEXP, SEXP priorShrinkSpeedScaleSEXP, SEXP adaptSEXP, SEXP redundSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP, SEXP npriorParamAutoSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP thinSEXP, SEXP verboseSEXP) {
@@ -4576,8 +4592,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// updateLatentAuto
+arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid, arma::umat& RandomAuto, arma::vec& residVar, arma::field<arma::vec>& paramAuto, arma::field<arma::cube>& wAutoInv, arma::field<arma::mat>& paramLatentAuto, arma::field<arma::mat>& latentAuto, arma::mat& priorParamAutoDistArma, int nAuto, arma::vec& nAutoLev, arma::vec& nLatentAuto, double nsp, int nsite);
+RcppExport SEXP _HMSC_updateLatentAuto(SEXP YresidSEXP, SEXP RandomAutoSEXP, SEXP residVarSEXP, SEXP paramAutoSEXP, SEXP wAutoInvSEXP, SEXP paramLatentAutoSEXP, SEXP latentAutoSEXP, SEXP priorParamAutoDistArmaSEXP, SEXP nAutoSEXP, SEXP nAutoLevSEXP, SEXP nLatentAutoSEXP, SEXP nspSEXP, SEXP nsiteSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type Yresid(YresidSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type RandomAuto(RandomAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type residVar(residVarSEXP);
+    Rcpp::traits::input_parameter< arma::field<arma::vec>& >::type paramAuto(paramAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field<arma::cube>& >::type wAutoInv(wAutoInvSEXP);
+    Rcpp::traits::input_parameter< arma::field<arma::mat>& >::type paramLatentAuto(paramLatentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::field<arma::mat>& >::type latentAuto(latentAutoSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type priorParamAutoDistArma(priorParamAutoDistArmaSEXP);
+    Rcpp::traits::input_parameter< int >::type nAuto(nAutoSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nAutoLev(nAutoLevSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type nLatentAuto(nLatentAutoSEXP);
+    Rcpp::traits::input_parameter< double >::type nsp(nspSEXP);
+    Rcpp::traits::input_parameter< int >::type nsite(nsiteSEXP);
+    rcpp_result_gen = Rcpp::wrap(updateLatentAuto(Yresid, RandomAuto, residVar, paramAuto, wAutoInv, paramLatentAuto, latentAuto, priorParamAutoDistArma, nAuto, nAutoLev, nLatentAuto, nsp, nsite));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_HMSC_fixParamAuto", (DL_FUNC) &_HMSC_fixParamAuto, 6},
     {"_HMSC_mcmcNormalAuto", (DL_FUNC) &_HMSC_mcmcNormalAuto, 30},
     {"_HMSC_mcmcNormalAutoLatent", (DL_FUNC) &_HMSC_mcmcNormalAutoLatent, 38},
     {"_HMSC_mcmcNormalLatent", (DL_FUNC) &_HMSC_mcmcNormalLatent, 25},
@@ -4678,6 +4718,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_HMSC_sampleYlatentNormal", (DL_FUNC) &_HMSC_sampleYlatentNormal, 5},
     {"_HMSC_sampleYlatentPoisson", (DL_FUNC) &_HMSC_sampleYlatentPoisson, 6},
     {"_HMSC_sampleYlatentProbit", (DL_FUNC) &_HMSC_sampleYlatentProbit, 8},
+    {"_HMSC_updateLatentAuto", (DL_FUNC) &_HMSC_updateLatentAuto, 13},
     {NULL, NULL, 0}
 };
 

@@ -6,6 +6,8 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Calculate autocorrelated parameters that do not change in the Gibbs sampler
+//' @export
+// [[Rcpp::export]]
 arma::field<arma::cube> fixParamAuto(arma::mat& Auto,
 									 Rcpp::NumericMatrix& priorParamAutoDist,
 									 double nsp,
@@ -26,10 +28,10 @@ arma::field<arma::cube> fixParamAuto(arma::mat& Auto,
 	cube wAutoInv1(nAutoLev(i),nAutoLev(i),npriorParamAuto);
 
 	for (int j = 0; j < npriorParamAuto; j++) {
-		if(priorParamAutoDist(j,i)< 0.00001){
+		if(priorParamAutoDist(j,i) < 0.00001){
 			// If the distance considered is small assume that there is no weight
 			// The determinant is 1
-			wAutoDet.slice(j) = 1;
+			wAutoDet.slice(j) = 0.0; // Need to be fixed to 0//
 			// The inverse of the weight matrix is eye()
 			wAutoInv1.slice(j) = eye(nAutoLev(i),nAutoLev(i));
 		}else{

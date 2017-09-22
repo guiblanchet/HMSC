@@ -5,6 +5,8 @@
 using namespace arma ;
 using namespace Rcpp ;
 
+//' @export
+// [[Rcpp::export]]
 arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 										arma::umat& RandomAuto,
 										arma::vec& residVar,
@@ -52,7 +54,6 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 		// Construct a matrix of 0
 		mat wAutoInvDiag = zeros(nLatentAuto(j)*nAutoLev(j),nLatentAuto(j)*nAutoLev(j));
 
-
 		// Fill wAutoInvDiag on the diagonal with the matrix selected in wAutoInvSel
 		for(int k = 1; k <= nLatentAuto(j); k++){
 			beginRow = (k-1)*nAutoLev(j);
@@ -62,6 +63,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 
 			wAutoInvDiag.submat(beginRow,beginCol,endRow,endCol) = wAutoInvSel(0,k-1);
 		}
+wAutoInvDiag.print();
 
 		// Construct a diagonal matrix with residVar
 		mat diagResidVar(nsp,nsp);
