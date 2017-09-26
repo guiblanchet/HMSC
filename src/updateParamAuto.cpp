@@ -24,9 +24,11 @@ arma::field<arma::vec> updateParamAuto(arma::field<arma::mat>& latentAuto,
 		cube wAutoInvCube = wAutoInv(h,0);
 		mat quadLike(npriorParamAuto,nLatentAuto(h));
 
-		for(int i = 0; i < npriorParamAuto; i++){
-			// Calculate the quadratic part of a multivariate normal log-likelihood that will be used to sample paramAuto
-			quadLike.row(i) = sum(square(wAutoInvCube.slice(i)*latentAutoMat));
+		for(int i = 0; i < nLatentAuto(h); i++){
+			for(int j = 0; j < npriorParamAuto; j++){
+				// Calculate the quadratic part of a multivariate normal log-likelihood that will be used to sample paramAuto
+				quadLike(j,i) = as_scalar(trans(latentAutoMat.col(i))*wAutoInvCube.slice(j)*latentAutoMat.col(i)); // Le problème est ici !!!!!
+			}
 		}
 
 		vec paramAutoTmp(nLatentAuto(h));

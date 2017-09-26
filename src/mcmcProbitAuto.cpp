@@ -116,11 +116,7 @@ RcppExport SEXP mcmcProbitAuto(arma::mat& Y,
 		//-----------------
 		// Update paramAuto
 		//-----------------
-//		wall_clock timer;
-//		timer.tic();
 		paramAuto = updateParamAuto(latentAuto, paramAuto,npriorParamAuto,wAutoDet,wAutoInv, priorParamAutoWeight, priorParamAutoDist,nLatentAuto,nAuto);
-//		double temps = timer.toc();
-//		Rprintf("time : %f\n", temps);
 
 		//----------------
 		// Sample Y latent

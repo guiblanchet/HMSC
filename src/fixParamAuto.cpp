@@ -6,8 +6,6 @@ using namespace arma ;
 using namespace Rcpp ;
 
 // Calculate autocorrelated parameters that do not change in the Gibbs sampler
-//' @export
-// [[Rcpp::export]]
 arma::field<arma::cube> fixParamAuto(arma::mat& Auto,
 									 Rcpp::NumericMatrix& priorParamAutoDist,
 									 double nsp,
