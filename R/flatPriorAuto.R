@@ -8,10 +8,10 @@ function(data,paramAutoDist=NULL,paramAutoWeight=NULL,
 		nAuto<-length(data$Auto)
 
 		### Construct prior objects
-		paramAutoDist<-matrix(NA,nrow=201,ncol=nAuto)
+		paramAutoDist<-matrix(NA,nrow=101,ncol=nAuto)
 		colnames(paramAutoDist)<-paste("priorAutoDistance",1:nAuto,sep="")
 
-		paramAutoWeight<-matrix(NA,nrow=201,nAuto)
+		paramAutoWeight<-matrix(NA,nrow=101,nAuto)
 		colnames(paramAutoWeight)<-paste("priorAutoDistance",1:nAuto,sep="")
 
 		### Construct prior weight (more importance is given to a distance of 0)
@@ -37,7 +37,7 @@ function(data,paramAutoDist=NULL,paramAutoWeight=NULL,
 		}
 
 		for(i in 1:nAuto){
-			distance<-seq(0,1,by=0.005)*sqrt(sum((AutoMax[[i]]-AutoMin[[i]])^2))
+			distance<-seq(0,1,length=length(paramAutoDist))*sqrt(sum((AutoMax[[i]]-AutoMin[[i]])^2))
 			paramAutoDist[,i]<-distance
 			paramAutoWeight[,i]<-weight
 		}
