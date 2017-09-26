@@ -1,7 +1,7 @@
 Package: HMSC
 Type: Package
 Title: Hierarchical Modelling of Species Community
-Version: 2.0-10
+Version: 2.0-11
 Date: 2017-07-11
 Author: F. Guillaume Blanchet, with contributions from Gleb Tikhonov and Anna Norberg
 Maintainer: F. Guillaume Blanchet <guillaume.blanchet@usherbrooke.ca>
