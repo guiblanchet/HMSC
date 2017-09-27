@@ -120,6 +120,10 @@ function(data,param,family){
 		if(family == "poisson" | family == "overPoisson"){
 			Ylatent<-sampleYlatentPoisson(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
 		}
+
+		if(family == "binomial"){
+			Ylatent <- sampleYlatentBinomialLogit(Y,matrix(0,nrow=nsite,ncol=nsp),param$param$ncount,nsp,nsite)
+		}
 	}
 
 	class(Ylatent)<-"HMSCYlatent"
