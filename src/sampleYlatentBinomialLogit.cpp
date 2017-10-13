@@ -28,14 +28,25 @@ arma::mat sampleYlatentBinomialLogit(arma::mat& Y,
 	mat Yresid(nsite,nsp);
 
 	// Define upper and lower boundary of the truncated normal distribution for all but the largest value
-	mat pLow = Y/ncount;
-	mat pHigh = (Y+1)/ncount;
+	mat pLow = (Y-0.5)/ncount;
+	mat pHigh = (Y+0.5)/ncount;
 
-	// Define upper and lower boundary of the truncated normal distribution for
+	// Define upper boundary of the truncated normal distribution for max values
 	uvec maxY = find(Y==ncount);
 	if(maxY.n_elem > 0){
-		pLow.elem(maxY) = (ncount-1)/ncount;
-		pHigh.elem(maxY) = ncount;
+		vec pHighMaxY(size(maxY));
+		pHighMaxY.fill(1);
+
+		pHigh.elem(maxY) = pHighMaxY;
+	}
+
+	// Define lower boundary of the truncated normal distribution for 0s
+	uvec minY = find(Y==0);
+	if(minY.n_elem > 0){
+		vec pLowMinY(size(minY));
+		pLowMinY.fill(0);
+
+		pLow.elem(minY) = pLowMinY;
 	}
 
 	mat low = log(pLow/(1-pLow)) - EstModel;
@@ -43,10 +54,10 @@ arma::mat sampleYlatentBinomialLogit(arma::mat& Y,
 
 	// Find all the NAs and fill low and high associated to NAs with -Inf and +Inf
 	uvec YNALoc = find_nonfinite(Y);
-	vec nasPos(ncount(YNALoc));
+	vec nasPos(size(YNALoc));
 	nasPos.fill(datum::inf);
 
-	vec nasNeg(ncount(YNALoc));
+	vec nasNeg(size(YNALoc));
 	nasNeg.fill(-datum::inf);
 
 	low.elem(YNALoc) = nasNeg;
@@ -55,7 +66,7 @@ arma::mat sampleYlatentBinomialLogit(arma::mat& Y,
 	// Sample from a truncated normal distribution to calculate the residual of Ylatent
 	for (int i = 0; i < nsite; i++) {
 		for (int j = 0; j < nsp; j++) {
-			Yresid(i,j) = rtnorm(0, residSd(j), low(i,j), high(i,j));
+			Yresid(i,j) = rtnorm(0, 1, low(i,j), high(i,j));
 			if(std::abs(Yresid(i,j)) == datum::inf){
 				if(std::abs(high(i,j)) == datum::inf){
 					Yresid(i,j) = low(i,j);

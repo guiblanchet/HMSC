@@ -7,7 +7,7 @@
 arma::mat sampleYlatentBinomialLogit(arma::mat& Y,
 							  arma::mat& Ylatent,
 							  arma::mat& EstModel,
-							  arma::vec residVar,
+							  double ncount,
 							  double nsp,
 							  int nsite);
 

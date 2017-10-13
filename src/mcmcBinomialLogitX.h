@@ -19,13 +19,13 @@ RcppExport SEXP mcmcBinomialLogitX(arma::mat& Y,
 							double priorVarXDf,
 							double priorResidVarScale,
 							double priorResidVarShape,
-							double ncount,
 							double nsp,
 							int nsite,
 							int nparamX,
 							int niter,
 							int nburn,
 							int thin,
+							double ncount,
 							int verbose);
 
 #endif

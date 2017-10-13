@@ -4,9 +4,9 @@
 \alias{hmsc}
 \title{Hierarchical modelling of communities}
 \usage{
-hmsc(data, param = NULL, priors = NULL, family = c("probit", "gaussian",
-  "poisson", "overPoisson"), niter = 2000, nburn = 1000, thin = 1,
-  verbose = TRUE)
+hmsc(data, param = NULL, priors = NULL, family = c("probit", "logit",
+  "gaussian", "poisson", "overPoisson"), ncount, niter = 2000, nburn = 1000,
+  thin = 1, verbose = TRUE)
 }
 \arguments{
 \item{data}{An object of the class \code{HMSCdata}.}
@@ -16,6 +16,8 @@ hmsc(data, param = NULL, priors = NULL, family = c("probit", "gaussian",
 \item{priors}{An object of the class \code{HMSCprior}. If \code{prior} is \code{NULL}, flat prior will be use.}
 
 \item{family}{A character string defining the type of modelling approach to use (See details).}
+
+\item{ncount}{A positive integer defining the maximum number of individuals that can be counted for a species at a site. This parameter is only used for models constructed with a logit link.}
 
 \item{niter}{A positive integer defining the total number of iterations to be carried out in the analysis. Default is 2000.}
 
@@ -55,6 +57,8 @@ It is \strong{very important} to know that the models constructed for abundance 
 When thinning, the value given to \code{thin} means that all but the \emph{k}^{th} values will be considered.
 
 This function makes it possible to build models that consider habitat characteristics. The way to define how these models relies on the data is included in \code{data}.
+
+Models with a logit link can be used to construct multivariate logistic regressions (if \code{ncount = 1}) but also binomial logistic regression (if \code{ncount > 1}).
 }
 \examples{
 #================
