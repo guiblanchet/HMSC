@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 
 arma::field<arma::mat> updateParamLatent(arma::mat& Ylatent,
-										 arma::umat& Random, 
+										 arma::umat& Random,
 										 arma::vec& residVar,
 										 arma::field<arma::mat>& paramLatent,
 										 arma::field<arma::mat>& latent,

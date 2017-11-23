@@ -11,7 +11,7 @@
 
 RcppExport SEXP mcmcProbitLatent(arma::mat& Y,
 								 arma::mat& Ylatent,
-								 arma::umat& Random, 
+								 arma::umat& Random,
 								 arma::vec& residVar,
 								 arma::field< arma::mat >& latent,
 								 arma::field< arma::mat >& paramLatent,
@@ -35,5 +35,5 @@ RcppExport SEXP mcmcProbitLatent(arma::mat& Y,
 								 int nburn,
 								 int thin,
 								 int verbose);
-							
+
 #endif

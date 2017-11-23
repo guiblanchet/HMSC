@@ -47,6 +47,8 @@
 #'
 #' Although the structure of the \code{Auto} argument may seem unusual as a list of data.frames, this structures give the possibility to account for different type of autocorrelation structure simultaneously (e.g. spatial and temporal) in the same analysis. Although it is usual for autocorrelation to be accounted for by either 1 or 2 dimensions (so 1 or 2 columns), the analyses carried out in this package can account for autocorrelation at any number of dimensions.
 #'
+#' A model that includes only random effects, whether spatialized (\code{Auto}) or not (\code{Random}) may be corrected by including an intercept in the model. Although, this often leads to less bias fit of the model, we decided to let the users decide whether an intercept should be included in the model or not as it may depend on the biological question of interest. Because this may affect parameter estimation and it is an aspect of the model that can easily be missed, a warning message is sent about this.
+#'
 #' Functions \code{as.HMSCparam} and \code{as.HMSCprior} do not need to be used when estimating a model using \code{\link{hmsc}}. In \code{\link{hmsc}}, if \code{as.HMSCparam} and \code{as.HMSCprior} are not defined, the function will define a set of default parameters and priors. \code{as.HMSCparam} and \code{as.HMSCprior} were designed so that some, not necessarily all, priors and parameters need to be defined. For example, if one defines only the prior (parameters) for \code{varTr}, all other priors (parameters) will be defined with default priors (parameter).
 #'
 #' In \code{as.HMSCparam}, the argument \code{family} is used to define the  \code{paramX} by default using a univariate generalized linear model for each species. Currently, only \code{binomial(link = "probit")} should be used because \code{\link{hmsc}} only estimate probit models.
@@ -111,6 +113,13 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 	### Check that neither X or Random are NULL
 	if(is.null(X) && is.null(Random) && is.null(Auto)){
 		stop("Either 'X', 'Random' or 'Auto' can be NULL, not all three of them")
+	}
+
+	### If X is NULL and Random and/or Auto are not NULL send a warning
+	if(!interceptX){
+		if(is.null(X) & (!is.null(Random) | !is.null(Auto))){
+			warning("A model without an intercept on X but with 'Random' and/or 'Auto' can lead to bias results")
+		}
 	}
 
 	### If Auto is a data.frame convert it to a list
@@ -452,6 +461,15 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 					warning(paste(rownames(Tr)[zeroVar], "are traits with a variance of 0, make sure this is OK"))
 				}
 			}
+		}
+	}
+
+	### Add intercept if X is NULL and Random and/or Auto are not NULL send a warning
+	if(interceptX){
+		if(is.null(X) & (!is.null(Random) | !is.null(Auto))){
+			X <- matrix(1, nrow = nsite, ncol = 1)
+			colnames(X)[1] <- "Intercept"
+			print("An intercept was added as explanatory variables")
 		}
 	}
 

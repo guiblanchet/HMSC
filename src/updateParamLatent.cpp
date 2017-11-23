@@ -6,7 +6,7 @@ using namespace arma ;
 using namespace Rcpp ;
 
 arma::field<arma::mat> updateParamLatent(arma::mat& Ylatent,
-										 arma::umat& Random, 
+										 arma::umat& Random,
 										 arma::vec& residVar,
 										 arma::field<arma::mat>& paramLatent,
 										 arma::field<arma::mat>& latent,
@@ -15,21 +15,20 @@ arma::field<arma::mat> updateParamLatent(arma::mat& Ylatent,
 										 arma::vec& nLatent,
 										 double nsp,
 										 int nsite){
-	
-	
+
 	// Define various objects
 	mat Yresid(nsite,nsp);
-	
+
 	// Update paramLatent
 	for (int j = 0; j < nRandom; j++) {
 		Yresid = Ylatent;
-		
+
 		for (int k = 0; k < nRandom; k++) {
 			if(!(j == k)){
 				Yresid = Yresid - latent(k,0).rows(Random.col(k))*trans(paramLatent(k,0));
 			}
 		}
-		
+
 		mat shrinkLatent(nLatent(j),nLatent(j));
 		mat cholShrinkLatent(nLatent(j),nLatent(j));
 		mat meanparamLatentSp(nLatent(j),1);
@@ -47,10 +46,10 @@ arma::field<arma::mat> updateParamLatent(arma::mat& Ylatent,
 			mat structLatentSp = solve(trimatu(trans(cholShrinkLatent)),randn(nLatent(j)));
 			paramLatentT.col(k) = structLatentSp+meanparamLatentSp;
 		}
-		
+
 		// Save paramLatentT into paramLatent object
 		paramLatent(j,0) = trans(paramLatentT);
 	}
-		
+
 	return paramLatent;
 }

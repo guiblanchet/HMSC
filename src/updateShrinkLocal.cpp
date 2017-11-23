@@ -11,10 +11,10 @@ arma::mat updateShrinkLocal(arma::mat& shrinkLocal,
 							arma::mat& param2,
 							double nsp,
 							int nparam){
-		
+
 	// Construct transpose of param2
 	mat param2T = trans(param2);
-	
+
 	// Update ShrinkLocal
 	mat rateShrinkLocal = 1/trans(0.5*(param2T.each_col() % shrinkGlobal)+priorShrinkLocal/2);
 
