@@ -57,7 +57,9 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		### Some basic objects about Random
 		nRandom<-ncol(data$Random) #nr
 		nRandomLev<-mapply(nlevels,data$Random) #np
-		Random<-sapply(data$Random,as.numeric)-1
+
+		Random <- lapply(data$Random,function(x) factor(x, levels=x))
+		Random <- sapply(Random,as.numeric)-1
 
 		### Initial number of latent variables
 		nLatent<-sapply(param$param$latent,ncol)
@@ -103,7 +105,8 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		nAutoLev<-mapply(nlevels,RandomAuto) #np
 
 		### Reorganize RandomAuto so that it can be used in the mcmc function
-		RandomAuto<-sapply(RandomAuto,as.numeric)-1
+		RandomAuto <- lapply(RandomAuto,function(x) factor(x, levels=x))
+		RandomAuto <- sapply(RandomAuto,as.numeric)-1
 
 		### Initial number of latent variables
 		nLatentAuto<-sapply(param$param$latentAuto,ncol)
