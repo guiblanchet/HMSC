@@ -58,7 +58,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		nRandom<-ncol(data$Random) #nr
 		nRandomLev<-mapply(nlevels,data$Random) #np
 
-		Random <- lapply(data$Random,function(x) factor(x, levels=x))
+		Random <- lapply(data$Random,function(x) factor(x, levels=unique(x)))
 		Random<-sapply(Random,as.numeric)-1
 
 		### Initial number of latent variables
@@ -105,7 +105,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 		nAutoLev<-mapply(nlevels,RandomAuto) #np
 
 		### Reorganize RandomAuto so that it can be used in the mcmc function
-		RandomAuto <- lapply(RandomAuto,function(x) factor(x, levels=x))
+		RandomAuto <- lapply(RandomAuto,function(x) factor(x, levels=unique(x)))
 		RandomAuto<-sapply(RandomAuto,as.numeric)-1
 
 		### Initial number of latent variables
