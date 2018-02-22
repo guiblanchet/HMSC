@@ -36,7 +36,7 @@ arma::field<arma::cube> fixParamAuto(arma::mat& Auto,
 			// If the distance considered is larger than 0.00001
 			mat wAuto = exp(-dist/priorParamAutoDist(j,0));
 
-			// Calculate the determinant
+			// Calculate the log determinant
 			wAutoDet.slice(j) = 2*sum(log(diagvec(chol(wAuto))));
 			// Calculate the inverse of the weight matrix
 			wAutoInv1.slice(j) = inv(wAuto);
