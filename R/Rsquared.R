@@ -65,6 +65,11 @@ Rsquared <- function(hmsc, newdata = NULL, averageSp = TRUE) {
 	  Y <- newdata$Y
   }
 
+  ### Warning for poisson and overPoisson models (this may change in the future)
+  if (any(class(hmsc) == c("poisson", "overPoisson"))) {
+      stop("R2 may only be calculated for probit and gaussian models... for now")
+    }
+
   ### Number of species
   nsp <- ncol(Y)
 
