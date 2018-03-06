@@ -19,10 +19,10 @@ arma::field<arma::mat> adaptVarRemove(arma::mat& param,
 						   double nsp,
 						   double nparam,
 						   int nVariaLev){
-		
+
 	// Defining objects
 	int notToShrinkSums = accu(notToShrink); // Number of latent variables not to be removed
-			
+
 	// Remove variable(s)
 	if(toShrinkSums > 0 && nparam > 2){
 		if(toShrinkSums > (nparam - 2)){
@@ -36,7 +36,7 @@ arma::field<arma::mat> adaptVarRemove(arma::mat& param,
 			shrinkLocal = shrinkLocal.cols(nonRedundLatent);;
 			paramShrinkGlobal = paramShrinkGlobal(nonRedundLatent);;
 			shrinkGlobal = cumprod(paramShrinkGlobal);
-			
+
 			mat shrinkLocalT = trans(shrinkLocal);
 			shrink = trans(shrinkLocalT.each_col() % shrinkGlobal);
 		}
@@ -46,7 +46,7 @@ arma::field<arma::mat> adaptVarRemove(arma::mat& param,
 	// Construct result object
 	//////////////////////////
 	field<mat> result(7,1);
-	
+
 	// New variables
 	result(0,0) = varia;
 	// New number of parameters
@@ -61,7 +61,7 @@ arma::field<arma::mat> adaptVarRemove(arma::mat& param,
 	result(5,0) = shrinkGlobal;
 	// New shrink
 	result(6,0) = shrink;
-	
+
 	// Return results
 	return result;
 }

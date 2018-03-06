@@ -151,7 +151,7 @@ RcppExport SEXP mcmcBinomialLogitXTrAuto(arma::mat& Y,
 		// Add the effect of the autocorrelated latent variables
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
+			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0))); 
 		}
 
 		Ylatent = sampleYlatentBinomialLogit(Y, Ylatent, EstModel, ncount, nsp, nsite);
@@ -164,7 +164,7 @@ RcppExport SEXP mcmcBinomialLogitXTrAuto(arma::mat& Y,
 // * New bits of code - Start
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			Yresid = Yresid - (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0)));
+			Yresid = Yresid - (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0)));
 		}
 // * New bits of code - End
 		paramX = updateParamX(Yresid, X, meansParamX, precX, paramX, nsp, nsite, nparamX);
