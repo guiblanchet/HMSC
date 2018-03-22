@@ -4,7 +4,7 @@
 \alias{as.mcmc.hmsc}
 \title{Convert MCMC parameters estimation to \code{\link{mcmc}} object}
 \usage{
-\method{as.mcmc}{hmsc}(x, parameters = "paramX", burning = FALSE, ...)
+\method{as.mcmc}{hmsc}(x, parameters = NULL, burning = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of the class \code{hmsc}.}

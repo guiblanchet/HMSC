@@ -4,7 +4,7 @@
 \alias{as.mcmc.list.hmsc}
 \title{Convert lists of hmsc objects to \code{\link{mcmc.list}} object}
 \usage{
-\method{as.mcmc}{list.hmsc}(x, parameters = "paramX", burning = FALSE, ...)
+\method{as.mcmc.list}{hmsc}(x, parameters = NULL, burning = FALSE, ...)
 }
 \arguments{
 \item{x}{A list where each level contains an object of the class \code{hmsc}.}

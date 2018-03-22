@@ -47,14 +47,15 @@
 #' paramXmcmc <- as.mcmc.list(model, parameters = "paramX")
 #'
 #' @keywords IO
+#' @method as.mcmc.list hmsc
 #' @export
 as.mcmc.list.hmsc <-
-function(x, parameters = "paramX", burning = FALSE, ...){
+function(x, parameters = NULL, burning = FALSE, ...){
 #### F. Guillaume Blanchet - July 2017
 ##########################################################################################
-
-# @method as.mcmc.list hmsc
-# @export
+	if(is.null(parameters)){
+		stop("'parameters' must be specified by the user")
+	}
 
 	### Checks
 	if(!is.list(x)){
@@ -73,6 +74,6 @@ function(x, parameters = "paramX", burning = FALSE, ...){
 	}
 
 	### Output
-	res <- mcmc.list(paramMCMC, ...)
+	res <- as.mcmc.list(paramMCMC)
 	return(res)
 }
