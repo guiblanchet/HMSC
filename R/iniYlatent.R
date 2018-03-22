@@ -2,7 +2,7 @@
 #' @importFrom stats pnorm
 #' @importFrom stats qnorm
 iniYlatent <-
-function(data,param,family){
+function(data,param,family,ncount){
 
 	### A few basic objects
 	if(!is.null(data$X)){
@@ -119,6 +119,10 @@ function(data,param,family){
 
 		if(family == "poisson" | family == "overPoisson"){
 			Ylatent<-sampleYlatentPoisson(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,param$param$residVar,nsp,nsite)
+		}
+
+		if(family == "logit"){
+			Ylatent <- sampleYlatentBinomialLogit(Y,matrix(0,nrow=nsite,ncol=nsp),EstModel,ncount,nsp,nsite)
 		}
 	}
 

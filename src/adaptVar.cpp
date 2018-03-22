@@ -29,10 +29,10 @@ arma::field<arma::mat> adaptVar(arma::mat& param,
 	uvec toShrink = toShrinkProp >= redund(0);
 	uvec notToShrink = toShrinkProp < redund(0);
 	double toShrinkSums = accu(toShrink);
-	
+
 	// Define result object
 	field<mat> result(7,1);
-	
+
 	// Define a random value sampled from a uniform distribution
 	vec randVal = randu(1);
 	if(randVal(0) <= probAdapt){
@@ -53,7 +53,7 @@ arma::field<arma::mat> adaptVar(arma::mat& param,
 		result(5,0) = shrinkGlobal;
 		result(6,0) = shrink;
 	}
-	
+
 	// Return results
 	return result;
 }

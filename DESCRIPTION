@@ -1,7 +1,11 @@
 Package: HMSC
 Type: Package
 Title: Hierarchical Modelling of Species Community
+<<<<<<< HEAD
 Version: 2.1-0
+=======
+Version: 2.0-12
+>>>>>>> binomialLogit
 Date: 2018-03-05
 Author: F. Guillaume Blanchet, with contributions from Gleb Tikhonov and Anna Norberg
 Maintainer: F. Guillaume Blanchet <guillaume.blanchet@usherbrooke.ca>

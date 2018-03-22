@@ -6,6 +6,7 @@
 #' @param param An object of the class \code{HMSCparam} to use as starting parameters for model estimation. If \code{param} is \code{NULL}, the function will generate a set of randomly sampled value as starting parameters.
 #' @param priors An object of the class \code{HMSCprior}. If \code{prior} is \code{NULL}, flat prior will be use.
 #' @param family A character string defining the type of modelling approach to use (See details).
+#' @param ncount A positive integer defining the maximum number of individuals that can be counted for a species at a site. This parameter is only used for models constructed with a logit link.
 #' @param niter A positive integer defining the total number of iterations to be carried out in the analysis. Default is 2000.
 #' @param nburn A positive integer defining the number of iterations to be used in the burning (first) phase of the algorithm. The burning iterations are a fraction of \code{niter}. Default is 1000.
 #' @param thin A positive integer defining thinning. Default is 1 (see details).
@@ -20,6 +21,8 @@
 #' When thinning, the value given to \code{thin} means that all but the \emph{k}^{th} values will be considered.
 #'
 #' This function makes it possible to build models that consider habitat characteristics. The way to define how these models relies on the data is included in \code{data}.
+#'
+#' Models with a logit link can be used to construct multivariate logistic regressions (if \code{ncount = 1}) but also binomial logistic regression (if \code{ncount > 1}).
 #'
 #' @return
 #'
@@ -72,13 +75,17 @@
 #' @keywords htest, models, multivariate
 #' @export
 hmsc <-
-function(data,param=NULL,priors=NULL,family=c("probit","gaussian","poisson","overPoisson"),niter=2000,nburn=1000,thin=1,verbose=TRUE){
+function(data,param=NULL,priors=NULL,family=c("probit","logit","gaussian","poisson","overPoisson"),ncount,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet
 ##########################################################################################
 	family<-match.arg(family)
 
 	if(family=="probit"){
 		res<-hmsc.Probit(data=data,param=param,priors=priors,niter=niter,nburn=nburn,thin=thin,verbose=verbose)
+	}
+
+	if(family=="logit"){
+		res<-hmsc.BinomialLogit(data=data,param=param,priors=priors,ncount=ncount,niter=niter,nburn=nburn,thin=thin,verbose=verbose)
 	}
 
 	if(family=="gaussian"){

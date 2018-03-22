@@ -20,7 +20,7 @@ arma::field<arma::mat> adaptVarAutoAdd(arma::mat& param,
 									   double nsp,
 									   double nparam,
 									   int nVariaLev){
-		
+
 	// Add a variable
 	nparam = nparam+1;
 	varia = join_rows(varia,randn(nVariaLev));
@@ -29,15 +29,15 @@ arma::field<arma::mat> adaptVarAutoAdd(arma::mat& param,
 	paramShrinkGlobal = join_cols(paramShrinkGlobal,randg(1,distr_param(priorShrinkSpeedShape,priorShrinkSpeedScale)));
 	shrinkGlobal = cumprod(paramShrinkGlobal);
 	paramAuto = join_cols(paramAuto,priorParamAutoDist.row(0));
-	
+
 	mat shrinkLocalT = trans(shrinkLocal);
 	shrink = trans(shrinkLocalT.each_col() % shrinkGlobal);
-	
+
 	//////////////////////////
 	// Construct result object
 	//////////////////////////
 	field<mat> result(8,1);
-	
+
 	// New variables
 	result(0,0) = varia;
 	// New number of parameters
@@ -54,7 +54,7 @@ arma::field<arma::mat> adaptVarAutoAdd(arma::mat& param,
 	result(6,0) = shrink;
 	// New paramAuto
 	result(7,0) = paramAuto;
-	
+
 	// Return results
 	return result;
 }

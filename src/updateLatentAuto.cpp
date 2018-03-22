@@ -79,7 +79,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 			mat varLatent = inv_sympd(precLatent);
 
 			// Calculate the means for the new latentAuto variables
-			mat meansLatent = solve(precLatent,vectorise(Yresid*wparamLatentAuto));
+			mat meansLatent = solve(precLatent,vectorise(Yresid * wparamLatentAuto));
 
 			// Calculate the new latentAuto variables
 			latentAuto(j,0) = reshape(rmvnorm(1, meansLatent,varLatent), nAutoLev(j), nLatentAuto(j));
@@ -88,7 +88,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 		//////////////////////////////
 		}else{
 			// Residual weighted paramLatentAuto;
-			mat wparamLatentAuto = diagResidVar*paramLatentAuto(j,0);
+			mat wparamLatentAuto = diagResidVar * paramLatentAuto(j,0);
 
 			// Construct a matrix defining how to weight each sample
 			mat diagMat = eye(nAutoLev(j),nAutoLev(j));

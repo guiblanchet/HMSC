@@ -17,13 +17,13 @@ arma::vec updateParamShrinkGlobal(arma::mat& shrinkLocal,
 								  double priorShrinkSpeedScale,
 								  double nsp,
 								  int nVaria){
-				
+
 	// Define various objects
 	mat paramw = shrinkLocal%param2;
 	mat colSumParamw = trans(sum(paramw,0)); // The "0" is to say that the cumulative sum is carried out by columns
 	double shapeParamShrinkGlobal;
 	double scaleParamShrinkGlobal;
-	
+
 	// Update overall shrink level
 	shapeParamShrinkGlobal = priorShrinkOverallShape+0.5*nsp*nVaria;
 	scaleParamShrinkGlobal = priorShrinkOverallScale+0.5*(1/paramShrinkGlobal(0))*sum(shrinkGlobal%colSumParamw);
@@ -36,7 +36,6 @@ arma::vec updateParamShrinkGlobal(arma::mat& shrinkLocal,
 		paramShrinkGlobal(i) = randg(1,distr_param(shapeParamShrinkGlobal,scaleParamShrinkGlobal))(0);
 		shrinkGlobal = cumprod(paramShrinkGlobal);
 	}
-		
+
 	return paramShrinkGlobal;
 }
-
