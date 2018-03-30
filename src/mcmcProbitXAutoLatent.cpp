@@ -205,7 +205,7 @@ RcppExport SEXP mcmcProbitXAutoLatent(arma::mat& Y,
 		// Add the effect of the autocorrelated latent variables
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0))); 
+			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0)));
 		}
 
 		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
