@@ -4,12 +4,22 @@
 \alias{variPart}
 \title{Variation partitioning}
 \usage{
-variPart(hmsc, groupX)
+variPart(hmsc, groupX, HMSCprior = NULL, type = "I", ...)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}.}
 
 \item{groupX}{A vector defining how the covariates (\code{X}) are grouped. This argument is ignored if the models does not have any covariates.}
+
+\item{HMSCprior}{An object of class HMSCprior. This object is used only for type III variation partitioning analysis, it is not considered otherwise.}
+
+\item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.}
+
+\item{\dots}{Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.}
+
+\item{family}{A character string defining the type of modelling approach to use (See details).}
+
+\item{verbose}{Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.}
 }
 \value{
 A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
@@ -19,6 +29,18 @@ Partition the variation of models
 }
 \details{
 When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
+
+The choice of family is currently limited to "probit", "logit", "gaussian", "poisson" and "overPoisson". This needs to be specified for type III variation partitioning.
+
+If \code{HMSCprior} is \code{NULL} the default flat prior will be used to construct the different sub-models.
+
+Currently, two ways to calculate the variation partitionning have been implemented in this function, type I and type III, which refer to the way the sums of squares are accounted for in the calculation of the variation partitionning. Type I is the approach proposed in Ovaskainen et al. (2017) while type III is the one presented in Leibold et al. (submitted). 
+
+In the calculation of the type III sum of squares, the approach used is similar to the one proposed by Borcard et al. (1992). The full model is the one given in the \code{hmsc} object. To calculate type III variation partitioning, a new set of models will be constructed where the different combinations of datasets will be considered to partition the variation. For this reason, the number of iterations (\code{niter} in \code{\link{hmsc}}), the number of burn-in steps (\code{nburn} in \code{\link{hmsc}}) and the thining (\code{thin} in \code{\link{hmsc}}) for each submodel part will be based on how the full model was constructed. Lastly, the groups of explanatory variables definned by \code{groupX} will be considered here as an independent submodel. So for these reasons, it should be expected that the time it takes to contruct a type III variation partitioning will be much longer than for a type I variation partitioning.
+
+The calculation of type III variation partitioning relies on coefficient of determinations (R^2) to characterize the explained variation in the data. As such, for the moment, it has only been implemented for Gaussian, probit and logistic models.
+
+When calculating type III variation partitioning, the number of iterations, burnin iterations and the thinning is obtained from the \code{hmsc} object. As such, in some circumstance, particularly when there was thining in the original model, it is possible that the number iterations (for estimation and burnin) diverge slightly from the ones used to estimate the parameter of the full model.
 }
 \examples{
 
@@ -43,7 +65,7 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 #==================================
 ### Calculate variance partitioning
 #==================================
-vp <- variPart(modelDesc, groupX = c("A", "B"))
+vp <- variPart(modelDesc, groupX = c("A", "B"), type = "I")
 vp
 
 #===================
@@ -53,7 +75,7 @@ barplot(t(vp), las = 2)
 
 }
 \author{
-Gleb Tikhonov and modified by Guillaume Blanchet
+Guillaume Blanchet (type III), Gleb Tikhonov (type I)
 }
 \keyword{multivariate,}
 \keyword{regression}
