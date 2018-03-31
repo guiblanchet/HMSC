@@ -759,7 +759,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I",...){
                                    X = XUse, 
                                    Random = RandomUse,
                                    Auto = AutoUse,
-                                   interceptX = FALSE,
+                                   interceptX = TRUE,
                                    scaleX = FALSE)
         
         ### Reset warning screen print to default
@@ -771,7 +771,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I",...){
                          nburn = nburnModel, thin = thinModel, 
                          verbose = FALSE, ...)
 
-        R2model[[i]][,j] <- Rsquared(submodel,averageSp = FALSE)
+        R2model[[i]][,j] <- Rsquared(submodel, adjust = TRUE,  averageSp = FALSE)
         
         if(verbose){
           print(paste("Number of submodels estimated:", counter))
