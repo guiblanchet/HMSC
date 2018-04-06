@@ -4,7 +4,7 @@
 #'
 #' @param hmsc An object of the class \code{hmsc}
 #' @param newdata An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
-#' @param adjust Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination.
+#' @param adjust Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.
 #' @param averageSp Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.
 #'
 #' @details
@@ -30,7 +30,7 @@
 #' @references
 #'
 #' Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
-#' 
+#'
 #' Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
 #'
 #' @author F. Guillaume Blanchet
@@ -110,7 +110,7 @@ Rsquared <- function(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE) {
   ### Adjustement
   if(adjust){
     nsite <- nrow(Y)
-    
+
     #____________________________________________
     ### Count the number of explanatory variables
     #____________________________________________
@@ -126,18 +126,18 @@ Rsquared <- function(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE) {
         nexp <- nexp + max(sapply(model$results$estimation$latent[,i],ncol))
       }
     }
-    
+
     ### Auto
     if(any(names(hmsc$data)=="Auto")){
       for(i in 1:ncol(hmsc$results$estimation$latentAuto)){
         nexp <- nexp + max(sapply(model$results$estimation$latentAuto[,i],ncol))
       }
     }
-    
+
     ### Calculate adjusted R2
     R2 <- 1 - ((nsite-3)/(nsite - nexp - 2)) * (1 - R2)
   }
-  
+
   ### Community-level R2
   if (averageSp) {
       R2 <- mean(R2)
