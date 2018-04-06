@@ -11,7 +11,7 @@ Rsquared(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE)
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
-\item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination.}
+\item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
 }
