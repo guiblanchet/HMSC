@@ -467,6 +467,14 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 	### Add intercept if X is NULL and Random and/or Auto are not NULL send a warning
 	if(interceptX){
 		if(is.null(X) & (!is.null(Random) | !is.null(Auto))){
+			if(!is.null(Random)){
+				nsite <- nrow(Random)
+			}
+
+			if(!is.null(Auto)){
+				nsite <- nrow(Auto)
+			}
+
 			X <- matrix(1, nrow = nsite, ncol = 1)
 			colnames(X)[1] <- "Intercept"
 			print("An intercept was added as explanatory variables")
