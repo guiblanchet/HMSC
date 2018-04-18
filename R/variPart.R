@@ -64,7 +64,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, verbose = TRUE,...){
+variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust = FALSE, verbose = TRUE,...){
 
   ### Basic check
   if(!(type == "I" | type == "III")){
@@ -771,7 +771,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, verbose =
                          nburn = nburnModel, thin = thinModel,
                          verbose = FALSE, ...)
 
-        R2model[[i]][,j] <- Rsquared(submodel, adjust = FALSE,  averageSp = FALSE)
+        R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust,  averageSp = FALSE)
 
         if(verbose){
           print(paste("Number of submodels estimated:", counter))
@@ -781,7 +781,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, verbose =
     }
 
     ### Calculate R2 for full model
-    R2model[[nsetsVar]][,1] <- Rsquared(model,averageSp = FALSE)
+    R2model[[nsetsVar]][,1] <- Rsquared(model, adjust = R2adjust ,averageSp = FALSE)
 
     #======================
     ### Calculate fractions

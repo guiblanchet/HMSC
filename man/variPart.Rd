@@ -4,7 +4,8 @@
 \alias{variPart}
 \title{Variation partitioning}
 \usage{
-variPart(hmsc, groupX, HMSCprior = NULL, type = "I", ...)
+variPart(hmsc, groupX, HMSCprior = NULL, type = "I", family,
+  R2adjust = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}.}
@@ -15,11 +16,11 @@ variPart(hmsc, groupX, HMSCprior = NULL, type = "I", ...)
 
 \item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.}
 
-\item{\dots}{Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.}
-
 \item{family}{A character string defining the type of modelling approach to use (See details).}
 
 \item{verbose}{Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.}
+
+\item{\dots}{Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.}
 }
 \value{
 A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
