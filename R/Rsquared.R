@@ -123,14 +123,14 @@ Rsquared <- function(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE) {
     ### Random
     if(any(names(hmsc$data)=="Random")){
       for(i in 1:ncol(hmsc$results$estimation$latent)){
-        nexp <- nexp + max(sapply(model$results$estimation$latent[,i],ncol))
+        nexp <- nexp + max(sapply(hmsc$results$estimation$latent[,i],ncol))
       }
     }
 
     ### Auto
     if(any(names(hmsc$data)=="Auto")){
       for(i in 1:ncol(hmsc$results$estimation$latentAuto)){
-        nexp <- nexp + max(sapply(model$results$estimation$latentAuto[,i],ncol))
+        nexp <- nexp + max(sapply(hmsc$results$estimation$latentAuto[,i],ncol))
       }
     }
 
