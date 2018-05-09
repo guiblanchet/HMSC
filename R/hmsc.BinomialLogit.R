@@ -985,7 +985,7 @@ function(data,param=NULL,priors=NULL,ncount,niter=2000,nburn=1000,thin=1,verbose
 	}
 
 	### Name all parts of the result
-	result<-nameResult(data,priors,result,niter,nburn,thin)
+	result<-nameResult(data,result,niter,nburn,thin, family = "logit")
 
 	#=================
 	### Output results

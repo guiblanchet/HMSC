@@ -966,7 +966,7 @@ function(data,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 	}
 
 	### Name all parts of the result
-	result<-nameResult(data,priors,result,niter,nburn,thin)
+	result<-nameResult(data,result,niter,nburn,thin, family = "poisson")
 
 	#=================
 	### Output results
