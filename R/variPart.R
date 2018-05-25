@@ -4,7 +4,6 @@
 #'
 #' @param hmsc An object of the class \code{hmsc}.
 #' @param groupX A vector defining how the covariates (\code{X}) are grouped. This argument is ignored if the models does not have any covariates.
-#' @param family A character string defining the type of modelling approach to use (See details).
 #' @param HMSCprior An object of class HMSCprior. This object is used only for type III variation partitioning analysis, it is not considered otherwise.
 #' @param type A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.
 #' @param verbose Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.
@@ -13,8 +12,6 @@
 #' @details
 #'
 #' When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
-#'
-#' The choice of family is currently limited to "probit", "logit", "gaussian", "poisson" and "overPoisson". This needs to be specified for type III variation partitioning.
 #'
 #' If \code{HMSCprior} is \code{NULL} the default flat prior will be used to construct the different sub-models.
 #'
@@ -488,18 +485,10 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   #==========================
   if(type == "III"){
     ### General checks
-    if(is.null(family)){
-      stop("'family' needs to be specified")
-    }
-
-    if(!any(family == c("probit", "logit","gaussian"))){
-      stop("family' should be either 'probit', 'logit','gaussian'")
-    }
-
-    if(family == "logit"){
-      if(!all(sort(unique(as.vector(hmsc$data$Y))) == c(0,1))){
-        stop("Values should be either 0 or 1 for the logit model")
-      }
+    family <- attributes(hmsc)$class[2]
+    
+    if(!any(family == c("probit", "gaussian"))){
+      stop("family' should be either 'probit','gaussian'")
     }
 
     ### Rename hmsc to prevent confusion
@@ -770,7 +759,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
         submodel <- hmsc(data = HMSCdataObj, priors = HMSCprior,
                          family = family, niter = niterModel,
                          nburn = nburnModel, thin = thinModel,
-                         verbose = FALSE, ncount = 1)
+                         verbose = FALSE, ...)
 
         R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust,  averageSp = FALSE)
 
