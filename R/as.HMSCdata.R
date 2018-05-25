@@ -472,7 +472,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 			}
 
 			if(!is.null(Auto)){
-				nsite <- nrow(Auto)
+				nsite <- nrow(Auto[[1]])
 			}
 
 			X <- matrix(1, nrow = nsite, ncol = 1)

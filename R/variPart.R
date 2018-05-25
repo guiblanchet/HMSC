@@ -497,7 +497,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
     }
 
     if(family == "logit"){
-      if(!all(unique(model$data$Y) == c(0,1))){
+      if(!all(sort(unique(as.vector(hmsc$data$Y))) == c(0,1))){
         stop("Values should be either 0 or 1 for the logit model")
       }
     }
@@ -653,7 +653,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
       thinModel <- iterVal[2] - iterVal[1]
     }
 
-    ### From paramX
+    ### From latent
     if(any(names(model$data) == "Random")){
       ### Find total number of iterations
       iterNames <- rownames(model$results$estimation$latent)
@@ -671,6 +671,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
       thinModel <- iterVal[2]-iterVal[1]
     }
 
+    ### From latentAuto
     if(any(names(model$data) == "Auto")){
       ### Find total number of iterations
       iterNames <- rownames(model$results$estimation$latentAuto)
@@ -769,7 +770,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
         submodel <- hmsc(data = HMSCdataObj, priors = HMSCprior,
                          family = family, niter = niterModel,
                          nburn = nburnModel, thin = thinModel,
-                         verbose = FALSE, ...)
+                         verbose = FALSE, ncount = 1)
 
         R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust,  averageSp = FALSE)
 
