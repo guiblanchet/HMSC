@@ -31,6 +31,8 @@ RcppExport SEXP mcmcProbitX(arma::mat& Y,
 	mat Yresid(nsite,nsp);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
+
 	mat meansParamXRep(nsp, nparamX);
 
 	// Define the result objects for burning
@@ -60,7 +62,7 @@ RcppExport SEXP mcmcProbitX(arma::mat& Y,
 		EstModel = X*trans(paramX);
 
 		// Sample Y latent
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 
 		// Update paramX
 		meansParamXRep = trans(repmat(meansParamX,1,nsp));

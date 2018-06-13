@@ -26,17 +26,17 @@ arma::field<arma::cube> fixParamAuto(arma::mat& Auto,
 	cube wAutoInv1(nAutoLev(i),nAutoLev(i),npriorParamAuto);
 
 	for (int j = 0; j < npriorParamAuto; j++) {
-		if(priorParamAutoDist(j,i)< 0.00001){
+		if(priorParamAutoDist(j,i) < 0.00001){
 			// If the distance considered is small assume that there is no weight
 			// The determinant is 1
-			wAutoDet.slice(j) = 1;
+			wAutoDet.slice(j) = 0.0; // Need to be fixed to 0//
 			// The inverse of the weight matrix is eye()
 			wAutoInv1.slice(j) = eye(nAutoLev(i),nAutoLev(i));
 		}else{
 			// If the distance considered is larger than 0.00001
 			mat wAuto = exp(-dist/priorParamAutoDist(j,0));
 
-			// Calculate the determinant
+			// Calculate the log determinant
 			wAutoDet.slice(j) = 2*sum(log(diagvec(chol(wAuto))));
 			// Calculate the inverse of the weight matrix
 			wAutoInv1.slice(j) = inv(wAuto);

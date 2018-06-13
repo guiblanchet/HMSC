@@ -3,17 +3,13 @@
 #' @description Use the Markov Chain Monte Carlo results obtained from \code{\link{hmsc}} and convert them to an \code{\link{mcmc}} object.
 #'
 #' @param x An object of the class \code{hmsc}.
-#' @param parameters A character string defining the parameters for which the convergions needs to be carried out.
+#' @param parameters A character string defining the parameters for which the conversions needs to be carried out.
 #' @param burning Logical. Whether the burning iterations should be include (\code{TRUE}) or not (\code{FALSE}).
 #' @param \dots Addtional arguments passed to \code{\link[coda]{mcmc}}.
 #'
 #' @details
 #'
-#' The parameters estimated for the latent variables (\code{paramLatent}) cannot be directly converted to an object of class \code{mcmc} because the procedure implemented in \code{\link{hmsc}} allows for the number of latent variables, and thus of parameters associated to these latent variables, to change. For this reason, if \code{paramLatent} is used, it is the matrix defining the correlations among species calculated from  \code{paramLatent} for which an \code{\link{mcmc}} object is constructed.
-#'
-#' The \code{\link{mcmc}} object associated to \code{paramLatent} includes information only for the correlations among single pairs of species, that is, only the lower triangle of the correlation matrix is considered.
-#'
-#' When there are multiple random effects estimated for the model, associated to each random effect there is a set of estimated latent parameters (\code{paramLatent}). For this reason, when the Markov Chain Monte Carlo results for \code{paramLatent} is converted with \code{as.mcmc}, parameters associated to each set of latent variables in \code{paramLatent} becomes an code{\link{mcmc}} object in a list. It is important to note that this "list" is \emph{NOT} an \code{mcmc.list}.
+#' Since the algorithm used adapts the number of latent variables to use, the resulting \code{\link{mcmc}} object associated to \code{paramLatent}, \code{paramLatentAuto}, \code{latent}, \code{latentAuto} only includes information associated to the autocorrelated and non-autocorrelated latent variables that are available for all iterations.
 #'
 #' @return
 #'
@@ -38,176 +34,154 @@
 #' ### Formatting
 #' #=============
 #' ### Format data
-#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr=FALSE)
+#' formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE)
 #'
 #' #==============
 #' ### Build model
 #' #==============
-#' modelDesc <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
+#' model <- hmsc(formdata, niter = 200, nburn = 100, thin = 1, verbose = FALSE)
 #'
-#' paramXmcmc <- as.mcmc(modelDesc, parameters = "paramX")
+#' paramXmcmc <- as.mcmc(model, parameters = "paramX")
 #'
 #' @keywords IO
 #' @export
 as.mcmc.hmsc <-
-function(x,parameters="paramX",burning=FALSE,...){
+function(x, parameters = NULL, burning = FALSE, ...){
 #### F. Guillaume Blanchet - April 2015, January 2016, June 2016
 ##########################################################################################
-
-	### For latent
-	if(parameters=="latent"){
-		stop("an mcmc object for 'latent' should not be constructed")
+	if(is.null(parameters)){
+		stop("'parameters' must be specified by the user")
 	}
 
 	### For paramLatent
-	if(parameters=="paramLatent" | parameters=="paramLatentAuto"){
-		nrandom <- ncol(x$results$est[[parameters]])
-		nsp <- nrow(x$results$est[[parameters]][[1,1]])
-		niter <- nrow(x$results$est$paramLatent)
+	if(parameters == "paramLatent" | parameters == "paramLatentAuto"){
+		nrandom <- ncol(x$results$estimation[[parameters]])
+		nsp <- nrow(x$results$estimation[[parameters]][[1,1]])
+		nlatent <- min(sapply(x$results$estimation[[parameters]],ncol))
+		niter <- nrow(x$results$estimation$paramLatent)
 
 		### Include burning information
 		if(burning){
-			nburn <- length(x$results$burn[[parameters]])
-			covMat <- array(dim=c(nsp,nsp,niter+nburn,nrandom))
+			nlatent<-min(sapply(x$results$estimation[[parameters]],ncol),sapply(x$results$burning[[parameters]],ncol))
+			nburn <- length(x$results$burning[[parameters]])
+			paramMCMC <- array(dim=c(nsp,nlatent,niter,nrandom))
 			for(i in 1:nrandom){
 				for(j in 1:nburn){
-					covMat[,,j,i] <- tcrossprod(x$results$burn[[parameters]][[j,i]])
+					paramMCMC[,,j,i] <- x$results$burning[[parameters]][[j,i]][,1:nlatent]
 				}
+
 				for(j in 1:niter){
-					covMat[,,nburn+j,i] <- tcrossprod(x$results$est[[parameters]][[j,i]])
+					paramMCMC[,,j,i] <- x$results$estimation[[parameters]][[j,i]][,1:nlatent]
 				}
 			}
 
 		### Without burning information
 		}else{
-			covMat <- array(dim=c(nsp,nsp,niter,nrandom))
+			paramMCMC <- array(dim=c(nsp,nlatent,niter,nrandom))
 			for(i in 1:nrandom){
 				for(j in 1:niter){
-					covMat[,,j,i] <- tcrossprod(x$results$est[[parameters]][[j,i]])
+					paramMCMC[,,j,i] <- x$results$estimation[[parameters]][[j,i]][,1:nlatent]
 				}
 			}
 		}
 
-		### Use only the lower triangle of the correlations matrices
-		lowerTri <- lower.tri(covMat[,,1,1],diag=TRUE)
-		lowerTriMatPointer <- which(lowerTri,arr.ind=TRUE)
+		### Reorganize paramMCMC
+		paramMCMCMat <- aperm(paramMCMC,c(3,1,2,4))
+		dim(paramMCMCMat) <- c(niter,nsp*nlatent*nrandom)
 
-		### Reorganize covMat with burning
+		### Name the different dimensions of paramMCMCMat
 		if(burning){
-			paramMCMCMat <- array(dim=c(nburn+niter,nrow(lowerTriMatPointer),nrandom))
-			for(i in 1:nrandom){
-				for(j in 1:(nburn+niter)){
-					paramMCMCMat[j,,i] <- covMat[,,j,i][lowerTriMatPointer]
-				}
-			}
-			dimnames(paramMCMCMat)[[1]] <- c(names(x$results$burn[[parameters]]),names(x$results$est[[parameters]]))
-
-		### Reorganize covMat without burning
+			rownames(paramMCMCMat) <- c(rownames(x$results$burning[[parameters]]),rownames(x$results$estimation[[parameters]]))
 		}else{
-			paramMCMCMat <- array(dim=c(niter,nrow(lowerTriMatPointer),nrandom))
-			for(i in 1:nrandom){
-				for(j in 1:(niter)){
-					paramMCMCMat[j,,i] <- covMat[,,j,i][lowerTriMatPointer]
-				}
-			}
-			dimnames(paramMCMCMat)[[1]] <- names(x$results$est[[parameters]])
+			rownames(paramMCMCMat) <- rownames(x$results$estimation[[parameters]])
 		}
-		spNameRough <- expand.grid(rownames(x$results$est[[parameters]][[1,1]]),rownames(x$results$est[[parameters]][[1,1]]))[which(lowerTri),]
-		dimnames(paramMCMCMat)[[2]] <- paste(spNameRough[,1],".",spNameRough[,2],sep="")
-		dimnames(paramMCMCMat)[[3]] <- paste("randEff",1:dim(paramMCMCMat)[3])
 
-		### Output
-		res <- vector("list",length=nrandom)
+		colNameRough<-expand.grid(colnames(x$data$Y), colnames(x$results$estimation[[parameters]][[1,1]])[1:nlatent], colnames(x$results$estimation[[parameters]]))
 
-		for(i in 1:nrandom){
-			res[[i]] <- mcmc(paramMCMCMat[,,i], ...)
-		}
-	}else{
-		### For varX
-		if(parameters=="varX"){
-			paramMCMC <- x$results$est[[parameters]]
-			niter <- dim(paramMCMC)[3]
-
-			lowerTri <- lower.tri(paramMCMC[,,1],diag=TRUE)
-			lowerTriMatPointer <- which(lowerTri,arr.ind=TRUE)
-
-			paramMCMCMat <- matrix(NA,niter,nrow(lowerTriMatPointer))
-			for(i in 1:niter){
-				paramMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
-			}
-
-			rownames(paramMCMCMat) <- dimnames(x$results$est$varX)[[3]]
-
-			### Include burning information
-			if(burning){
-				paramBurnMCMC <- x$results$burn[[parameters]]
-				nburn <- dim(paramBurnMCMC)[3]
-
-				paramBurnMCMCMat <- matrix(NA,nburn,nrow(lowerTriMatPointer))
-				for(i in 1:nburn){
-					paramBurnMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
-				}
-
-				paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-				rownames(paramMCMCMat) <- c(dimnames(x$results$burn$varX)[[3]],dimnames(x$results$est$varX)[[3]])
-			}
-
-			varXNames <- expand.grid(dimnames(x$results$est$varX)[[1]],dimnames(x$results$est$varX)[[1]])[which(lowerTri),]
-			if(ncol(varXNames)>0){
-				colnames(paramMCMCMat) <- paste(varXNames[,1],".",varXNames[,2],sep="")
-			}
-
-			### Output
-			res <- mcmc(paramMCMCMat, ...)
-
-		}else{
-			if(parameters=="meansParamX" | parameters=="varNormal" | parameters=="paramPhylo"){
-				paramMCMCMat <- x$results$est[[parameters]]
-
-				### Name rows and columns of matrix
-				rownames(paramMCMCMat) <- rownames(x$results$est[[parameters]])
-				colnames(paramMCMCMat) <- colnames(x$results$est[[parameters]])
-
-				### Output
-				if(burning){
-					paramBurnMCMC <- x$results$burn[[parameters]]
-					rownames(paramBurnMCMC) <- rownames(x$results$burn[[parameters]])
-					colnames(paramBurnMCMC) <- colnames(x$results$burn[[parameters]])
-					paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-				}
-				res <- mcmc(paramMCMCMat, ...)
-
-			}else{
-				if(parameters=="paramPhylo"){
-
-				}else{
-					### Reorganize results
-					paramMCMC <- x$results$est[[parameters]]
-					paramMCMCMat <- aperm(paramMCMC,c(3,1,2))
-					dim(paramMCMCMat) <- c(dim(x$results$est[[parameters]])[[3]],dim(x$results$est[[parameters]])[[1]]*dim(x$results$est[[parameters]])[[2]])
-
-					### Name rows and columns of matrix
-					rownames(paramMCMCMat) <- dimnames(x$results$est[[parameters]])[[3]]
-					colNameRough <- expand.grid(dimnames(x$results$est[[parameters]])[[1]],dimnames(x$results$est[[parameters]])[[2]])
-
-					if(nrow(colNameRough)>0){
-						colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],sep="")
-					}
-
-					### Include burning information
-					if(burning){
-						paramBurnMCMC <- x$results$burn[[parameters]]
-						paramBurnMCMCMat <- aperm(paramBurnMCMC,c(3,1,2))
-						dim(paramBurnMCMCMat) <- c(dim(x$results$burn[[parameters]])[[3]],dim(x$results$burn[[parameters]])[[1]]*dim(x$results$burn[[parameters]])[[2]])
-						rownames(paramBurnMCMCMat) <- dimnames(x$results$burn[[parameters]])[[3]]
-						paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
-					}
-
-					### Output
-					res <- mcmc(paramMCMCMat, ...)
-				}
-			}
+		if(nrow(colNameRough)>0){
+			colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],".",colNameRough[,3],sep="")
 		}
 	}
+
+	### For varX
+	if(parameters=="varX"){
+		paramMCMC <- x$results$estimation[[parameters]]
+		niter <- dim(paramMCMC)[3]
+
+		lowerTri <- lower.tri(paramMCMC[,,1],diag=TRUE)
+		lowerTriMatPointer <- which(lowerTri,arr.ind=TRUE)
+
+		paramMCMCMat <- matrix(NA,niter,nrow(lowerTriMatPointer))
+		for(i in 1:niter){
+			paramMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
+		}
+
+		rownames(paramMCMCMat) <- dimnames(x$results$estimation$varX)[[3]]
+
+		### Include burning information
+		if(burning){
+			paramBurnMCMC <- x$results$burning[[parameters]]
+			nburn <- dim(paramBurnMCMC)[3]
+
+			paramBurnMCMCMat <- matrix(NA,nburn,nrow(lowerTriMatPointer))
+			for(i in 1:nburn){
+				paramBurnMCMCMat[i,] <- paramMCMC[,,i][lowerTriMatPointer]
+			}
+
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+			rownames(paramMCMCMat) <- c(dimnames(x$results$burning$varX)[[3]],dimnames(x$results$estimation$varX)[[3]])
+		}
+
+		varXNames <- expand.grid(dimnames(x$results$estimation$varX)[[1]],dimnames(x$results$estimation$varX)[[1]])[which(lowerTri),]
+		if(ncol(varXNames)>0){
+			colnames(paramMCMCMat) <- paste(varXNames[,1],".",varXNames[,2],sep="")
+		}
+	}
+
+	### meansParamX, varNormal, varPoisson, paramPhylo
+	if(parameters=="meansParamX" | parameters=="varNormal" | parameters=="varPoisson" | parameters=="paramPhylo"){
+		paramMCMCMat <- x$results$estimation[[parameters]]
+
+		### Name rows and columns of matrix
+		rownames(paramMCMCMat) <- rownames(x$results$estimation[[parameters]])
+		colnames(paramMCMCMat) <- colnames(x$results$estimation[[parameters]])
+
+		### Output
+		if(burning){
+			paramBurnMCMC <- x$results$burning[[parameters]]
+			rownames(paramBurnMCMC) <- rownames(x$results$burning[[parameters]])
+			colnames(paramBurnMCMC) <- colnames(x$results$burning[[parameters]])
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+		}
+	}
+
+	### paramX
+	if(parameters == "paramX" | parameters == "paramTr"){
+		### Reorganize results
+		paramMCMC <- x$results$estimation[[parameters]]
+		paramMCMCMat <- aperm(paramMCMC,c(3,1,2))
+		dim(paramMCMCMat) <- c(dim(x$results$estimation[[parameters]])[[3]],dim(x$results$estimation[[parameters]])[[1]]*dim(x$results$estimation[[parameters]])[[2]])
+
+		### Name rows and columns of matrix
+		rownames(paramMCMCMat) <- dimnames(x$results$estimation[[parameters]])[[3]]
+		colNameRough <- expand.grid(dimnames(x$results$estimation[[parameters]])[[1]],dimnames(x$results$estimation[[parameters]])[[2]])
+
+		if(nrow(colNameRough)>0){
+			colnames(paramMCMCMat) <- paste(colNameRough[,1],".",colNameRough[,2],sep="")
+		}
+
+		### Include burning information
+		if(burning){
+			paramBurnMCMC <- x$results$burning[[parameters]]
+			paramBurnMCMCMat <- aperm(paramBurnMCMC,c(3,1,2))
+			dim(paramBurnMCMCMat) <- c(dim(x$results$burning[[parameters]])[[3]],dim(x$results$burning[[parameters]])[[1]]*dim(x$results$burning[[parameters]])[[2]])
+			rownames(paramBurnMCMCMat) <- dimnames(x$results$burning[[parameters]])[[3]]
+			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+		}
+	}
+
+	### Output
+	res <- mcmc(paramMCMCMat, ...)
+
 	return(res)
 }

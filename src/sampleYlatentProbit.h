@@ -6,6 +6,7 @@
 
 arma::mat sampleYlatentProbit(arma::uvec& Y0Loc,
 							  arma::uvec& Y1Loc,
+							  arma::uvec& YNALoc,
 							  arma::mat& Ylatent,
 							  arma::mat& EstModel,
 							  arma::vec residVar,

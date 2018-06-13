@@ -35,6 +35,7 @@ RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 	mat varX(nparamX,nparamX);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
 
 	// Define meansParamX
 	mat meansParamX(nsp,nparamX);
@@ -67,7 +68,7 @@ RcppExport SEXP mcmcProbitXTr(arma::mat& Y,
 		EstModel = X*trans(paramX);
 
 		// Sample Y latent
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 
 		// Update paramX
 		paramX = updateParamX(Ylatent,X,meansParamX,precX, paramX, nsp, nsite, nparamX);

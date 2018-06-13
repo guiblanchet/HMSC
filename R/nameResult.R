@@ -1,10 +1,10 @@
 nameResult <-
-function(data,priors,result,niter,nburn,thin){
+function(data,result,niter,nburn,thin,family){
 
 	### Number of parameters estimated
 	nParam<-length(names(result[[1]]))
 
-	if(attr(priors,"distr")=="probit" | attr(priors,"distr")=="poisson"){
+	if(family=="probit" | family=="poisson" | family=="logit"){
 		if(nParam==2){
 			#==============
 			### only Random
@@ -149,7 +149,7 @@ function(data,priors,result,niter,nburn,thin){
 	}
 
 	### For Gaussian data
-	if(attr(priors,"distr")=="gaussian"){
+	if(family=="gaussian"){
 		if(nParam==3){
 			#==============
 			### only Random
@@ -300,7 +300,7 @@ function(data,priors,result,niter,nburn,thin){
 	}
 
 	### For overdispersed Poisson data
-	if(attr(priors,"distr")=="overPoisson"){
+	if(family=="overPoisson"){
 		if(nParam==3){
 			#==============
 			### only Random

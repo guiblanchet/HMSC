@@ -147,7 +147,7 @@ RcppExport SEXP mcmcOverPoissonXAuto(arma::mat& Y,
 		// Add the effect of the autocorrelated latent variables
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
+			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0))); 
 		}
 
 		Ylatent = sampleYlatentPoisson(Y, Ylatent, EstModel, residVar, nsp, nsite);
@@ -170,7 +170,7 @@ RcppExport SEXP mcmcOverPoissonXAuto(arma::mat& Y,
 		// Remove the effect of the autocorrelated latent variables
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			Yresid = Yresid - (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
+			Yresid = Yresid - (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0))); 
 		}
 
 		meansParamXRep = trans(repmat(meansParamX,1,nsp));

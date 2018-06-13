@@ -25,18 +25,17 @@
 #' #==================
 #' ### Simulating data
 #' #==================
-#' desc <- matrix(1, nrow = 50, ncol = 1)
 #' random1 <- as.factor(1:50)
 #' random2 <- as.factor(rep(letters[1:2], each = 25))
 #' randEff <- data.frame(rand1 = random1, rand2 = random2)
 #' nspecies <- 10
 #'
-#' commRandEff2 <- communitySimul(X = desc, Random = randEff, nsp = nspecies)
+#' commRandEff2 <- communitySimul(Random = randEff, nsp = nspecies)
 #'
 #' #=================================
 #' ### Formatting data and parameters
 #' #=================================
-#' formdata <- as.HMSCdata(Y = commRandEff2$data$Y, X = desc, Random = randEff, interceptX = FALSE)
+#' formdata <- as.HMSCdata(Y = commRandEff2$data$Y, Random = randEff, interceptX = FALSE)
 #'
 #' #==============
 #' ### Build model

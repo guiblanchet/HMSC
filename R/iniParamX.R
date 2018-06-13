@@ -19,40 +19,6 @@ function(data,priors,paramX=NULL,meansParamX=NULL,varX=NULL){
 	### Initiate paramX
 	#------------------
 	if(nrow(data$Y)!=0){
-
-		if(is.null(paramX)){
-			paramX<-matrix(NA,nrow=nsp,ncol=nparamX)
-
-			options(warn=-1)
-			if(attributes(priors)$distr=="probit"){
-				for(i in 1:nsp){
-					paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=binomial(link = "probit")))
-				}
-			}
-			if(attributes(priors)$distr=="poisson" | attributes(priors)$distr=="overPoisson"){
-				for(i in 1:nsp){
-					paramX[i,]<-coef(glm(data$Y[,i]~-1+.,data=as.data.frame(data$X),family=poisson(link = "log")))
-				}
-			}
-			if(attributes(priors)$distr=="gaussian"){
-				for(i in 1:nsp){
-					paramX[i,]<-coef(lm(data$Y[,i]~-1+.,data=as.data.frame(data$X)))
-				}
-			}
-			options(warn=0)
-
-			### Correct for extreme values
-			paramXtoCorrPos<-which(paramX>4,arr.ind=TRUE)
-			paramXtoCorrNeg<-which(paramX< -4,arr.ind=TRUE)
-
-			if(length(paramXtoCorrPos)>0){
-				paramX[paramXtoCorrPos]<- 4
-			}
-			if(length(paramXtoCorrNeg)>0){
-				paramX[paramXtoCorrNeg]<- -4
-			}
-		}
-	}else{
 		paramX<-matrix(rnorm(nsp*nparamX),nrow=nsp,ncol=nparamX)
 	}
 	#-----------------------

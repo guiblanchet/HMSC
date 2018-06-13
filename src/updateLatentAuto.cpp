@@ -52,7 +52,6 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 		// Construct a matrix of 0
 		mat wAutoInvDiag = zeros(nLatentAuto(j)*nAutoLev(j),nLatentAuto(j)*nAutoLev(j));
 
-
 		// Fill wAutoInvDiag on the diagonal with the matrix selected in wAutoInvSel
 		for(int k = 1; k <= nLatentAuto(j); k++){
 			beginRow = (k-1)*nAutoLev(j);
@@ -66,7 +65,6 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 		// Construct a diagonal matrix with residVar
 		mat diagResidVar(nsp,nsp);
 		diagResidVar = diagmat(residVar);
-
 		///////////////////////////////////////////////////////////////
 		// If the random effect is at the sampling unit level (faster!)
 		///////////////////////////////////////////////////////////////
@@ -77,20 +75,20 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 			// Precision matrix for the latentAuto variables
 			mat precLatent = wAutoInvDiag + kron(trans(paramLatentAuto(j,0))*wparamLatentAuto,eye(nsite,nsite));
 
-			// Calculate the cholesky decomposition of precLatent
-			mat precLatentChol = chol(precLatent,"lower");
+			// Calculate the variance-covariance matrix for the latentAuto variables
+			mat varLatent = inv_sympd(precLatent);
 
 			// Calculate the means for the new latentAuto variables
-			mat meansLatent = solve(precLatent,vectorise(Yresid*wparamLatentAuto));
+			mat meansLatent = solve(precLatent,vectorise(Yresid * wparamLatentAuto));
 
 			// Calculate the new latentAuto variables
-			latentAuto(j,0) = reshape(meansLatent + solve(precLatentChol,randn(nAutoLev(j)*nLatentAuto(j))), nAutoLev(j), nLatentAuto(j));
+			latentAuto(j,0) = reshape(rmvnorm(1, meansLatent,varLatent), nAutoLev(j), nLatentAuto(j));
 		//////////////////////////////
 		// For any other random effect
 		//////////////////////////////
 		}else{
 			// Residual weighted paramLatentAuto;
-			mat wparamLatentAuto = diagResidVar*paramLatentAuto(j,0);
+			mat wparamLatentAuto = diagResidVar * paramLatentAuto(j,0);
 
 			// Construct a matrix defining how to weight each sample
 			mat diagMat = eye(nAutoLev(j),nAutoLev(j));
@@ -101,7 +99,7 @@ arma::field<arma::mat> updateLatentAuto(arma::mat& Yresid,
 			mat precLatent = wAutoInvDiag + kron(trans(paramLatentAuto(j,0))*wparamLatentAuto,diagMatLev*trans(diagMatLev));
 
 			// Calculate the variance-covariance matrix for the latentAuto variables
-			mat varLatent = inv(precLatent);
+			mat varLatent = inv_sympd(precLatent);
 
 			// Calculate the means for the new latentAuto variables
 			mat meansLatent = varLatent*vectorise(diagMatLev*Yresid*wparamLatentAuto);

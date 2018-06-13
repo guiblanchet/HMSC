@@ -47,6 +47,8 @@
 #'
 #' Although the structure of the \code{Auto} argument may seem unusual as a list of data.frames, this structures give the possibility to account for different type of autocorrelation structure simultaneously (e.g. spatial and temporal) in the same analysis. Although it is usual for autocorrelation to be accounted for by either 1 or 2 dimensions (so 1 or 2 columns), the analyses carried out in this package can account for autocorrelation at any number of dimensions.
 #'
+#' A model that includes only random effects, whether spatialized (\code{Auto}) or not (\code{Random}) is sensitive to biased estimations if the response variables (\code{Y}) are not centred. As such if it does not make sense to centre the data (e.g. because of the nature of the data) including an intercept in the model will correct for the bias in parameter estimations. Because there are situations where it is more appropriate to centre the response variables (\code{Y}) and others where adding an intercept to the model is more suitable, we decided to let the users decide whether an intercept should be included in the model or not as it may depend on the question of interest. Because this may affect parameter estimation and it is an aspect of the model that can easily be missed, a warning message is sent about this.
+#'
 #' Functions \code{as.HMSCparam} and \code{as.HMSCprior} do not need to be used when estimating a model using \code{\link{hmsc}}. In \code{\link{hmsc}}, if \code{as.HMSCparam} and \code{as.HMSCprior} are not defined, the function will define a set of default parameters and priors. \code{as.HMSCparam} and \code{as.HMSCprior} were designed so that some, not necessarily all, priors and parameters need to be defined. For example, if one defines only the prior (parameters) for \code{varTr}, all other priors (parameters) will be defined with default priors (parameter).
 #'
 #' In \code{as.HMSCparam}, the argument \code{family} is used to define the  \code{paramX} by default using a univariate generalized linear model for each species. Currently, only \code{binomial(link = "probit")} should be used because \code{\link{hmsc}} only estimate probit models.
@@ -113,6 +115,13 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		stop("Either 'X', 'Random' or 'Auto' can be NULL, not all three of them")
 	}
 
+	### If X is NULL and Random and/or Auto are not NULL send a warning
+	if(!interceptX){
+		if(is.null(X) & (!is.null(Random) | !is.null(Auto))){
+			warning("A model without an intercept on X but with 'Random' and/or 'Auto' can lead to bias results unless Y is centred")
+		}
+	}
+
 	### If Auto is a data.frame convert it to a list
 	if(!is.null(Auto)){
 		if(is.data.frame(Auto)){
@@ -122,13 +131,6 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 		if(!is.list(Auto)){
 			stop("'Auto' needs to be data.frame or a list")
-		}
-	}
-
-	### Check for NAs
-	if(!is.null(Y)){
-		if(any(is.na(Y))){
-			stop("There is at least one NA in 'Y'")
 		}
 	}
 
@@ -164,7 +166,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 
 	### Check for non-numeric values
 	if(!is.null(Y)){
-		if(any(is.na(suppressWarnings(as.numeric(apply(Y, 1, as.character)))))){
+		if(!is.numeric(Y)){
 			stop("There is at least one non-numeric value in 'Y'")
 		}
 	}
@@ -228,6 +230,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
+	### Check the structure of Auto
 	if(!is.null(Auto)){
 		if(!all(sapply(Auto, function(x) is.factor(x[, 1])))){
 			stop("The first column of the data.frame in each list should be a factor and the other columns should be coordinates")
@@ -239,8 +242,15 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		if(!all(unlist(lapply(AutoCoord, function(x) apply(x, 2, is.numeric))))){
 			stop("When Auto is a list, the first column of the data.frame in each list should be a factor and the other columns should be coordinates")
 		}
+		### Check that the number of levels in each factor is represented
+		nLevAuto<-sapply(Auto, function(x) nlevels(x[,1]))
+		lengthUniAuto<-sapply(Auto, function(x) length(unique(x[,1])))
+		if(!all(nLevAuto == lengthUniAuto)){
+			stop("All levels in each factor of 'Auto' should be represented")
+		}
 	}
 
+	### Check the structure of Random
 	if(!is.null(Random)){
 		if(is.factor(Random)){
 			Random <- data.frame(random=Random)
@@ -253,6 +263,12 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 			}else{
 				stop("'Random' should be a factor or a data.frame")
 			}
+		}
+		### Check that the number of levels in each factor is represented
+		nLevRandom<-sapply(Random, nlevels)
+		lengthUniRandom<-sapply(Random, function(x) length(unique(x)))
+		if(!all(nLevRandom == lengthUniRandom)){
+			stop("All levels in each factor of 'Random' should be represented")
 		}
 	}
 
@@ -330,9 +346,11 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
-	if(!is.null(colnames(Random))){
-		colnames(Random) <- paste("random", 1:ncol(Random), sep="")
-		print("column names were added to 'Random'")
+	if(!is.null(Random)){
+		if(is.null(colnames(Random))){
+			colnames(Random) <- paste("random", 1:ncol(Random), sep="")
+			print("column names were added to 'Random'")
+		}
 	}
 
 	#### Check row names
@@ -446,6 +464,23 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		}
 	}
 
+	### Add intercept if X is NULL and Random and/or Auto are not NULL send a warning
+	if(interceptX){
+		if(is.null(X) & (!is.null(Random) | !is.null(Auto))){
+			if(!is.null(Random)){
+				nsite <- nrow(Random)
+			}
+
+			if(!is.null(Auto)){
+				nsite <- nrow(Auto[[1]])
+			}
+
+			X <- matrix(1, nrow = nsite, ncol = 1)
+			colnames(X)[1] <- "Intercept"
+			print("An intercept was added as explanatory variables")
+		}
+	}
+
 	#### Check classes
 	if(!is.null(Y)){
 		if(!is.matrix(Y)){
@@ -480,7 +515,7 @@ function(Y=NULL, X=NULL, Tr=NULL, Phylo=NULL, Auto=NULL, Random=NULL,
 		for(i in length(Auto)){
 			dupli<-sum(duplicated(Auto[[i]][,-1]) | duplicated(Auto[[i]][,-1], fromLast = TRUE))
 			if(dupli > 0){
-				stop("Some coordinates in 'Auto' are duplicate")
+				warning("Some coordinates in 'Auto' are duplicate")
 			}
 		}
 	}

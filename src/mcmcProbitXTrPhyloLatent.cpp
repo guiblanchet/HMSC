@@ -51,6 +51,8 @@ RcppExport SEXP mcmcProbitXTrPhyloLatent(arma::mat& Y,
 	mat EstModel(nsite,nsp);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
+
 	mat Yresid(nsite,nsp);
 	mat varX(nparamX,nparamX);
 	mat eyeSp(nsp,nsp,fill::eye);
@@ -152,7 +154,7 @@ RcppExport SEXP mcmcProbitXTrPhyloLatent(arma::mat& Y,
 			EstModel = EstModel + latentMat.rows(Random.col(j))*trans(paramLatent(j,0));
 		}
 
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 
 		//--------------
 		// Update paramX

@@ -71,10 +71,10 @@ function(object,...){
 
 	### Number of iterations
 	if(!is.null(nAuto)){
-		niter<-length(object$results$estimation$paramLatentAuto)
+		niter<-nrow(object$results$estimation$paramLatentAuto)
 	}
 	if(!is.null(nRandom)){
-		niter<-length(object$results$estimation$paramLatent)
+		niter<-nrow(object$results$estimation$paramLatent)
 	}
 	if(!is.null(object$results$estimation$paramX)){
 		niter<-dim(object$results$estimation$paramX)[3]

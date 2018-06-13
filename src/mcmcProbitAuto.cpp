@@ -42,6 +42,8 @@ RcppExport SEXP mcmcProbitAuto(arma::mat& Y,
 	mat EstModel = zeros<mat>(nsite,nsp);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
+
 	mat Yresid(nsite,nsp);
 	double probAdapt;
 
@@ -124,10 +126,10 @@ RcppExport SEXP mcmcProbitAuto(arma::mat& Y,
 		// Add the effect of the autocorrelated latent variables
 		for(int j = 0; j < nAuto; j++){
 			mat latentAutoMat = latentAuto(j,0);
-			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
+			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0))); 
 		}
 
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 		//---------------------------------------------
 		// Shrinkage of autocorrelated latent variables
 		//---------------------------------------------

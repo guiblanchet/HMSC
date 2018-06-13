@@ -4,12 +4,15 @@
 \alias{predict.hmsc}
 \title{Model prediction for HMSC models}
 \usage{
-\method{predict}{hmsc}(object, newdata, conditional = NULL, nsample, ...)
+\method{predict}{hmsc}(object, newdata, type = c("response", "link"),
+  conditional = NULL, nsample, ...)
 }
 \arguments{
 \item{object}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
+
+\item{type}{A character vector defining whether the prediction should be return on the scale of the response variable ("response", default) or on the scale of the linear predictors ("link"). See details.}
 
 \item{conditional}{A character vector defining the names of the species used for the conditional prediction. If omitted, unconditional predictions are carried out. Default is NULL.}
 
@@ -41,7 +44,7 @@ commDesc <- communitySimul(X = desc, nsp = nspecies)
 ### Formatting
 #=============
 ### Format data
-formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE, interceptTr = FALSE)
+formdata <- as.HMSCdata(Y = commDesc$data$Y, X = desc, interceptX = FALSE)
 
 #==============
 ### Build model
@@ -52,6 +55,16 @@ modelDesc <- hmsc(formdata, niter = 2000, nburn = 1000, thin = 1, verbose = 100)
 ### Calculate prediction
 #=======================
 predModel <- predict(modelDesc)
+
+#===================================
+### Calculate conditional prediction
+#===================================
+### Conditional only on sp1
+predCondSp1 <- predict(modelDesc, conditional = "sp1", nsample = 1)
+
+### Conditional on the whole community but with an interest on sp1
+formdata$Y[,1] <- NA
+predCondSp1 <- predict(modelDesc, conditional = colnames(formdata$Y), nsample = 1)[,1]
 
 }
 \author{

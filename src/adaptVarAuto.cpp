@@ -31,16 +31,16 @@ arma::field<arma::mat> adaptVarAuto(arma::mat& param,
 	uvec toShrink = toShrinkProp >= redund(0);
 	uvec notToShrink = toShrinkProp < redund(0);
 	double toShrinkSums = accu(toShrink);
-	
+
 	// Define result object
 	field<mat> result(8,1);
-	
+
 	// Define a random value sampled from a uniform distribution
 	vec randVal = randu(1);
 	if(randVal(0) <= probAdapt){
 		if(count > 20 && toShrinkSums == 0 && all(toShrinkProp < 0.995)){
 			// I think the previous line is right but if there is an issue, it might be worth rechecking !
-			
+
 			// Add variable
 			result = adaptVarAutoAdd(param, varia, paramAuto, shrinkLocal, paramShrinkGlobal, shrinkGlobal, shrink, redund, priorShrinkLocal, priorShrinkSpeedShape, priorShrinkSpeedScale, priorParamAutoDist, nsp, nparam, nVariaLev);
 		}else{
@@ -58,7 +58,7 @@ arma::field<arma::mat> adaptVarAuto(arma::mat& param,
 		result(6,0) = shrink;
 		result(7,0) = paramAuto;
 	}
-	
+
 	// Return results
 	return result;
 }

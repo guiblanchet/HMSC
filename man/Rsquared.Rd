@@ -4,12 +4,14 @@
 \alias{Rsquared}
 \title{Coefficient of determination}
 \usage{
-Rsquared(hmsc, newdata = NULL, averageSp = TRUE)
+Rsquared(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
+
+\item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
 }
@@ -29,6 +31,10 @@ If the HMSC model was built using a Gaussian model, the classical coefficient of
 \deqn{R^2 = 1 - \frac{SS_{resid}}{SS_{total}}}{1-SSresid/SStotal}.
 
 where \eqn{SS_{resid}}{SSresid} is the residual sum of squares and \eqn{SS_{total}}{SStotal} the total sum of squares.
+
+The adjustement to the coefficient of determination used here is the one proposed by Gelman and Pardoe (2006), which leads to a lower adjusted coefficient of determination than the classical adjustement because it accounts for uncertainty in the model variance. The adjustement used in this function is calculated as follows:
+
+\deqn{1 - \frac{n-3}{n-p-2}(1-R^2)}{1-((n-3)/n-p-2)(1-R2)}.
 }
 \examples{
 
@@ -58,6 +64,8 @@ Rsquared(modelDesc, averageSp = FALSE)
 }
 \references{
 Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
+
+Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
 }
 \author{
 F. Guillaume Blanchet

@@ -4,12 +4,15 @@
 \alias{sampleYlatentProbit}
 \title{Sample the model response matrix}
 \usage{
-sampleYlatentProbit(Y0Loc, Y1Loc, Ylatent, EstModel, residVar, nsp, nsite)
+sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp,
+  nsite)
 }
 \arguments{
 \item{Y0Loc}{A vector defining the locations of all 0s in the community matrix (\code{Y}).}
 
 \item{Y1Loc}{A vector defining the locations of all 1s in the community matrix (\code{Y}).}
+
+\item{YNALoc}{A vector defining the locations of all NAs in the community matrix (\code{Y}).}
 
 \item{Ylatent}{Model site by species community matrix after the link function is applied.}
 
