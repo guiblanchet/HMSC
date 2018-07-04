@@ -6,8 +6,7 @@ using namespace arma ;
 using namespace Rcpp ;
 
 //[[Rcpp::export]]
-RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
-										arma::mat& Y,
+RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y,
 									  arma::mat& Ylatent,
 									  arma::mat& X,
 									  arma::field< arma::mat >& Auto,
@@ -60,6 +59,8 @@ RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
 	mat EstModel = zeros<mat>(nsite,nsp);
 	uvec Y0Loc = find(Y==0);
 	uvec Y1Loc = find(Y==1);
+	uvec YNALoc = find_nonfinite(Y);
+
 	mat Yresid(nsite,nsp);
 	mat meansParamXRep(nsp, nparamX);
 
@@ -181,7 +182,7 @@ RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
 			Yresid = Yresid - latentMat.rows(Random.col(j))*trans(paramLatent(j,0));
 		}
 
-		paramLatentAuto = updateParamLatentTheoryMultiSp(focal, Yresid, RandomAuto, residVar, paramLatentAuto, latentAuto, shrinkAuto, nAuto, nLatentAuto, nsp, nsite, diagMat);
+		paramLatentAuto = updateParamLatentTheoryMultiSp(Yresid, RandomAuto, residVar, paramLatentAuto, latentAuto, shrinkAuto, nAuto, nLatentAuto, nsp, nsite, diagMat);
 
 		//------------------
 		// Update latentAuto
@@ -208,7 +209,7 @@ RcppExport SEXP mcmcProbitTheoryMultiSp(int focal,
 			EstModel = EstModel + (latentAutoMat.rows(RandomAuto.col(j))*diagmat(paramAuto(j,0))*trans(paramLatentAuto(j,0))); // Not sure if multiplying by paramAuto is the way to go.
 		}
 
-		Ylatent = sampleYlatentProbit(Y0Loc,Y1Loc, Ylatent, EstModel, residVar, nsp, nsite);
+		Ylatent = sampleYlatentProbit(Y0Loc, Y1Loc, YNALoc, Ylatent, EstModel, residVar, nsp, nsite);
 
 		//--------------
 		// Update paramX

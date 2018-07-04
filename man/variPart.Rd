@@ -16,8 +16,6 @@ variPart(hmsc, groupX, HMSCprior = NULL, type = "I", family,
 
 \item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.}
 
-\item{family}{A character string defining the type of modelling approach to use (See details).}
-
 \item{verbose}{Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.}
 
 \item{\dots}{Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.}
@@ -30,8 +28,6 @@ Partition the variation of models
 }
 \details{
 When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
-
-The choice of family is currently limited to "probit", "logit", "gaussian", "poisson" and "overPoisson". This needs to be specified for type III variation partitioning.
 
 If \code{HMSCprior} is \code{NULL} the default flat prior will be used to construct the different sub-models.
 
