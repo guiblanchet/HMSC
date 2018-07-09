@@ -21,7 +21,7 @@
 #'
 #' If \code{type = "Efron"}, than the \eqn{R^2}{R2} will be calculated using Efron's pseudo-\eqn{R^2}{R2} regardless of the model used. Efron's pseudo-\eqn{R^2} is currently the only \eqn{R^2}{R2} implemented that can be used for all models. Efron's pseudo-\eqn{R^2}{R2} is calculated as:
 #'
-#' \deqn{R^2 = 1 - \frac{(y_i-\hat{\pi})^2}{(y_i-\bar{y})^2}{1-((y-pihat)^2)/((y-ybar)^2)}.
+#' \deqn{R^2 = 1 - \frac{(y_i-\hat{\pi})^2}{(y_i-\bar{y})^2}{1-((y-pihat)^2)/((y-ybar)^2)}}.
 #'
 #' where \eqn{\hat{\pi}}{pihat} is the model predicted values calculated on the scale of the response variable.
 #'

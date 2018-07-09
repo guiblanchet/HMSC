@@ -19,13 +19,22 @@
 #'
 #' In the calculation of the type III sum of squares, the approach used is similar to the one proposed by Borcard et al. (1992). The full model is the one given in the \code{hmsc} object. To calculate type III variation partitioning, a new set of models will be constructed where the different combinations of datasets will be considered to partition the variation. For this reason, the number of iterations (\code{niter} in \code{\link{hmsc}}), the number of burn-in steps (\code{nburn} in \code{\link{hmsc}}) and the thining (\code{thin} in \code{\link{hmsc}}) for each submodel part will be based on how the full model was constructed. Lastly, the groups of explanatory variables definned by \code{groupX} will be considered here as an independent submodel. So for these reasons, it should be expected that the time it takes to contruct a type III variation partitioning will be much longer than for a type I variation partitioning.
 #'
-#' The calculation of type III variation partitioning relies on coefficient of determinations (R^2) to characterize the explained variation in the data. As such, for the moment, it has only been implemented for Gaussian, probit and logistic models.
+#' The calculation of type III variation partitioning relies on coefficient of determinations (\eqn{R^2}{R2}) to characterize the explained variation in the data. The current implementation uses Efron's pseudo-(\eqn{R^2}{R2}) to perform the variation partitioning analysis.  Efron's pseudo-(\eqn{R^2}{R2}) is convenient to use because it converges to ordinary least squares (\eqn{R^2}{R2}) with models that have Gaussian errors.
 #'
 #' When calculating type III variation partitioning, the number of iterations, burnin iterations and the thinning is obtained from the \code{hmsc} object. As such, in some circumstance, particularly when there was thining in the original model, it is possible that the number iterations (for estimation and burnin) diverge slightly from the ones used to estimate the parameter of the full model.
 #'
 #' @return
 #'
-#' A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
+#' \emph{Type I}
+#'
+#' If no traits where considered in the HMSC model: A data.frame where each column presents the proportion of the total variance explained associated to either a group of explanatory variables (organized with \code{groupX}) or a random effect (autocorrelated or not) across all species (rows of the data.frame). The sum of all columns across the rows will always equal 1.
+#'
+#' If traits where considered in the HMSC model: A list with two levels. The first element of the list contains the data.frame describe in the previous paragraph. The second element of the list contains a single value describing the amount of variation associated to traits.
+#'
+#' \emph{Type III}
+#'
+#' A list with as many elements as there are overlap among the different groups of variables. Each element of the list contains a matrix presenting the amount of variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model.
+#'
 #'
 #' @author Guillaume Blanchet (type III), Gleb Tikhonov (type I)
 #' @examples
@@ -160,7 +169,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
 
-
   					### Calculate R2 related to X
   					for(j in 1:nsp){
   						predXTotalSub <- hmsc$results$estimation$paramX[j,,i] %*% crossprod(covX,hmsc$results$estimation$paramX[j,,i])
@@ -175,7 +183,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   					variPartX <- variPartX + rep(1, nsp)
   					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, rowSums(predXSplit))
   				}
-
 
   				variPartX <- variPartX / niter
   				variPartXSplit <- variPartXSplit / niter
@@ -232,7 +239,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
 
-
   					### Calculate R2 related to X
   					for(j in 1:nsp){
   						predXTotalSub <- hmsc$results$estimation$paramX[j,,i] %*% crossprod(covX,hmsc$results$estimation$paramX[j,,i])
@@ -259,7 +265,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   					variPartAuto <- variPartAuto + PredAuto/replicate(nAuto, variTotal)
   					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, apply(predXSplit, 1, sum));
   				}
-
 
   				variPartX <- variPartX / niter
   				variPartAuto <- variPartAuto / niter
@@ -318,7 +323,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
-
 
   					### Calculate R2 related to X
   					for(j in 1:nsp){
@@ -466,7 +470,8 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   				variPartAuto <- variPartAuto / niter
   				variPartRandom <- variPartRandom / niter
   				variPartXSplit <- variPartXSplit / niter
-  				variPart<-cbind(replicate(nGroups,variPartX)*variPartXSplit,variPartRandom,variPartAuto)
+  				variPart<-cbind(replicate(nGroups,variPartX)*variPartXSplit,
+                          variPartRandom,variPartAuto)
 
   				if(any(names(hmsc$data) == "Tr")){
   					traitR2 <- traitR2 / niter
@@ -486,7 +491,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   if(type == "III"){
     ### General checks
     family <- attributes(hmsc)$class[2]
-    
+
     if(!any(family == c("probit", "gaussian"))){
       stop("family' should be either 'probit','gaussian'")
     }
@@ -761,7 +766,7 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
                          nburn = nburnModel, thin = thinModel,
                          verbose = FALSE, ...)
 
-        R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust,  averageSp = FALSE)
+        R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust, averageSp = FALSE)
 
         if(verbose){
           print(paste("Number of submodels estimated:", counter))

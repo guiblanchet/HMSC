@@ -4,33 +4,50 @@
 \alias{Rsquared}
 \title{Coefficient of determination}
 \usage{
-Rsquared(hmsc, newdata = NULL, adjust = FALSE, averageSp = TRUE)
+Rsquared(hmsc, newdata = NULL, type = "efron", adjust = FALSE,
+  averageSp = TRUE, indepentSite = FALSE)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
+\item{type}{A character string describing the type of coefficient of determination to calculate. Three options are currently available, "tjur" that can only be used for binary (0, 1) data, "ols" that can only be used for Gaussian model and "efron" which can be used for all types of models. Default is "efron". (See details).}
+
 \item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
+
+\item{indepentSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.}
 }
 \value{
-If \code{averageSp} is \code{TRUE} a single value is returned leading to a community-level coefficient of determination.
+If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
 
-If \code{averageSp} is \code{FALSE} a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
+If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{FALSE} ,a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
+
+If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
+
+If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
 }
 \description{
 Calculate the coefficient of determination for a model
 }
 \details{
-If the community data is composed only of presence-absence data, this function calculates the coefficient of determination (\eqn{R^2}) proposed by Tjur (2009). The multivariate (or community-level) Tjur's \eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's \eqn{R^2}.
+If the community data is composed only of presence-absence data, this function calculates the coefficient of determination (\eqn{R^2}) proposed by Tjur (2009). The multivariate (or community-level) Tjur's pseudo-\eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's pseudo-\eqn{R^2}.
 
 If the HMSC model was built using a Gaussian model, the classical coefficient of determination (\eqn{R^2}) was calculated:
 
-\deqn{R^2 = 1 - \frac{SS_{resid}}{SS_{total}}}{1-SSresid/SStotal}.
+\deqn{R^2 = 1 - \frac{(y_i-\hat{y})_i^2}{(y_i-\bar{y})^2}}{1-((y-yhat)^2)/((y-ybar)^2)}.
 
-where \eqn{SS_{resid}}{SSresid} is the residual sum of squares and \eqn{SS_{total}}{SStotal} the total sum of squares.
+where \eqn{y_i}{y} is a response variable (species) at site i, \eqn{\hat{y}_i}{yhat} is the model predicted value for site i and \eqn{\bar{y}_i}{ybar} is the average of the response variable (species).
+
+If \code{type = "Efron"}, than the \eqn{R^2}{R2} will be calculated using Efron's pseudo-\eqn{R^2}{R2} regardless of the model used. Efron's pseudo-\eqn{R^2} is currently the only \eqn{R^2}{R2} implemented that can be used for all models. Efron's pseudo-\eqn{R^2}{R2} is calculated as:
+
+\deqn{R^2 = 1 - \frac{(y_i-\hat{\pi})^2}{(y_i-\bar{y})^2}{1-((y-pihat)^2)/((y-ybar)^2)}}.
+
+where \eqn{\hat{\pi}}{pihat} is the model predicted values calculated on the scale of the response variable.
+
+The ordinary least squares ("ols") \eqn{R^2}{R2} and Efron's pseudo-\eqn{R^2}{R2} calculated on Gaussian models lead to the same results.
 
 The adjustement to the coefficient of determination used here is the one proposed by Gelman and Pardoe (2006), which leads to a lower adjusted coefficient of determination than the classical adjustement because it accounts for uncertainty in the model variance. The adjustement used in this function is calculated as follows:
 
@@ -63,9 +80,11 @@ Rsquared(modelDesc, averageSp = FALSE)
 
 }
 \references{
-Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
-
 Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
+
+Efron, B. (1978) Regression and ANOVA with Zero-One Data: Measures of Residual Variation., \emph{Journal of the American Statistical Association} \strong{73}, 113-121.
+
+Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
 }
 \author{
 F. Guillaume Blanchet

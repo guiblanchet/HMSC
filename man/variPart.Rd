@@ -16,14 +16,20 @@ variPart(hmsc, groupX, HMSCprior = NULL, type = "I", family,
 
 \item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.}
 
-\item{family}{A character string defining the type of modelling approach to use (See details).}
-
 \item{verbose}{Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.}
 
 \item{\dots}{Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.}
 }
 \value{
-A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
+\emph{Type I}
+
+If no traits where considered in the HMSC model: A data.frame where each column presents the proportion of the total variance explained associated to either a group of explanatory variables (organized with \code{groupX}) or a random effect (autocorrelated or not) across all species (rows of the data.frame). The sum of all columns across the rows will always equal 1.
+
+If traits where considered in the HMSC model: A list with two levels. The first element of the list contains the data.frame describe in the previous paragraph. The second element of the list contains a single value describing the amount of variation associated to traits.
+
+\emph{Type III}
+
+A list with as many elements as there are overlap among the different groups of variables. Each element of the list contains a matrix presenting the amount of variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model.
 }
 \description{
 Partition the variation of models
@@ -31,15 +37,13 @@ Partition the variation of models
 \details{
 When deciding how to group the covariates using \code{groupX}, it is essential to also account for the intercept (if present). If it is not included, an error message will be sent. If it is not clear in which group the intercept need to be considered, it is a good idea to include it in a seperate group.
 
-The choice of family is currently limited to "probit", "logit", "gaussian", "poisson" and "overPoisson". This needs to be specified for type III variation partitioning.
-
 If \code{HMSCprior} is \code{NULL} the default flat prior will be used to construct the different sub-models.
 
 Currently, two ways to calculate the variation partitionning have been implemented in this function, type I and type III, which refer to the way the sums of squares are accounted for in the calculation of the variation partitionning. Type I is the approach proposed in Ovaskainen et al. (2017) while type III is the one presented in Leibold et al. (submitted).
 
 In the calculation of the type III sum of squares, the approach used is similar to the one proposed by Borcard et al. (1992). The full model is the one given in the \code{hmsc} object. To calculate type III variation partitioning, a new set of models will be constructed where the different combinations of datasets will be considered to partition the variation. For this reason, the number of iterations (\code{niter} in \code{\link{hmsc}}), the number of burn-in steps (\code{nburn} in \code{\link{hmsc}}) and the thining (\code{thin} in \code{\link{hmsc}}) for each submodel part will be based on how the full model was constructed. Lastly, the groups of explanatory variables definned by \code{groupX} will be considered here as an independent submodel. So for these reasons, it should be expected that the time it takes to contruct a type III variation partitioning will be much longer than for a type I variation partitioning.
 
-The calculation of type III variation partitioning relies on coefficient of determinations (R^2) to characterize the explained variation in the data. As such, for the moment, it has only been implemented for Gaussian, probit and logistic models.
+The calculation of type III variation partitioning relies on coefficient of determinations (\eqn{R^2}{R2}) to characterize the explained variation in the data. The current implementation uses Efron's pseudo-(\eqn{R^2}{R2}) to perform the variation partitioning analysis.  Efron's pseudo-(\eqn{R^2}{R2}) is convenient to use because it converges to ordinary least squares (\eqn{R^2}{R2}) with models that have Gaussian errors.
 
 When calculating type III variation partitioning, the number of iterations, burnin iterations and the thinning is obtained from the \code{hmsc} object. As such, in some circumstance, particularly when there was thining in the original model, it is possible that the number iterations (for estimation and burnin) diverge slightly from the ones used to estimate the parameter of the full model.
 }
