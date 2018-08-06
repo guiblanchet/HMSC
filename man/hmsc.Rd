@@ -26,6 +26,8 @@ hmsc(data, param = NULL, priors = NULL, family = c("probit", "logit",
 \item{thin}{A positive integer defining thinning. Default is 1 (see details).}
 
 \item{verbose}{Logical or numeric. If \code{TRUE}, the number of iterations are printed on the screen four times. If \code{FALSE}, nothing is printed on the screen. If a positive integer is given, the number of iterations is printed on the screen every time a multiple of the given value is an integer.}
+
+\item{focal}{a value or character string. Species to focus on for the theorical HMSC analysis.}
 }
 \value{
 The output of this function is an object of class \code{hmsc}, which has the following structure. The output is always divided in a \code{burning} and an \code{estimation} part which contain the following sub-parts:

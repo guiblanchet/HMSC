@@ -15,7 +15,7 @@ arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
 										 arma::vec& nLatent,
 										 double nsp,
 										 int nsite,
-									 	 arma::cube& diagMat){
+									 	 arma::mat& diagMat){
 
 
 	// Define various objects
@@ -32,7 +32,7 @@ arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
 		// Update paramLatent for each species
 //		int k = focal;
 		for (int k = 0; k < nsp; k++) {
-			mat wlatent = diagMat.slice(k)*latent(j,0).rows(Random.col(j));
+			mat wlatent = diagMat*latent(j,0).rows(Random.col(j));
 
 			mat latentCross = trans(wlatent)*wlatent;
 			shrinkLatent = diagmat(shrink(j,0).row(k))+residVar(k)*latentCross;

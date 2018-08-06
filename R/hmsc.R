@@ -3,6 +3,7 @@
 #' @description Perform various types of hierarchical modelling analysis on community data
 #'
 #' @param data An object of the class \code{HMSCdata}.
+#' @param focal a value or character string. Species to focus on for the theorical HMSC analysis.
 #' @param param An object of the class \code{HMSCparam} to use as starting parameters for model estimation. If \code{param} is \code{NULL}, the function will generate a set of randomly sampled value as starting parameters.
 #' @param priors An object of the class \code{HMSCprior}. If \code{prior} is \code{NULL}, flat prior will be use.
 #' @param family A character string defining the type of modelling approach to use (See details).

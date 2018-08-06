@@ -53,7 +53,7 @@ RcppExport SEXP mcmcProbitTheoryMultiSp(arma::mat& Y,
 									  int nburn,
 									  int thin,
 									  int verbose,
-										arma::cube& diagMat){
+										arma::mat& diagMat){
 
 	// Define various objects
 	mat EstModel = zeros<mat>(nsite,nsp);

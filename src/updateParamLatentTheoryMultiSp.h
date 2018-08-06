@@ -13,6 +13,6 @@ arma::field<arma::mat> updateParamLatentTheoryMultiSp(arma::mat& Ylatent,
 										 arma::vec& nLatent,
 										 double nsp,
 										 int nsite,
-									 	 arma::cube& diagMat);
+									 	 arma::mat& diagMat);
 
 #endif

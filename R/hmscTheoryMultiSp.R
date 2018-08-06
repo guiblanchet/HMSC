@@ -1,6 +1,6 @@
 #' @export
 hmscTheoryMultiSp <-
-function(data,param=NULL,priors=NULL,focal,niter=2000,nburn=1000,thin=1,verbose=TRUE){
+function(data,focal,param=NULL,priors=NULL,niter=2000,nburn=1000,thin=1,verbose=TRUE){
 #### F. Guillaume Blanchet - May 2016
 ##########################################################################################
 	### General checks
@@ -151,13 +151,15 @@ function(data,param=NULL,priors=NULL,focal,niter=2000,nburn=1000,thin=1,verbose=
 	if(nDataType==3){
 		### Construct model with Random and Auto
 		if(all(dataType %in% c("X","Auto","Random"))){
-			diagMat <- array(NA,dim=c(nsite,nsite,nsp))
-		 	for(i in 1:nsp){
-				diagMat[,,i]<-diag(Y[,i])
+			if(is.numeric(focal)){
+				diagMat <- diag(Y[,focal])
+			}
+			if(is.character(focal)){
+				focalNum <- which(colnames(Y) == focal)
+				diagMat <- diag(Y[,focalNum])
 			}
 
-			result<-mcmcProbitTheoryMultiSp(focal-1,
-											Y,
+			result<-mcmcProbitTheoryMultiSp(Y,
 										  Ylatent,
 										  X,
 										  AutoCoord,
@@ -209,7 +211,7 @@ function(data,param=NULL,priors=NULL,focal,niter=2000,nburn=1000,thin=1,verbose=
 	}
 
 	### Name all parts of the result
-	result<-nameResult(data,priors,result,niter,nburn,thin)
+#	result<-nameResult(data,priors,result,niter,nburn,thin)
 
 	#=================
 	### Output results
