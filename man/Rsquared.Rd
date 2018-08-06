@@ -12,7 +12,7 @@ Rsquared(hmsc, newdata = NULL, type = "efron", adjust = FALSE,
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
-\item{type}{A character string describing the type of coefficient of determination to calculate. Three options are currently available, "tjur" that can only be used for binary (0, 1) data, "ols" that can only be used for Gaussian model and "efron" which can be used for all types of models. Default is "efron". (See details).}
+\item{type}{A character string describing the type of coefficient of determination to calculate. Default is "efron". (See details).}
 
 \item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
 
@@ -28,26 +28,56 @@ If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{FALSE} 
 If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
 
 If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
+
+Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indepentSite} will always be considered \code{FALSE}.
 }
 \description{
 Calculate the coefficient of determination for a model
 }
 \details{
-If the community data is composed only of presence-absence data, this function calculates the coefficient of determination (\eqn{R^2}) proposed by Tjur (2009). The multivariate (or community-level) Tjur's pseudo-\eqn{R^2} is calculated by averaging over the univariate (species-level) Tjur's pseudo-\eqn{R^2}.
+Four different version (\cod{type}) are currently available in this function, "tjur" (Tjur 2009) which can only be used for binary (0, 1) data and "ols" which can only be used for Gaussian model. As for "efron" (Efron 1978) and "nakagawa" (Nakagawa and Schielzeth 2013), they can be used for all types of models.
 
-If the HMSC model was built using a Gaussian model, the classical coefficient of determination (\eqn{R^2}) was calculated:
+The multivariate (or community-level) \eqn{R^2}{R2} is calculated by averaging over the univariate (species-level) \eqn{R^2}{R2}.
 
-\deqn{R^2 = 1 - \frac{(y_i-\hat{y})_i^2}{(y_i-\bar{y})^2}}{1-((y-yhat)^2)/((y-ybar)^2)}.
+The \code{type = "ols"} can only be used with Gaussian models, the classical coefficient of determination (\eqn{R^2}{R2}) is calculated:
+
+\deqn{R^2 = 1 - \frac{(y_i-\hat{y})_i^2}{(y_i-\bar{y})^2}}{R2 = 1-((y-yhat)^2)/((y-ybar)^2)}.
 
 where \eqn{y_i}{y} is a response variable (species) at site i, \eqn{\hat{y}_i}{yhat} is the model predicted value for site i and \eqn{\bar{y}_i}{ybar} is the average of the response variable (species).
 
-If \code{type = "Efron"}, than the \eqn{R^2}{R2} will be calculated using Efron's pseudo-\eqn{R^2}{R2} regardless of the model used. Efron's pseudo-\eqn{R^2} is currently the only \eqn{R^2}{R2} implemented that can be used for all models. Efron's pseudo-\eqn{R^2}{R2} is calculated as:
+The \code{type = "tjur"} can only be used with models constructed on presence-absence data, the coefficient of determination (\eqn{R^2}{R2}) is calculated by averaging the estimated probability for presences and absences respectively and subtracting the average over the absences from the average over the presences.
 
-\deqn{R^2 = 1 - \frac{(y_i-\hat{\pi})^2}{(y_i-\bar{y})^2}{1-((y-pihat)^2)/((y-ybar)^2)}}.
+If \code{type = "efron"} is used, than the \eqn{R^2}{R2} will be calculated using Efron's pseudo-\eqn{R^2}{R2} regardless of the model used. Efron's pseudo-\eqn{R^2}{R2} is calculated as:
+
+\deqn{R^2 = 1 - \frac{(y_i-\hat{\pi})^2}{(y_i-\bar{y})^2}{R2=1-((y-pihat)^2)/((y-ybar)^2)}}.
 
 where \eqn{\hat{\pi}}{pihat} is the model predicted values calculated on the scale of the response variable.
 
 The ordinary least squares ("ols") \eqn{R^2}{R2} and Efron's pseudo-\eqn{R^2}{R2} calculated on Gaussian models lead to the same results.
+
+If \code{type = "nakagawa"} is used, than the \eqn{R^2}{R2} will be calculated using Nakagawa and and Schielzeth's \eqn{R^2}{R2} regardless of the model used. Nakagawa and and Schielzeth's \eqn{R^2}{R2} is calculated as:
+
+\deqn{R^2 =  \frac{\sigma^2_X + \sum \sigma^2_{Random}}{\sigma^2_X + \sum \sigma^2_{Random} + \sigma^2_{Add} + \sigma^2_{Dist}}{R2 = (varX+sum(varRandom))/(varX+sum(varRandom)+varAdd+varDist)}}.
+
+where \eqn{\sigma^2_X}{varX} is the variance associated to the fixed effect (\code{X}), \eqn{\sum\sigma^2_{Random}}{sum(varRandom)} is the sum of the variances associated to the each random effect (\code{Random}), \eqn{\sigma^2_{Add}}{varAdd} is the additive variance  (dispersion) not explained by either the fixed or the random effect and \eqn{\sigma^2_{Dist}}{varDist}. As such, the \eqn{R^2}{R2} implemented in this function is the conditional \eqn{R^2}{R2} of Nakagawa and and Schielzeth's.
+
+The calculation of \eqn{\sigma^2_X}{varX} is obtained as follows
+
+\deqn{\sigma^2_X = var(X\beta)}{varX = var(X x paramX)}
+
+while the calculation of \eqn{\sigma^2_{Random}}{varRandom} is obtained using the same calculation as above but using with latent variables and their associated regression parameters.
+
+\deqn{\sigma^2_{Random} = var(H\Lambda)}{varX = var(Latent x paramLatent)}
+
+As for \eqn{\sigma^2_{Add}}{varAdd}, it is calculated as follows
+
+\deqn{\sigma^2_{Add} = \sum(g(g^{-1}(Y - \hat{Y}))^2)}{varAdd = sum( linkfun(linkinv(Y-Yhat))^2)}
+
+where \eqn{g}{linkfun} and \eqn{g^{-1}}{linkinv} are the link and an the inverse link function, respectively.
+
+Lastly, \eqn{\sigma^2_{Dist}}{varDist} is link function specific. If the identity link function is used it is 0, if the logit function is used it is \eqn{\pi^2/3}{pi2/3}, if the probit link function is used it is 1 and if the log link function is used it is \eqn{\ln(1/\exp(\beta_0)+1)}{ln(1/exp(beta0)+1)}.
+
+The "ols" and "nakagawa" \eqn{R^2}{R2} can also be used to calculate the site's contribution to the \eqn{R^2}{R2}. The argument \code{indepentSite} can be used to decide wether the site's contribution to the \eqn{R^2}{R2} can be calculated. The other types of \eqn{R^2}{R2} cannot be used to calculate the site's contribution to the \eqn{R^2}{R2} because it is either mathematically not possible (Tjur's \eqn{R^2}{R2}) or it gives non-sensical results (Efron's pseudo-\eqn{R^2}{R2} sometimes leads to sites contribution being negative).
 
 The adjustement to the coefficient of determination used here is the one proposed by Gelman and Pardoe (2006), which leads to a lower adjusted coefficient of determination than the classical adjustement because it accounts for uncertainty in the model variance. The adjustement used in this function is calculated as follows:
 
@@ -83,6 +113,8 @@ Rsquared(modelDesc, averageSp = FALSE)
 Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
 
 Efron, B. (1978) Regression and ANOVA with Zero-One Data: Measures of Residual Variation., \emph{Journal of the American Statistical Association} \strong{73}, 113-121.
+
+Nakagawa, S. and H. Schielzeth (2013) A general and simple method for obtaining \eqn{R^2}{R2} from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution} \strong{63}, 133–142.
 
 Tjur, T. (2009) Coefficients of determination in logistic regression models - A new proposal: The coefficient of discrimination. \emph{The American Statistician} \strong{63}, 366-372.
 }
