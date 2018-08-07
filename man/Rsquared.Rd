@@ -4,15 +4,15 @@
 \alias{Rsquared}
 \title{Coefficient of determination}
 \usage{
-Rsquared(hmsc, newdata = NULL, type = "efron", adjust = FALSE,
-  averageSp = TRUE, indepentSite = FALSE)
+Rsquared(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"),
+  adjust = FALSE, averageSp = TRUE, indepentSite = FALSE)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}}
 
 \item{newdata}{An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
-\item{type}{A character string describing the type of coefficient of determination to calculate. Default is "efron". (See details).}
+\item{type}{A character string describing the type of coefficient of determination to calculate. (See details).}
 
 \item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
 
@@ -35,7 +35,7 @@ Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indepentSite} wil
 Calculate the coefficient of determination for a model
 }
 \details{
-Four different version (\cod{type}) are currently available in this function, "tjur" (Tjur 2009) which can only be used for binary (0, 1) data and "ols" which can only be used for Gaussian model. As for "efron" (Efron 1978) and "nakagawa" (Nakagawa and Schielzeth 2013), they can be used for all types of models.
+Four different version (\code{type}) are currently available in this function, "tjur" (Tjur 2009) which can only be used for binary (0, 1) data and "ols" which can only be used for Gaussian model. As for "efron" (Efron 1978) and "nakagawa" (Nakagawa and Schielzeth 2013), they can be used for all types of models.
 
 The multivariate (or community-level) \eqn{R^2}{R2} is calculated by averaging over the univariate (species-level) \eqn{R^2}{R2}.
 

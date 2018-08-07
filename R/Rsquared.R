@@ -4,14 +4,14 @@
 #'
 #' @param hmsc An object of the class \code{hmsc}
 #' @param newdata An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
-#' @param type A character string describing the type of coefficient of determination to calculate. Default is "efron". (See details).
+#' @param type A character string describing the type of coefficient of determination to calculate. (See details).
 #' @param adjust Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.
 #' @param averageSp Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.
 #' @param indepentSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.
 #'
 #' @details
 #'
-#' Four different version (\cod{type}) are currently available in this function, "tjur" (Tjur 2009) which can only be used for binary (0, 1) data and "ols" which can only be used for Gaussian model. As for "efron" (Efron 1978) and "nakagawa" (Nakagawa and Schielzeth 2013), they can be used for all types of models.
+#' Four different version (\code{type}) are currently available in this function, "tjur" (Tjur 2009) which can only be used for binary (0, 1) data and "ols" which can only be used for Gaussian model. As for "efron" (Efron 1978) and "nakagawa" (Nakagawa and Schielzeth 2013), they can be used for all types of models.
 #'
 #' The multivariate (or community-level) \eqn{R^2}{R2} is calculated by averaging over the univariate (species-level) \eqn{R^2}{R2}.
 #'
@@ -111,7 +111,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-Rsquared <- function(hmsc, newdata = NULL, type = "efron", adjust = FALSE, averageSp = TRUE, indepentSite = FALSE) {
+Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"), adjust = FALSE, averageSp = TRUE, indepentSite = FALSE) {
   ### Match arguments
   type <- match.arg(type)
 
@@ -131,11 +131,11 @@ Rsquared <- function(hmsc, newdata = NULL, type = "efron", adjust = FALSE, avera
   nsp <- ncol(Y)
 
   ### Calculate model estimates
-  if(!(type == "nakagawa")){
+#  if(!(type == "nakagawa")){
     Ypred <- predict(hmsc, newdata=newdata)
-  }else{
-    Ypred <- predict(hmsc, newdata=newdata, type = "link")
-  }
+#  }else{
+#    Ypred <- predict(hmsc, newdata=newdata, type = "link")
+#  }
   ### Tjur's R2
   if(type == "tjur"){
     ### A few basic checks
@@ -176,7 +176,8 @@ Rsquared <- function(hmsc, newdata = NULL, type = "efron", adjust = FALSE, avera
 
     ### Result object
     R2 <- matrix(NA, nrow = nrow(Y), ncol = ncol(Y))
-
+    colnames(R2) <- colnames(Y)
+    rownames(R2) <- rownames(Y)
     ### Calculate R2
     for (i in 1:nsp) {
       R2[,i] <- 1/nsite - ssRes[,i]/ssY[i]
@@ -202,6 +203,14 @@ Rsquared <- function(hmsc, newdata = NULL, type = "efron", adjust = FALSE, avera
   }
 
   if(type == "nakagawa"){
+    if(any(class(hmsc) == "gaussian")){
+      ### Link and inverse link function
+      link <- gaussian(link = "identity")
+
+      ### Distribution specific-variance
+      varDist <- 0
+    }
+
     if(any(class(hmsc) == "probit")){
       ### Link and inverse link function
       link <- binomial(link = "probit")
@@ -235,15 +244,15 @@ Rsquared <- function(hmsc, newdata = NULL, type = "efron", adjust = FALSE, avera
       }
     }
 
-    ### Additive distributional variance
-    varAdd <- sum(link$linkfun(link$linkinv(Y - Ypred))^2)
-
     ### Model variance
     YMeans <- matrix(link$linkfun(colMeans(Y)),
                      nrow = nsite, ncol = nsp, byrow = TRUE)
 
     varModelSite <- (YMeans - Ypred)^2
     varModel <- colSums(varModelSite)
+
+    ### Additive distributional variance
+    varAdd <- colSums(link$linkfun(link$linkinv(Y - YMeans)^2)) - varModel
 
     ### Calculate R2
     R2 <- varModelSite / (varModel + varAdd + varDist)
