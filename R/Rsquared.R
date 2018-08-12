@@ -119,11 +119,17 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
   if (is.null(newdata)) {
     Y <- hmsc$data$Y
   }
+
 	if (!is.null(newdata)) {
 	  Y <- newdata$Y
     if(indepentSite){
       stop("The contribution of each site to R2 cannot be calculated with 'newdata'")
     }
+  }
+
+  Xvariance <- apply(hmsc$data$X, 2, var)
+  if(!any(Xvariance == 0)){
+    warning("A model without intercept may lead to a wrong R2")
   }
 
   ### basic objects
@@ -248,18 +254,25 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     YMeans <- matrix(link$linkfun(colMeans(Y)),
                      nrow = nsite, ncol = nsp, byrow = TRUE)
 
+    YMeansBase <- matrix(colMeans(Y),
+                         nrow = nsite, ncol = nsp, byrow = TRUE)
+
     varModelSite <- (YMeans - Ypred)^2
     varModel <- colSums(varModelSite)
 
     ### Additive distributional variance
-    varAdd <- colSums(link$linkfun(link$linkinv(Y - YMeans)^2)) - varModel
+    # (There is something fishy about this line of code)
+    # (There is something fishy about this line of code)
+    # (There is something fishy about this line of code)
+    varAdd <- colSums(link$linkfun(Y - YMeansBase)^2) - varModel
 
     ### Calculate R2
     R2 <- varModelSite / (varModel + varAdd + varDist)
+    varModel / (varModel + varAdd + varDist)
 
     ### Global R2
     if(!indepentSite){
-      R2 <- colSums(R2)
+      R2 <- colSums(varModelSite) / (varModel + varAdd + varDist)
 
       ### Community-level R2
       if (averageSp) {
