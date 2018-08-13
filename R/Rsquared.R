@@ -240,7 +240,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
       #---------------------------------
       ### Distribution specific-variance
       #---------------------------------
-      intercept <- which(apply(hmsc$data$X, 2, var) == 0)[1]
+      intercept <- which(Xvariance == 0)[1]
 
       if(length(intercept) == 0){
         varDist <- rep(log(2), nsp)
@@ -264,7 +264,17 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     # (There is something fishy about this line of code)
     # (There is something fishy about this line of code)
     # (There is something fishy about this line of code)
-    varAdd <- colSums(link$linkfun(Y - YMeansBase)^2) - varModel
+    if(any(class(hmsc) == "probit")){
+      YAdd <- Y
+      Y0 <- which(Y == 0, arr.ind = TRUE)
+      Y1 <- which(Y == 1, arr.ind = TRUE)
+      YAdd[Y0] <- 1 - YMeansBase[Y0]
+      YAdd[Y1] <- 0 + YMeansBase[Y1]
+#      YAdd <- Y-YMeansBase
+    }
+
+#    varAdd <- colSums(link$linkfun(YAdd)^2) - varModel
+    varAdd <- colSums((Y-YMeansBase)^2) - varModel
 
     ### Calculate R2
     R2 <- varModelSite / (varModel + varAdd + varDist)
