@@ -4,7 +4,7 @@
 \alias{variPart}
 \title{Variation partitioning}
 \usage{
-variPart(hmsc, groupX, HMSCprior = NULL, type = "I", family,
+variPart(hmsc, groupX, HMSCprior = NULL, type = "I", indSite = FALSE,
   R2adjust = FALSE, verbose = TRUE, ...)
 }
 \arguments{
@@ -14,7 +14,11 @@ variPart(hmsc, groupX, HMSCprior = NULL, type = "I", family,
 
 \item{HMSCprior}{An object of class HMSCprior. This object is used only for type III variation partitioning analysis, it is not considered otherwise.}
 
-\item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.}
+\item{type}{A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type III sums of squares.}
+
+\item{indSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active for type III sums of squares. Default is \code{FALSE}.}
+
+\item{R2adjust}{Logical. Whether the coefficient of determination should be adjusted or not. Default is \code{FALSE}.}
 
 \item{verbose}{Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.}
 
@@ -29,7 +33,7 @@ If traits where considered in the HMSC model: A list with two levels. The first 
 
 \emph{Type III}
 
-A list with as many elements as there are overlap among the different groups of variables. Each element of the list contains a matrix presenting the amount of variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model.
+A list with as many elements as there are overlap among the different groups of variables. If the \code{indSite} is \code{FALSE}, each element of the list contains a matrix presenting the amount of variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model. If the \code{indSite} is \code{FALSE}, each element of the list contains an array presenting the site's contribution to the variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model.
 }
 \description{
 Partition the variation of models
@@ -43,7 +47,7 @@ Currently, two ways to calculate the variation partitionning have been implement
 
 In the calculation of the type III sum of squares, the approach used is similar to the one proposed by Borcard et al. (1992). The full model is the one given in the \code{hmsc} object. To calculate type III variation partitioning, a new set of models will be constructed where the different combinations of datasets will be considered to partition the variation. For this reason, the number of iterations (\code{niter} in \code{\link{hmsc}}), the number of burn-in steps (\code{nburn} in \code{\link{hmsc}}) and the thining (\code{thin} in \code{\link{hmsc}}) for each submodel part will be based on how the full model was constructed. Lastly, the groups of explanatory variables definned by \code{groupX} will be considered here as an independent submodel. So for these reasons, it should be expected that the time it takes to contruct a type III variation partitioning will be much longer than for a type I variation partitioning.
 
-The calculation of type III variation partitioning relies on coefficient of determinations (\eqn{R^2}{R2}) to characterize the explained variation in the data. The current implementation uses Efron's pseudo-(\eqn{R^2}{R2}) to perform the variation partitioning analysis.  Efron's pseudo-(\eqn{R^2}{R2}) is convenient to use because it converges to ordinary least squares (\eqn{R^2}{R2}) with models that have Gaussian errors.
+The calculation of type III variation partitioning relies on coefficient of determinations (\eqn{R^2}{R2}) to characterize the explained variation in the data. The current implementation uses Nakagawa and Schielzeth (\eqn{R^2}{R2}) to perform the variation partitioning analysis.  Nakagawa and Schielzeth (\eqn{R^2}{R2}) is convenient to use because in addition of converging to ordinary least squares (\eqn{R^2}{R2}) with models that have Gaussian errors, it is also design to handle .
 
 When calculating type III variation partitioning, the number of iterations, burnin iterations and the thinning is obtained from the \code{hmsc} object. As such, in some circumstance, particularly when there was thining in the original model, it is possible that the number iterations (for estimation and burnin) diverge slightly from the ones used to estimate the parameter of the full model.
 }
@@ -78,6 +82,11 @@ vp
 #===================
 barplot(t(vp), las = 2)
 
+}
+\references{
+Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
+
+Nakagawa, S. and H. Schielzeth (2013) A general and simple method for obtaining \eqn{R^2}{R2} from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution} \strong{63}, 133–142.
 }
 \author{
 Guillaume Blanchet (type III), Gleb Tikhonov (type I)
