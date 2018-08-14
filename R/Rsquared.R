@@ -5,9 +5,9 @@
 #' @param hmsc An object of the class \code{hmsc}
 #' @param newdata An optional object of class \code{HMSCdata} in which to look for variables with which to predict. If omitted, the fitted values are used.
 #' @param type A character string describing the type of coefficient of determination to calculate. (See details).
-#' @param adjust Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.
+#' @param adjust Logical. Whether the coefficient of determination should be adjusted or not. Default is \code{FALSE}.
 #' @param averageSp Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.
-#' @param indSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.
+#' @param indSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when Nakagawa  and Schielzeth \eqn{R^2} is used. Default is \code{FALSE}.
 #'
 #' @details
 #'

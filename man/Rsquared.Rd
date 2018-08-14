@@ -14,11 +14,11 @@ Rsquared(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"),
 
 \item{type}{A character string describing the type of coefficient of determination to calculate. (See details).}
 
-\item{adjust}{Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.}
+\item{adjust}{Logical. Whether the coefficient of determination should be adjusted or not. Default is \code{FALSE}.}
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
 
-\item{indSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.}
+\item{indSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when Nakagawa  and Schielzeth \eqn{R^2} is used. Default is \code{FALSE}.}
 }
 \value{
 If \code{averageSp} is \code{TRUE} and the \code{indSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
