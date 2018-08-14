@@ -137,11 +137,11 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
   nsp <- ncol(Y)
 
   ### Calculate model estimates
-#  if(!(type == "nakagawa")){
+  if(!(type == "nakagawa")){
     Ypred <- predict(hmsc, newdata=newdata)
-#  }else{
-#    Ypred <- predict(hmsc, newdata=newdata, type = "link")
-#  }
+  }else{
+    Ypred <- predict(hmsc, newdata=newdata, type = "link")
+  }
   ### Tjur's R2
   if(type == "tjur"){
     ### A few basic checks
@@ -251,34 +251,17 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     }
 
     ### Model variance
-    YMeans <- matrix(link$linkfun(colMeans(Y)),
+    YMeans <- matrix(colMeans(Ypred),
                      nrow = nsite, ncol = nsp, byrow = TRUE)
 
-    YMeansBase <- matrix(colMeans(Y),
-                         nrow = nsite, ncol = nsp, byrow = TRUE)
-
-    varModelSite <- (YMeans - Ypred)^2
+    varModelSite <- (Ypred - YMeans)^2/(nsite-1)
     varModel <- colSums(varModelSite)
 
     ### Additive distributional variance
-    # (There is something fishy about this line of code)
-    # (There is something fishy about this line of code)
-    # (There is something fishy about this line of code)
-    if(any(class(hmsc) == "probit")){
-      YAdd <- Y
-      Y0 <- which(Y == 0, arr.ind = TRUE)
-      Y1 <- which(Y == 1, arr.ind = TRUE)
-      YAdd[Y0] <- 1 - YMeansBase[Y0]
-      YAdd[Y1] <- 0 + YMeansBase[Y1]
-#      YAdd <- Y-YMeansBase
-    }
-
-#    varAdd <- colSums(link$linkfun(YAdd)^2) - varModel
-    varAdd <- colSums((Y-YMeansBase)^2) - varModel
+    varAdd <- diag(var(Y-link$linkinv(Ypred)))
 
     ### Calculate R2
     R2 <- varModelSite / (varModel + varAdd + varDist)
-    varModel / (varModel + varAdd + varDist)
 
     ### Global R2
     if(!indepentSite){
