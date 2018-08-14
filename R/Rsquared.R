@@ -7,7 +7,7 @@
 #' @param type A character string describing the type of coefficient of determination to calculate. (See details).
 #' @param adjust Logical. Whether an adjustement should be calculated on the calculation of the coefficient of determination. Default is \code{FALSE}.
 #' @param averageSp Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.
-#' @param indepentSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.
+#' @param indSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.
 #'
 #' @details
 #'
@@ -53,7 +53,7 @@
 #'
 #' Lastly, \eqn{\sigma^2_{Dist}}{varDist} is link function specific. If the identity link function is used it is 0, if the logit function is used it is \eqn{\pi^2/3}{pi2/3}, if the probit link function is used it is 1 and if the log link function is used it is \eqn{\ln(1/\exp(\beta_0)+1)}{ln(1/exp(beta0)+1)}.
 #'
-#' The "ols" and "nakagawa" \eqn{R^2}{R2} can also be used to calculate the site's contribution to the \eqn{R^2}{R2}. The argument \code{indepentSite} can be used to decide wether the site's contribution to the \eqn{R^2}{R2} can be calculated. The other types of \eqn{R^2}{R2} cannot be used to calculate the site's contribution to the \eqn{R^2}{R2} because it is either mathematically not possible (Tjur's \eqn{R^2}{R2}) or it gives non-sensical results (Efron's pseudo-\eqn{R^2}{R2} sometimes leads to sites contribution being negative).
+#' The "ols" and "nakagawa" \eqn{R^2}{R2} can also be used to calculate the site's contribution to the \eqn{R^2}{R2}. The argument \code{indSite} can be used to decide wether the site's contribution to the \eqn{R^2}{R2} can be calculated. The other types of \eqn{R^2}{R2} cannot be used to calculate the site's contribution to the \eqn{R^2}{R2} because it is either mathematically not possible (Tjur's \eqn{R^2}{R2}) or it gives non-sensical results (Efron's pseudo-\eqn{R^2}{R2} sometimes leads to sites contribution being negative).
 #'
 #' The adjustement to the coefficient of determination used here is the one proposed by Gelman and Pardoe (2006), which leads to a lower adjusted coefficient of determination than the classical adjustement because it accounts for uncertainty in the model variance. The adjustement used in this function is calculated as follows:
 #'
@@ -61,15 +61,15 @@
 #'
 #' @return
 #'
-#' If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
+#' If \code{averageSp} is \code{TRUE} and the \code{indSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
 #'
-#' If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{FALSE} ,a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
+#' If \code{averageSp} is \code{FALSE} and the \code{indSite} is \code{FALSE} ,a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
 #'
-#' If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
+#' If \code{averageSp} is \code{TRUE} and the \code{indSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
 #'
-#' If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
+#' If \code{averageSp} is \code{FALSE} and the \code{indSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
 #'
-#' Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indepentSite} will always be considered \code{FALSE}.
+#' Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indSite} will always be considered \code{FALSE}.
 #'
 #' @references
 #'
@@ -111,7 +111,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"), adjust = FALSE, averageSp = TRUE, indepentSite = FALSE) {
+Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"), adjust = FALSE, averageSp = TRUE, indSite = FALSE) {
   ### Match arguments
   type <- match.arg(type)
 
@@ -122,7 +122,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
 
 	if (!is.null(newdata)) {
 	  Y <- newdata$Y
-    if(indepentSite){
+    if(indSite){
       stop("The contribution of each site to R2 cannot be calculated with 'newdata'")
     }
   }
@@ -149,7 +149,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
       stop("Tjur R2 can only be used for binary (0, 1) data")
     }
 
-    if(indepentSite){
+    if(indSite){
       stop("The contribution of each site to R2 cannot be calculated with 'tjur'")
     }
 
@@ -190,7 +190,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     }
 
     ### Global R2
-    if(!indepentSite){
+    if(!indSite){
       R2 <- colSums(R2)
 
       ### Community-level R2
@@ -264,7 +264,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     R2 <- varModelSite / (varModel + varAdd + varDist)
 
     ### Global R2
-    if(!indepentSite){
+    if(!indSite){
       R2 <- colSums(varModelSite) / (varModel + varAdd + varDist)
 
       ### Community-level R2
@@ -305,7 +305,7 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     }
 
     ### Calculate adjusted R2
-    if(indepentSite){
+    if(indSite){
       R2Cum <- colSums(R2)
       R2CumAdj <- 1 - ((nsite-3)/(nsite - nexp - 2)) * (1 - R2Cum)
       Corr <- R2Cum - R2CumAdj

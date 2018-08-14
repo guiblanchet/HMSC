@@ -5,7 +5,7 @@
 \title{Coefficient of determination}
 \usage{
 Rsquared(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"),
-  adjust = FALSE, averageSp = TRUE, indepentSite = FALSE)
+  adjust = FALSE, averageSp = TRUE, indSite = FALSE)
 }
 \arguments{
 \item{hmsc}{An object of the class \code{hmsc}}
@@ -18,18 +18,18 @@ Rsquared(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", "tjur"),
 
 \item{averageSp}{Logical. Whether the coefficient of determination is calculated for all species independently (\code{FALSE}) or for the community as a whole (\code{TRUE}). Default is \code{TRUE}.}
 
-\item{indepentSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.}
+\item{indSite}{Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active when McFadden's pseudo-\eqn{R^2} is used. Default is \code{FALSE}.}
 }
 \value{
-If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
+If \code{averageSp} is \code{TRUE} and the \code{indSite} is \code{FALSE}, a single value is returned leading to a community-level coefficient of determination.
 
-If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{FALSE} ,a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
+If \code{averageSp} is \code{FALSE} and the \code{indSite} is \code{FALSE} ,a vector with as many values as the number of species is returned leading to specie-level coefficient of determination.
 
-If \code{averageSp} is \code{TRUE} and the \code{indepentSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
+If \code{averageSp} is \code{TRUE} and the \code{indSite} is \code{TRUE} a vector with as many values as the number of sites is returned presenting the sites contribution to the community-level coefficient of determination.
 
-If \code{averageSp} is \code{FALSE} and the \code{indepentSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
+If \code{averageSp} is \code{FALSE} and the \code{indSite} is \code{TRUE} a matrix with the same dimension as the community matrix is returned presenting the sites contribution to each species coefficient of determination.
 
-Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indepentSite} will always be considered \code{FALSE}.
+Note that when Tjur's or Efron's \eqn{R^2}{R2} are used, \code{indSite} will always be considered \code{FALSE}.
 }
 \description{
 Calculate the coefficient of determination for a model
@@ -77,7 +77,7 @@ where \eqn{g}{linkfun} and \eqn{g^{-1}}{linkinv} are the link and an the inverse
 
 Lastly, \eqn{\sigma^2_{Dist}}{varDist} is link function specific. If the identity link function is used it is 0, if the logit function is used it is \eqn{\pi^2/3}{pi2/3}, if the probit link function is used it is 1 and if the log link function is used it is \eqn{\ln(1/\exp(\beta_0)+1)}{ln(1/exp(beta0)+1)}.
 
-The "ols" and "nakagawa" \eqn{R^2}{R2} can also be used to calculate the site's contribution to the \eqn{R^2}{R2}. The argument \code{indepentSite} can be used to decide wether the site's contribution to the \eqn{R^2}{R2} can be calculated. The other types of \eqn{R^2}{R2} cannot be used to calculate the site's contribution to the \eqn{R^2}{R2} because it is either mathematically not possible (Tjur's \eqn{R^2}{R2}) or it gives non-sensical results (Efron's pseudo-\eqn{R^2}{R2} sometimes leads to sites contribution being negative).
+The "ols" and "nakagawa" \eqn{R^2}{R2} can also be used to calculate the site's contribution to the \eqn{R^2}{R2}. The argument \code{indSite} can be used to decide wether the site's contribution to the \eqn{R^2}{R2} can be calculated. The other types of \eqn{R^2}{R2} cannot be used to calculate the site's contribution to the \eqn{R^2}{R2} because it is either mathematically not possible (Tjur's \eqn{R^2}{R2}) or it gives non-sensical results (Efron's pseudo-\eqn{R^2}{R2} sometimes leads to sites contribution being negative).
 
 The adjustement to the coefficient of determination used here is the one proposed by Gelman and Pardoe (2006), which leads to a lower adjusted coefficient of determination than the classical adjustement because it accounts for uncertainty in the model variance. The adjustement used in this function is calculated as follows:
 
