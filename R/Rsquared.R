@@ -305,7 +305,14 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     }
 
     ### Calculate adjusted R2
-    R2 <- 1 - ((nsite-3)/(nsite - nexp - 2)) * (1 - R2)
+    if(indepentSite){
+      R2Cum <- colSums(R2)
+      R2CumAdj <- 1 - ((nsite-3)/(nsite - nexp - 2)) * (1 - R2Cum)
+      Corr <- R2Cum - R2CumAdj
+      R2 <- R2 - Corr/nsite
+    }else{
+      R2 <- 1 - ((nsite-3)/(nsite - nexp - 2)) * (1 - R2)
+    }
   }
 
   return(R2)
