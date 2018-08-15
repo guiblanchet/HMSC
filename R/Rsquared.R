@@ -261,11 +261,13 @@ Rsquared <- function(hmsc, newdata = NULL, type = c("efron", "ols", "nakagawa", 
     varAdd <- diag(var(Y-link$linkinv(Ypred)))
 
     ### Calculate R2
-    R2 <- varModelSite / (varModel + varAdd + varDist)
+    varTot <- matrix(varModel + varAdd + varDist,
+                     nrow = nsite, ncol = nsp, byrow = TRUE)
+    R2 <- varModelSite / varTot
 
     ### Global R2
     if(!indSite){
-      R2 <- colSums(varModelSite) / (varModel + varAdd + varDist)
+      R2 <- colSums(varModelSite) / varTot[1,]
 
       ### Community-level R2
       if (averageSp) {
