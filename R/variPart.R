@@ -812,9 +812,9 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", indSite = FALSE, 
 
     ### Calculate R2 for full model
     if(!indSite){
-      R2model[[nsetsVar]][,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust ,averageSp = FALSE)
+      R2model[[nsetsVar]][,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust, indSite = indSite, averageSp = FALSE)
     }else{
-      R2model[[nsetsVar]][,,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust, indSite = indSite ,averageSp = FALSE)
+      R2model[[nsetsVar]][,,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust, indSite = indSite, averageSp = FALSE)
     }
 
     #======================
