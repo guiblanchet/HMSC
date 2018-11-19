@@ -43,6 +43,7 @@ RcppExport SEXP mcmcNormalXTrLatent(arma::mat& Ylatent,
 	// Define various objects
 	mat EstModel(nsite,nsp);
 	mat Yresid(nsite,nsp);
+	mat meansParamXRep(nsp, nparamX);
 
 	// Define meansParamX
 	mat meansParamX(nsp,nparamX);
@@ -133,7 +134,8 @@ RcppExport SEXP mcmcNormalXTrLatent(arma::mat& Ylatent,
 			Yresid = Yresid - latentMat.rows(Random.col(j))*trans(paramLatent(j,0));
 		}
 
-		paramX = updateParamX1(Yresid,X,meansParamX,precX, paramX, residVar, nsp, nsite, nparamX);
+		meansParamXRep = trans(repmat(meansParamX,1,nsp));
+		paramX = updateParamX1(Yresid,X,meansParamXRep,precX, paramX, residVar, nsp, nsite, nparamX);
 
 		//--------------------------------
 		// Update precX and calculate varX

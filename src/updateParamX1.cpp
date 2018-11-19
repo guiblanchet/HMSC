@@ -6,21 +6,21 @@ using namespace arma ;
 using namespace Rcpp ;
 
 arma::mat updateParamX1(arma::mat& Ylatent,
-						arma::mat& X, 
+						arma::mat& X,
 						arma::mat& meansparamX,
 						arma::mat& precX,
 						arma::mat& paramX,
 						arma::vec& residVar,
-						double nsp, 
-						int nsite, 
+						double nsp,
+						int nsite,
 						int nparamX){
-	
+
 	// Defining objects
 	mat varXEst(nparamX,nparamX);
 	vec meansparamXEst(nparamX);
 	mat Xt = trans(X);
 	mat XtX = Xt*X;
-	
+
 	// Update paramX
 	for (int i = 0; i < nsp; i++) {
 		varXEst = inv(precX+XtX*residVar(i));

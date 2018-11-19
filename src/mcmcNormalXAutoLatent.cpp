@@ -56,6 +56,7 @@ RcppExport SEXP mcmcNormalXAutoLatent(arma::mat& Ylatent,
 	// Define various objects
 	mat EstModel = zeros<mat>(nsite,nsp);
 	mat Yresid(nsite,nsp);
+	mat meansParamXRep(nsp, nparamX);
 
 	mat wAutoDet(npriorParamAuto,nAuto);
 	field<cube> wAutoInv(nAuto,1);
@@ -223,7 +224,8 @@ RcppExport SEXP mcmcNormalXAutoLatent(arma::mat& Ylatent,
 			Yresid = Yresid - latentAutoMat.rows(RandomAuto.col(j))*trans(paramLatentAuto(j,0));
 		}
 
-		paramX = updateParamX1(Yresid,X,meansParamX,precX, paramX, residVar, nsp, nsite, nparamX);
+		meansParamXRep = trans(repmat(meansParamX,1,nsp));
+		paramX = updateParamX1(Yresid,X,meansParamXRep,precX, paramX, residVar, nsp, nsite, nparamX);
 
 		//-------------
 		// Update precX

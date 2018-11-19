@@ -33,6 +33,7 @@ RcppExport SEXP mcmcNormalXTr(arma::mat& Ylatent,
 	mat EstModel(nsite,nsp);
 	mat varX(nparamX,nparamX);
 	mat Yresid(nsite,nsp);
+	mat meansParamXRep(nsp, nparamX);
 
 	// Define meansParamX
 	mat meansParamX(nsp,nparamX);
@@ -73,7 +74,8 @@ RcppExport SEXP mcmcNormalXTr(arma::mat& Ylatent,
 		residVar = updateResidVar(Yresid, residVar, priorResidVarScale, priorResidVarShape, nsp, nsite);
 
 		// Update paramX
-		paramX = updateParamX1(Ylatent,X,meansParamX,precX, paramX, residVar, nsp, nsite, nparamX);
+		meansParamXRep = trans(repmat(meansParamX,1,nsp));
+		paramX = updateParamX1(Ylatent,X,meansParamXRep,precX, paramX, residVar, nsp, nsite, nparamX);
 
 		// Update precX and calculate varX
 		precX = updatePrecXTr(Tr, priorVarXScaleMat, priorVarXDf, paramTr, paramX, precX, nsp, nparamX);
