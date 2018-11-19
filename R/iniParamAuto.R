@@ -53,7 +53,7 @@ function(data,priors,paramAuto=NULL,latentAuto=NULL,paramLatentAuto=NULL,shrinkL
 		maxAutoDist<-sapply(AutoDist, max)
 
 		for(i in 1:nAuto){
-			paramAuto[[i]][1:nLatentAuto[i]]<-sample(priors$param$paramAutoDist,nLatentAuto[i])
+			paramAuto[[i]][1:nLatentAuto[i]]<-sample(priors$param$paramAutoDist[-1,],nLatentAuto[i])
 		}
 	}else{
 		for(i in 1:nAuto){
