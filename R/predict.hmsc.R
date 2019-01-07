@@ -206,7 +206,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### Only X
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 					}
 				}
 			}else{
@@ -221,7 +226,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X and Auto
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nAuto){
 							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
 							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
@@ -242,7 +252,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X and Random
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nRandom){
 							RandomModel<-tcrossprod(object$results$estimation$latent[[i,j]],object$results$estimation$paramLatent[[i,j]])
 							res[,,i]<-res[,,i]+RandomModel[data$Random[,j],]
@@ -265,7 +280,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X, Auto and Random
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nAuto){
 							AutoModel<-tcrossprod(object$results$estimation$latentAuto[[i,j]],object$results$estimation$paramLatentAuto[[i,j]])
 							res[,,i]<-res[,,i]+AutoModel[data$Auto[[j]][,1],]
@@ -286,7 +306,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### Only X
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 					}
 				}
 			}else{
@@ -306,7 +331,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X and Auto
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nAuto){
 							### Construct latentAuto variables
 							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])
@@ -337,7 +367,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X and Random
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nRandom){
 							### Construct latent variables
 							nlatent<-ncol(object$results$estimation$latent[[i,j]])
@@ -375,7 +410,12 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 				}else{
 					### X, Auto and Random
 					for(i in 1:niter){
-						res[,,i]<-tcrossprod(data$X,object$results$estimation$paramX[,,i])
+						if(nsp == 1){
+							paramX <- matrix(object$results$estimation$paramX[,,i], nrow = 1)
+						}else{
+							paramX <- object$results$estimation$paramX[,,i]
+						}
+						res[,,i]<-tcrossprod(data$X,paramX)
 						for(j in 1:nAuto){
 							### Construct latentAuto variables
 							nlatentAuto<-ncol(object$results$estimation$latentAuto[[i,j]])

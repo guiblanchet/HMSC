@@ -5,7 +5,9 @@
 #' @param hmsc An object of the class \code{hmsc}.
 #' @param groupX A vector defining how the covariates (\code{X}) are grouped. This argument is ignored if the models does not have any covariates.
 #' @param HMSCprior An object of class HMSCprior. This object is used only for type III variation partitioning analysis, it is not considered otherwise.
-#' @param type A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type I sums of squares.
+#' @param type A character string defining the sum of squares used to perform the variation partitioning. Use "I" for type I sums of squares (default) or "III" for type III sums of squares.
+#' @param indSite Logical. Whether the coefficient of determination is calculated for each site independently (\code{TRUE}) or for all sites together (\code{FALSE}). This argument is only active for type III sums of squares. Default is \code{FALSE}.
+#' @param R2adjust Logical. Whether the coefficient of determination should be adjusted or not. Default is \code{FALSE}.
 #' @param verbose Logical. Whether comments about the number of submodels to estimate are printed in the console or not. This is only for type III variation partitioning. Default is \code{TRUE}.
 #' @param \dots Arguments passed from \code{\link{hmsc}} for the calculation of type III variation partitioning analysis.
 #'
@@ -19,13 +21,27 @@
 #'
 #' In the calculation of the type III sum of squares, the approach used is similar to the one proposed by Borcard et al. (1992). The full model is the one given in the \code{hmsc} object. To calculate type III variation partitioning, a new set of models will be constructed where the different combinations of datasets will be considered to partition the variation. For this reason, the number of iterations (\code{niter} in \code{\link{hmsc}}), the number of burn-in steps (\code{nburn} in \code{\link{hmsc}}) and the thining (\code{thin} in \code{\link{hmsc}}) for each submodel part will be based on how the full model was constructed. Lastly, the groups of explanatory variables definned by \code{groupX} will be considered here as an independent submodel. So for these reasons, it should be expected that the time it takes to contruct a type III variation partitioning will be much longer than for a type I variation partitioning.
 #'
-#' The calculation of type III variation partitioning relies on coefficient of determinations (R^2) to characterize the explained variation in the data. As such, for the moment, it has only been implemented for Gaussian, probit and logistic models.
+#' The calculation of type III variation partitioning relies on coefficient of determinations (\eqn{R^2}{R2}) to characterize the explained variation in the data. The current implementation uses Nakagawa and Schielzeth (\eqn{R^2}{R2}) to perform the variation partitioning analysis.  Nakagawa and Schielzeth (\eqn{R^2}{R2}) is convenient to use because in addition of converging to ordinary least squares (\eqn{R^2}{R2}) with models that have Gaussian errors, it is also design to handle .
 #'
 #' When calculating type III variation partitioning, the number of iterations, burnin iterations and the thinning is obtained from the \code{hmsc} object. As such, in some circumstance, particularly when there was thining in the original model, it is possible that the number iterations (for estimation and burnin) diverge slightly from the ones used to estimate the parameter of the full model.
 #'
 #' @return
 #'
-#' A list presenting how the explained variation in the data is partitioned between the different groups of the covariates (first part of thet list) and the random effects (second part of the list). Note that both autocorrelated (\code{Auto}) and non-autocorrelated (\code{Random}) are considered here. In addition, this function also calculate the amount of variation explained by traits.
+#' \emph{Type I}
+#'
+#' If no traits where considered in the HMSC model: A data.frame where each column presents the proportion of the total variance explained associated to either a group of explanatory variables (organized with \code{groupX}) or a random effect (autocorrelated or not) across all species (rows of the data.frame). The sum of all columns across the rows will always equal 1.
+#'
+#' If traits where considered in the HMSC model: A list with two levels. The first element of the list contains the data.frame describe in the previous paragraph. The second element of the list contains a single value describing the amount of variation associated to traits.
+#'
+#' \emph{Type III}
+#'
+#' A list with as many elements as there are overlap among the different groups of variables. If the \code{indSite} is \code{FALSE}, each element of the list contains a matrix presenting the amount of variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model. If the \code{indSite} is \code{FALSE}, each element of the list contains an array presenting the site's contribution to the variation (in \eqn{R^2}{R2}) explained by the partition for each species included in the model.
+#'
+#' @references
+#'
+#' Gelman, A. and I. Pardoe (2006) Bayesian Measures of Explained Variance and Pooling in Multilevel (Hierarchical) Models. \emph{Technometrics} \strong{48}, 241-251.
+#'
+#' Nakagawa, S. and H. Schielzeth (2013) A general and simple method for obtaining \eqn{R^2}{R2} from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution} \strong{63}, 133–142.
 #'
 #' @author Guillaume Blanchet (type III), Gleb Tikhonov (type I)
 #' @examples
@@ -61,7 +77,7 @@
 #'
 #' @keywords univar, multivariate, regression
 #' @export
-variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust = FALSE, verbose = TRUE,...){
+variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", indSite = FALSE, R2adjust = FALSE, verbose = TRUE,...){
 
   ### Basic check
   if(!(type == "I" | type == "III")){
@@ -160,7 +176,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
 
-
   					### Calculate R2 related to X
   					for(j in 1:nsp){
   						predXTotalSub <- hmsc$results$estimation$paramX[j,,i] %*% crossprod(covX,hmsc$results$estimation$paramX[j,,i])
@@ -175,7 +190,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   					variPartX <- variPartX + rep(1, nsp)
   					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, rowSums(predXSplit))
   				}
-
 
   				variPartX <- variPartX / niter
   				variPartXSplit <- variPartXSplit / niter
@@ -232,7 +246,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
 
-
   					### Calculate R2 related to X
   					for(j in 1:nsp){
   						predXTotalSub <- hmsc$results$estimation$paramX[j,,i] %*% crossprod(covX,hmsc$results$estimation$paramX[j,,i])
@@ -259,7 +272,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   					variPartAuto <- variPartAuto + PredAuto/replicate(nAuto, variTotal)
   					variPartXSplit <- variPartXSplit + predXSplit/replicate(nGroups, apply(predXSplit, 1, sum));
   				}
-
 
   				variPartX <- variPartX / niter
   				variPartAuto <- variPartAuto / niter
@@ -318,7 +330,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
 
   						traitR2 <- traitR2+traitR2Base[1]/traitR2Base[2]
   					}
-
 
   					### Calculate R2 related to X
   					for(j in 1:nsp){
@@ -466,7 +477,8 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   				variPartAuto <- variPartAuto / niter
   				variPartRandom <- variPartRandom / niter
   				variPartXSplit <- variPartXSplit / niter
-  				variPart<-cbind(replicate(nGroups,variPartX)*variPartXSplit,variPartRandom,variPartAuto)
+  				variPart<-cbind(replicate(nGroups,variPartX)*variPartXSplit,
+                          variPartRandom,variPartAuto)
 
   				if(any(names(hmsc$data) == "Tr")){
   					traitR2 <- traitR2 / niter
@@ -486,10 +498,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
   if(type == "III"){
     ### General checks
     family <- attributes(hmsc)$class[2]
-    
-    if(!any(family == c("probit", "gaussian"))){
-      stop("family' should be either 'probit','gaussian'")
-    }
 
     ### Rename hmsc to prevent confusion
     model <- hmsc
@@ -519,12 +527,16 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
     names(X) <- paste("var",1:(nsetsVar-1),sep="")
 
     for(i in 1:(nsetsVar-1)){
-      X[[i]] <- vector("list" , length = ncol(subModelBase[[i]]))
+      X[[i]] <- vector("list", length = ncol(subModelBase[[i]]))
     }
 
     for(i in 1:(nsetsVar-1)){
       for(j in 1:ncol(subModelBase[[i]])){
-        X[[i]][[j]] <- matrix(NA,nrow=nrow(model$data$X),ncol=0)
+        if(is.null(model$data$X)){
+          X[[i]][[j]] <- NULL
+        }else{
+          X[[i]][[j]] <- matrix(NA,nrow=nrow(model$data$X),ncol=0)
+        }
       }
     }
 
@@ -540,8 +552,12 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
 
     for(i in 1:(nsetsVar-1)){
       for(j in 1:ncol(subModelBase[[i]])){
-        Random[[i]][[j]] <- as.data.frame(matrix(NA,nrow=nrow(model$data$Random),ncol=nRandom))
-        colnames(Random[[i]][[j]]) <- RandomNames
+        if(is.null(model$data$Random)){
+          Random[[i]][[j]] <- NULL
+        }else{
+          Random[[i]][[j]] <- as.data.frame(matrix(NA,nrow=nrow(model$data$Random),ncol=nRandom))
+          colnames(Random[[i]][[j]]) <- RandomNames
+        }
       }
     }
 
@@ -614,7 +630,6 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
         }
       }
     }
-
 
     #==================================
     ### Calculate niter, nburn and thin
@@ -690,22 +705,43 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
     #================
     ### Result object
     #================
-    R2model <- vector("list", length = nsetsVar)
-    names(R2model) <- paste("var",1:nsetsVar,sep="")
+    if(!indSite){
+      R2model <- vector("list", length = nsetsVar)
+      names(R2model) <- paste("var",1:nsetsVar,sep="")
 
-    for(i in 1:(nsetsVar-1)){
-      R2model[[i]] <- matrix(NA, nrow = nsp, ncol = ncol(subModelBase[[i]]))
-      rownames(R2model[[i]]) <- colnames(model$data$Y)
-      columnNames <- character()
-      for(j in 1:ncol(subModelBase[[i]])){
-        columnNames[j] <- paste(subModelBase[[i]][,j],collapse="-")
+      for(i in 1:(nsetsVar-1)){
+        R2model[[i]] <- matrix(NA, nrow = nsp, ncol = ncol(subModelBase[[i]]))
+        rownames(R2model[[i]]) <- colnames(model$data$Y)
+        columnNames <- character()
+        for(j in 1:ncol(subModelBase[[i]])){
+          columnNames[j] <- paste(subModelBase[[i]][,j],collapse="-")
+        }
+        colnames(R2model[[i]]) <- columnNames
       }
-      colnames(R2model[[i]]) <- columnNames
-    }
 
-    R2model[[nsetsVar]] <- matrix(NA, nrow = nsp, ncol = 1)
-    colnames(R2model[[nsetsVar]]) <- paste(setsVar, collapse = "-")
-    rownames(R2model[[nsetsVar]]) <- colnames(model$data$Y)
+      R2model[[nsetsVar]] <- matrix(NA, nrow = nsp, ncol = 1)
+      colnames(R2model[[nsetsVar]]) <- paste(setsVar, collapse = "-")
+      rownames(R2model[[nsetsVar]]) <- colnames(model$data$Y)
+    }else{
+      R2model <- vector("list", length = nsetsVar)
+      names(R2model) <- paste("var",1:nsetsVar,sep="")
+
+      for(i in 1:(nsetsVar-1)){
+        R2model[[i]] <- array(dim = c(nsite, nsp, ncol(subModelBase[[i]])))
+        rownames(R2model[[i]]) <- rownames(model$data$Y)
+        colnames(R2model[[i]]) <- colnames(model$data$Y)
+        dim3Names <- character()
+        for(j in 1:ncol(subModelBase[[i]])){
+          dim3Names[j] <- paste(subModelBase[[i]][,j],collapse="-")
+        }
+        dimnames(R2model[[i]])[[3]] <- dim3Names
+      }
+
+      R2model[[nsetsVar]] <- array(dim = c(nsite, nsp, 1))
+      rownames(R2model[[nsetsVar]]) <- rownames(model$data$Y)
+      colnames(R2model[[nsetsVar]]) <- colnames(model$data$Y)
+      dimnames(R2model[[nsetsVar]])[[3]] <- paste(setsVar, collapse = "-")
+    }
 
     #=================================================================
     ### Print message stating how many submodels need to be calculated
@@ -761,7 +797,11 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
                          nburn = nburnModel, thin = thinModel,
                          verbose = FALSE, ...)
 
-        R2model[[i]][,j] <- Rsquared(submodel, adjust = R2adjust,  averageSp = FALSE)
+        if(!indSite){
+          R2model[[i]][,j] <- Rsquared(submodel, type = "nakagawa", adjust = R2adjust, averageSp = FALSE)
+        }else{
+          R2model[[i]][,,j] <- Rsquared(submodel, type = "nakagawa", adjust = R2adjust, indSite = indSite, averageSp = FALSE)
+        }
 
         if(verbose){
           print(paste("Number of submodels estimated:", counter))
@@ -771,53 +811,120 @@ variPart<-function(hmsc, groupX, HMSCprior = NULL, type = "I", family, R2adjust 
     }
 
     ### Calculate R2 for full model
-    R2model[[nsetsVar]][,1] <- Rsquared(model, adjust = R2adjust ,averageSp = FALSE)
+    if(!indSite){
+      R2model[[nsetsVar]][,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust, indSite = indSite, averageSp = FALSE)
+    }else{
+      R2model[[nsetsVar]][,,1] <- Rsquared(model, type = "nakagawa", adjust = R2adjust, indSite = indSite, averageSp = FALSE)
+    }
 
     #======================
     ### Calculate fractions
     #======================
+    #----------------------
     ### Build result object
-    fraction <- vector("list", length = nsetsVar-1)
-    names(fraction) <- paste("overlap",(nsetsVar-1):1,sep="")
-    for(i in 1:(nsetsVar-1)){
-      fraction[[i]] <- matrix(NA, nrow = nsp, ncol = ncol(subModelBase[[i]]))
-      rownames(fraction[[i]]) <- colnames(model$data$Y)
-    }
-
-    ### Calculate independent fraction (step 1)
-    ref <- unlist(strsplit(colnames(R2model[[nsetsVar]]),"-"))
-    for(i in 1:(nsetsVar-1)){
-      columnNames <- character()
-      for(j in 1:ncol(subModelBase[[i]])){
-        comp <- unlist(strsplit(colnames(R2model[[i]])[j],"-"))
-        fraction[[i]][,j] <- R2model[[nsetsVar]] -  R2model[[i]][,j]
-        columnNames[j] <- paste(ref[which(!(ref %in% comp))], collapse = "-")
+    #----------------------
+    if(!indSite){
+      fraction <- vector("list", length = nsetsVar-1)
+      names(fraction) <- paste("overlap",(nsetsVar-1):1,sep="")
+      for(i in 1:(nsetsVar-1)){
+        fraction[[i]] <- matrix(NA, nrow = nsp, ncol = ncol(subModelBase[[i]]))
+        rownames(fraction[[i]]) <- colnames(model$data$Y)
       }
-      colnames(fraction[[i]]) <- columnNames
+    }else{
+      fraction <- vector("list", length = nsetsVar-1)
+      names(fraction) <- paste("overlap",(nsetsVar-1):1,sep="")
+      for(i in 1:(nsetsVar-1)){
+        fraction[[i]] <- array(dim = c(nsite, nsp, ncol(subModelBase[[i]])))
+        rownames(fraction[[i]]) <- rownames(model$data$Y)
+        colnames(fraction[[i]]) <- colnames(model$data$Y)
+      }
     }
 
-    if(nsetsVar > 2){
-      ### Isolate independent fractions
-      for(i in 1:(nsetsVar-2)){
-        for(j in 1:ncol(fraction[[i]])){
-          fracToSub <- unlist(strsplit(colnames(fraction[[i]])[j], "-"))
-          fracSel <- colnames(fraction[[nsetsVar-1]]) %in% fracToSub
-          fracSub <- fraction[[nsetsVar-1]][,fracSel]
-          if(is.null(ncol(fracSub))){
-            fracSub <- matrix(fracSub, nrow = ncol(model$data$Y))
+    #------------------
+    ### indSite = FALSE
+    #------------------
+    if(!indSite){
+      ### Calculate independent fraction (step 1)
+      ref <- unlist(strsplit(colnames(R2model[[nsetsVar]]),"-"))
+      for(i in 1:(nsetsVar-1)){
+        columnNames <- character()
+        for(j in 1:ncol(subModelBase[[i]])){
+          comp <- unlist(strsplit(colnames(R2model[[i]])[j],"-"))
+          fraction[[i]][,j] <- R2model[[nsetsVar]] -  R2model[[i]][,j]
+          columnNames[j] <- paste(ref[which(!(ref %in% comp))], collapse = "-")
+        }
+        colnames(fraction[[i]]) <- columnNames
+      }
+
+      if(nsetsVar > 2){
+        ### Isolate independent fractions
+        for(i in 1:(nsetsVar-2)){
+          for(j in 1:ncol(fraction[[i]])){
+            fracToSub <- unlist(strsplit(colnames(fraction[[i]])[j], "-"))
+            fracSel <- colnames(fraction[[nsetsVar-1]]) %in% fracToSub
+            fracSub <- fraction[[nsetsVar-1]][,fracSel]
+            if(is.null(ncol(fracSub))){
+              fracSub <- matrix(fracSub, nrow = ncol(model$data$Y))
+            }
+            fraction[[i]][,j] <- fraction[[i]][,j] - rowSums(fracSub)
           }
-          fraction[[i]][,j] <- fraction[[i]][,j] - rowSums(fracSub)
         }
       }
-    }
-    ### Calculate final fraction (the one that overlaps them all!)
-    overlapAll <- drop(R2model[[nsetsVar]]) - rowSums(sapply(fraction,rowSums))
-    overlapAll <- matrix(overlapAll,ncol=1)
-    rownames(overlapAll) <- colnames(model$data$Y)
-    colnames(overlapAll) <- paste(setsVar, collapse = "-")
+      ### Calculate final fraction (the one that overlaps them all!)
+      overlapAll <- drop(R2model[[nsetsVar]]) - rowSums(sapply(fraction,rowSums))
+      overlapAll <- matrix(overlapAll,ncol=1)
+      rownames(overlapAll) <- colnames(model$data$Y)
+      colnames(overlapAll) <- paste(setsVar, collapse = "-")
 
-    fraction[[paste("overlap",nsetsVar,sep="")]] <- overlapAll
-    fraction <- fraction[order(names(fraction))]
+      fraction[[paste("overlap",nsetsVar,sep="")]] <- overlapAll
+      fraction <- fraction[order(names(fraction))]
+    }
+
+    #-----------------
+    ### indSite = TRUE
+    #-----------------
+    if(indSite){
+      ### Calculate independent fraction (step 1)
+      ref <- unlist(strsplit(dimnames(R2model[[nsetsVar]])[[3]],"-"))
+      for(i in 1:(nsetsVar-1)){
+        dim3Names <- character()
+        for(j in 1:ncol(subModelBase[[i]])){
+          comp <- unlist(strsplit(dimnames(R2model[[i]])[[3]][j],"-"))
+          fraction[[i]][,,j] <- R2model[[nsetsVar]][,,1] -  R2model[[i]][,,j]
+          dim3Names[j] <- paste(ref[which(!(ref %in% comp))], collapse = "-")
+        }
+        dimnames(fraction[[i]])[[3]] <- dim3Names
+      }
+
+      if(nsetsVar > 2){
+        ### Isolate independent fractions
+        for(i in 1:(nsetsVar-2)){
+          for(j in 1:dim(fraction[[i]])[[3]]){
+            fracToSub <- unlist(strsplit(dimnames(fraction[[i]])[[3]][j], "-"))
+            fracSel <- dimnames(fraction[[nsetsVar-1]])[[3]] %in% fracToSub
+            fracSub <- fraction[[nsetsVar-1]][,,fracSel]
+            if(is.null(ncol(fracSub))){
+              fracSub <- array(fracSub, nrow = nsite, ncol = nsp)
+            }
+            fraction[[i]][,,j] <- fraction[[i]][,,j] - apply(fracSub, 1:2, sum)
+          }
+        }
+      }
+
+      ### Calculate final fraction (the one that overlaps them all!)
+      fracSum <- lapply(fraction,function(x) apply(x, 1:2, sum))
+      fracSumArray <- array(NA, dim = c(nsite, nsp, length(fracSum)))
+      for(i in 1:length(fracSum)){
+        fracSumArray[,,i] <- fracSum[[i]]
+      }
+      overlapAll <- drop(R2model[[nsetsVar]]) - apply(fracSumArray, 1:2, sum)
+      overlapAll <- matrix(overlapAll, nrow = nsite, ncol=nsp)
+      rownames(overlapAll) <- rownames(model$data$Y)
+      colnames(overlapAll) <- colnames(model$data$Y)
+
+      fraction[[paste("overlap",nsetsVar,sep="")]] <- overlapAll
+      fraction <- fraction[order(names(fraction))]
+    }
 
     ### Final result
     res <- fraction
