@@ -151,7 +151,7 @@ function(x, parameters = NULL, burning = FALSE, ...){
 			paramBurnMCMC <- x$results$burning[[parameters]]
 			rownames(paramBurnMCMC) <- rownames(x$results$burning[[parameters]])
 			colnames(paramBurnMCMC) <- colnames(x$results$burning[[parameters]])
-			paramMCMCMat <- rbind(paramBurnMCMCMat,paramMCMCMat)
+			paramMCMCMat <- rbind(paramBurnMCMC,paramMCMCMat)
 		}
 	}
 
