@@ -497,9 +497,6 @@ predict.hmsc<-function(object, newdata, type = c("response","link"), conditional
 		if(type=="response"){
 			if(any(class(object)=="probit")){
 				#result<-pnorm(apply(res,1:2, mean))
-			  resultInt <- apply(res, 1:2, function(x) {
-  list(mu = mean(x), q05 = quantile(x, .05), q10 = quantile(x, .1), q90 = quantile(x, .9), q95 = quantile(x, .95))
-})
 mu <- apply(res, 1:2, mean)
 q025 <- apply(res, 1:2, function(x) {
   pnorm(quantile(x, .025))
@@ -519,14 +516,11 @@ q95 <- apply(res, 1:2, function(x) {
 q975 <- apply(res, 1:2, function(x) {
   pnorm(quantile(x, .975))
 })
-result <- list(mu = mu, q025 = q025, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
+result <- list(mu = mu, q025 = q025, q05=q05, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
 			}
 
 			if(any(class(object)=="gaussian")){
 				#result<-apply(res,1:2, mean)
-			  resultInt <- apply(res, 1:2, function(x) {
-  list(mu = mean(x), q05 = quantile(x, .05), q10 = quantile(x, .1), q90 = quantile(x, .9), q95 = quantile(x, .95))
-})
 mu <- apply(res, 1:2, mean)
 q025 <- apply(res, 1:2, function(x) {
   quantile(x, .025)
@@ -546,14 +540,11 @@ q95 <- apply(res, 1:2, function(x) {
 q975 <- apply(res, 1:2, function(x) {
   quantile(x, .975)
 })
-result <- list(mu = mu, q025 = q025, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
+result <- list(mu = mu, q025 = q025, q05=q05, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
 			}
 
 			if(any(class(object)=="poisson" | any(class(object)=="overPoisson"))){
 				#result<-exp(apply(res,1:2, mean))
-			  resultInt <- apply(res, 1:2, function(x) {
-  list(mu = mean(x), q05 = quantile(x, .05), q10 = quantile(x, .1), q90 = quantile(x, .9), q95 = quantile(x, .95))
-})
 mu <- apply(res, 1:2, mean)
 q025 <- apply(res, 1:2, function(x) {
   exp(quantile(x, .025))
@@ -573,15 +564,12 @@ q95 <- apply(res, 1:2, function(x) {
 q975 <- apply(res, 1:2, function(x) {
   exp(quantile(x, .975))
 })
-result <- list(mu = mu, q025 = q025, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
+result <- list(mu = mu, q025 = q025, q05=q05, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
 			}
 		}
 
 		if(type=="link"){
 				#result<-apply(res,1:2, mean)
-		  resultInt <- apply(res, 1:2, function(x) {
-  list(mu = mean(x), q05 = quantile(x, .05), q10 = quantile(x, .1), q90 = quantile(x, .9), q95 = quantile(x, .95))
-})
 mu <- apply(res, 1:2, mean)
 q025 <- apply(res, 1:2, function(x) {
   quantile(x, .025)
@@ -601,7 +589,7 @@ q95 <- apply(res, 1:2, function(x) {
 q975 <- apply(res, 1:2, function(x) {
   quantile(x, .975)
 })
-result <- list(mu = mu, q025 = q025, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
+result <- list(mu = mu, q025 = q025, q05=q05, q10 = q10, q90 = q90, q95 = q95, q975 = q975)
 		}
 		#colnames(result)<-colnames(Y)
 	  ## the colnames match without this
